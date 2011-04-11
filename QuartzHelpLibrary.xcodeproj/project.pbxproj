@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */; };
+		14687AC11352E17B0006B3C1 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687AC01352E17A0006B3C1 /* test.m */; };
+		14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC21352E5F10006B3C1 /* iossdkhack.jpg */; };
+		14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC41352E5F10006B3C1 /* iossdkhack.png */; };
 		148B5D8B1352DBBD000DB37B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148B5D8A1352DBBD000DB37B /* UIKit.framework */; };
 		148B5D8D1352DBBD000DB37B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148B5D8C1352DBBD000DB37B /* Foundation.framework */; };
 		148B5D8F1352DBBD000DB37B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148B5D8E1352DBBD000DB37B /* CoreGraphics.framework */; };
@@ -19,6 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibrary.h; sourceTree = "<group>"; };
+		14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibrary.m; sourceTree = "<group>"; };
+		14687ABF1352E17A0006B3C1 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
+		14687AC01352E17A0006B3C1 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
+		14687AC31352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/iossdkhack.jpg; sourceTree = "<group>"; };
+		14687AC51352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/iossdkhack.png; sourceTree = "<group>"; };
 		148B5D861352DBBD000DB37B /* QuartzHelpLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuartzHelpLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		148B5D8A1352DBBD000DB37B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		148B5D8C1352DBBD000DB37B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,6 +62,8 @@
 		148B5D7B1352DBBC000DB37B = {
 			isa = PBXGroup;
 			children = (
+				14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */,
+				14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */,
 				148B5D901352DBBD000DB37B /* QuartzHelpLibrary */,
 				148B5D891352DBBD000DB37B /* Frameworks */,
 				148B5D871352DBBD000DB37B /* Products */,
@@ -79,6 +91,10 @@
 		148B5D901352DBBD000DB37B /* QuartzHelpLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				14687AC21352E5F10006B3C1 /* iossdkhack.jpg */,
+				14687AC41352E5F10006B3C1 /* iossdkhack.png */,
+				14687ABF1352E17A0006B3C1 /* test.h */,
+				14687AC01352E17A0006B3C1 /* test.m */,
 				148B5D991352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.h */,
 				148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */,
 				148B5D9C1352DBBD000DB37B /* MainWindow.xib */,
@@ -151,6 +167,8 @@
 				148B5D951352DBBD000DB37B /* InfoPlist.strings in Resources */,
 				148B5D9E1352DBBD000DB37B /* MainWindow.xib in Resources */,
 				148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */,
+				14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */,
+				14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,12 +182,30 @@
 				148B5D981352DBBD000DB37B /* main.m in Sources */,
 				148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */,
 				148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */,
+				14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */,
+				14687AC11352E17B0006B3C1 /* test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		14687AC21352E5F10006B3C1 /* iossdkhack.jpg */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14687AC31352E5F10006B3C1 /* en */,
+			);
+			name = iossdkhack.jpg;
+			sourceTree = "<group>";
+		};
+		14687AC41352E5F10006B3C1 /* iossdkhack.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14687AC51352E5F10006B3C1 /* en */,
+			);
+			name = iossdkhack.png;
+			sourceTree = "<group>";
+		};
 		148B5D931352DBBD000DB37B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -276,6 +312,7 @@
 				148B5DA91352DBBD000DB37B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -10,6 +10,8 @@
 
 #import "QuartzHelpLibraryViewController.h"
 
+#import "test.h"
+
 @implementation QuartzHelpLibraryAppDelegate
 
 
@@ -20,6 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Override point for customization after application launch.
+	test();
 	 
 	self.window.rootViewController = self.viewController;
 	[self.window makeKeyAndVisible];
