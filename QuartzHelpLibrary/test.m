@@ -10,9 +10,21 @@
 
 #include "QuartzHelpLibrary.h"
 
-void test() {
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"iossdkhack.jpg" ofType:nil];
-	CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath(path);
+void testImage(NSString *path) {
+	CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+	CGImageDumpImageInformation(imageRef);
 	CGImageDumpAlphaInformation(imageRef);
 	CGImageDumpBitmapInformation(imageRef);
+}
+
+void test() {
+	NSArray *paths = [NSArray arrayWithObjects:
+										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
+										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
+										nil];
+	
+	for (NSString *path in paths) {
+		NSLog(@"%@", path);
+		testImage(path);
+	}
 }

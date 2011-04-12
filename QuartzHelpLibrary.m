@@ -24,6 +24,13 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 	return outputImage;
 }
 
+void CGImageDumpImageInformation(CGImageRef imageRef) {
+	size_t width = CGImageGetWidth(imageRef);
+	size_t height = CGImageGetHeight(imageRef);
+	size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+}
+
 void CGImageDumpAlphaInformation(CGImageRef imageRef) {
 	CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
 	// alpha information
