@@ -22,7 +22,6 @@ void test() {
 										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
 										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
 										nil];
-	
 	for (NSString *path in paths) {
 		NSLog(@"%@", path);
 		testImage(path);

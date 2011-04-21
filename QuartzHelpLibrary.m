@@ -29,6 +29,14 @@ void CGImageDumpImageInformation(CGImageRef imageRef) {
 	size_t height = CGImageGetHeight(imageRef);
 	size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
 	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+	size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+	
+	printf("width  = %d\n", (int)width);
+	printf("height = %d\n", (int)height);
+	printf("bits per component = %d\n", (int)bitsPerComponent);
+	printf("bits per pixel     = %d\n", (int)bitsPerPixel);
+	printf("bytes per pixel    = %d\n", (int)bitsPerPixel/8);
+	printf("bytes per row      = %d\n", (int)bytesPerRow);
 }
 
 void CGImageDumpAlphaInformation(CGImageRef imageRef) {
