@@ -19,6 +19,12 @@ int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int toleran
 	return 1;
 }
 
+NSString* makeFilePathInDocumentFolder(NSString *filename) {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	return [documentsDirectory stringByAppendingPathComponent:filename];
+}
+
 void testCGImageGrayBufferReadAndWrite() {
 	printf("\ngray pixel array convert test\n");
 	// original pixel data
@@ -68,7 +74,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetPNGPresentation(image);
-			NSString *path = @"/Users/sonson/Desktop/case1.png";
+			NSString *path = makeFilePathInDocumentFolder(@"case1.png");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
@@ -91,7 +97,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetJPEGPresentation(image);
-			NSString *path = @"/Users/sonson/Desktop/case1.jpg";
+			NSString *path = makeFilePathInDocumentFolder(@"case1.jpg");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
@@ -140,7 +146,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetPNGPresentation(image);
-			NSString *path = @"/Users/sonson/Desktop/case2.png";
+			NSString *path = makeFilePathInDocumentFolder(@"case2.png");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
@@ -163,7 +169,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetJPEGPresentation(image);
-			NSString *path = @"/Users/sonson/Desktop/case2.jpg";
+			NSString *path = makeFilePathInDocumentFolder(@"case2.jpg");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
