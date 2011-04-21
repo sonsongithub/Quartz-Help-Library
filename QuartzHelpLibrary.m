@@ -132,11 +132,19 @@ void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, in
 	CGImageAlphaInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
 	CGImageAlphaInfo bitmapAlphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
 	bitmapInfo = bitmapInfo & kCGBitmapByteOrderMask;
+	CGBitmapInfo byteOrderInfo = (bitmapInfo & kCGBitmapByteOrderMask);
 	
 	ReadImageType readImageType = ReadImage24bit;
 	
-	if (bytesPerPixel > 4 || bitmapInfo == kCGBitmapFloatComponents)
+	if (bytesPerPixel > 4 || bitmapInfo == kCGBitmapFloatComponents) {
+		printf("unsupported image file\n");
 		return;
+	}
+	
+	if (byteOrderInfo != kCGBitmapByteOrder32Big && byteOrderInfo != kCGBitmapByteOrderDefault) {
+		printf("unsupported image file\n");
+		return;
+	}
 	
 	if (bytesPerPixel == 1) {
 		readImageType = ReadImage8bit;
@@ -157,6 +165,7 @@ void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, in
 		readImageType = ReadImage32bitSkipLast;
 	}
 	else {
+		printf("unsupported image file\n");
 		return;
 	}
 	
