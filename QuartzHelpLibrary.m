@@ -8,6 +8,8 @@
 
 #import "QuartzHelpLibrary.h"
 
+#import "UIImage+pixel.h"
+
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 	CGImageRef outputImage = NULL;
 	
@@ -260,4 +262,9 @@ CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int
 	CGColorSpaceRelease(rgbColorSpace);
 	free(rgbPixel);
 	return image;
+}
+
+NSData* CGImageGetPNGPresentation(CGImageRef imageRef) {
+	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];
+	return [uiimage PNGRepresentaion];
 }

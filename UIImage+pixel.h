@@ -10,4 +10,7 @@
 
 
 @interface UIImage(pixel)
+
+- (NSData*)PNGRepresentaion;
+
 @end

@@ -10,4 +10,8 @@
 
 @implementation UIImage(pixel)
 
+- (NSData*)PNGRepresentaion {
+	return UIImagePNGRepresentation(self);
+}
+
 @end
