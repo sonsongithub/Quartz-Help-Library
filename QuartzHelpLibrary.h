@@ -12,3 +12,7 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath);
 void CGImageDumpAlphaInformation(CGImageRef imageRef);
 void CGImageDumpBitmapInformation(CGImageRef imageRef);
 void CGImageDumpImageInformation(CGImageRef imageRef);
+
+void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
+CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
+CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);

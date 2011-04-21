@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1416AEBB1360141900B89C45 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1416AEBA1360141900B89C45 /* UIImage+pixel.m */; };
 		14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */; };
 		14687AC11352E17B0006B3C1 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687AC01352E17A0006B3C1 /* test.m */; };
 		14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC21352E5F10006B3C1 /* iossdkhack.jpg */; };
@@ -21,11 +20,10 @@
 		148B5D9E1352DBBD000DB37B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5D9C1352DBBD000DB37B /* MainWindow.xib */; };
 		148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */; };
 		148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */; };
+		14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D6281360154400B786F0 /* UIImage+pixel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1416AEB91360141900B89C45 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+pixel.h"; path = "QuartzHelpLibrary/UIImage+pixel.h"; sourceTree = "<group>"; };
-		1416AEBA1360141900B89C45 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+pixel.m"; path = "QuartzHelpLibrary/UIImage+pixel.m"; sourceTree = "<group>"; };
 		14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibrary.h; sourceTree = "<group>"; };
 		14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibrary.m; sourceTree = "<group>"; };
 		14687ABF1352E17A0006B3C1 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = QuartzHelpLibrary/test.h; sourceTree = "<group>"; };
@@ -46,6 +44,8 @@
 		148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController.h; sourceTree = "<group>"; };
 		148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController.m; sourceTree = "<group>"; };
 		148B5DA31352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuartzHelpLibraryViewController.xib; sourceTree = "<group>"; };
+		14F9D6271360154400B786F0 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+pixel.h"; sourceTree = "<group>"; };
+		14F9D6281360154400B786F0 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+pixel.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,10 +83,10 @@
 		148B5D7B1352DBBC000DB37B = {
 			isa = PBXGroup;
 			children = (
+				14F9D6271360154400B786F0 /* UIImage+pixel.h */,
+				14F9D6281360154400B786F0 /* UIImage+pixel.m */,
 				14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */,
 				14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */,
-				1416AEB91360141900B89C45 /* UIImage+pixel.h */,
-				1416AEBA1360141900B89C45 /* UIImage+pixel.m */,
 				1416AEBE1360145500B89C45 /* Test */,
 				1416AEBD1360143B00B89C45 /* Resources */,
 				148B5D901352DBBD000DB37B /* QuartzHelpLibrary */,
@@ -205,7 +205,7 @@
 				148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */,
 				14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */,
 				14687AC11352E17B0006B3C1 /* test.m in Sources */,
-				1416AEBB1360141900B89C45 /* UIImage+pixel.m in Sources */,
+				14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
