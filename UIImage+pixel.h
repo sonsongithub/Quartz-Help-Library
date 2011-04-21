@@ -12,5 +12,7 @@
 @interface UIImage(pixel)
 
 - (NSData*)PNGRepresentaion;
+- (NSData*)JPEGRepresentaion;
+- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
 
 @end

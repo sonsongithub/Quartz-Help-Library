@@ -268,3 +268,8 @@ NSData* CGImageGetPNGPresentation(CGImageRef imageRef) {
 	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];
 	return [uiimage PNGRepresentaion];
 }
+
+NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
+	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];
+	return [uiimage JPEGRepresentaion];
+}

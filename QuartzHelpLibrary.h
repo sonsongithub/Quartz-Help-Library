@@ -18,3 +18,4 @@ CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int w
 CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef);
+NSData* CGImageGetJPEGPresentation(CGImageRef imageRef);

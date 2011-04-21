@@ -14,4 +14,12 @@
 	return UIImagePNGRepresentation(self);
 }
 
+- (NSData*)JPEGRepresentaion {
+	return [self JPEGRepresentaionWithCompressionQuality:1];
+}
+
+- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality {
+	return UIImageJPEGRepresentation(self, compressionQuality);
+}
+
 @end

@@ -20,6 +20,7 @@ int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int toleran
 }
 
 void testCGImageGrayBufferReadAndWrite() {
+	printf("\ngray pixel array convert test\n");
 	// original pixel data
 	int originalWidth = 32;
 	int originalHeight = 32;
@@ -43,9 +44,11 @@ void testCGImageGrayBufferReadAndWrite() {
 		}
 	}
 	
-	// test case1
-	// pixel(Gray) -> CGImage(Gray) -> write PNG file(Gray) -> load PNG file(Gray) -> CGImage(RGBA) -> pixel(Gray)
+	// test case 1
 	{
+		printf("\ntest case1\n");
+		printf("pixel(Gray) -> CGImage(Gray) -> write image file -> load image file-> CGImage(RGBA) -> pixel(Gray)\n");
+
 		CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
 		int copiedWidth = 0;
@@ -56,33 +59,68 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		int tolerance = 0;
 		
-		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
-			printf("pixel(Gray)->CGImage(Gray)->pixel(Gray) OK\n");
-		
-		NSData *data = CGImageGetPNGPresentation(image);
-		NSString *path = @"/Users/sonson/Desktop/test.png";
-		[data writeToFile:path atomically:YES];
-		
-		CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
-		
-		int reloadedWidth = 0;
-		int reloadedHeight = 0;
-		unsigned char *reloadedPixel = NULL;
-		
-		CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
-		
-		tolerance = 2;
+		printf("pixel(Gray)->CGImage(Gray)->pixel(Gray)\n");
 		
 		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
-			printf("pixel(Gray)->CGImage(Gray)->PNG file(Gray)->CGImage(RGBA)->pixel(Gray) OK\n");
+			printf("=>OK (tolerance=%d)\n", tolerance);
+		else
+			printf("=>Error\n");
+		
+		{
+			NSData *data = CGImageGetPNGPresentation(image);
+			NSString *path = @"/Users/sonson/Desktop/case1.png";
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(Gray)->CGImage(Gray)->PNG file(Gray)->CGImage(RGBA)->pixel(Gray)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
+		
+		{
+			NSData *data = CGImageGetJPEGPresentation(image);
+			NSString *path = @"/Users/sonson/Desktop/case1.jpg";
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(Gray)->CGImage(Gray)->JPG file(Gray)->CGImage(RGBA)->pixel(Gray)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
 		
 		CGImageRelease(image);
 		
 	}
 	
-	// test case2
-	// pixel(Gray) -> CGImage(RGB) -> write PNG file(RGB) -> load PNG file(RGB) -> CGImage(RGBA) -> pixel(Gray)
+	// test case 2
 	{
+		printf("\ntest case2\n");
+		printf("pixel(Gray) -> CGImage(RGB) -> write image file -> load image file -> CGImage(RGBA) -> pixel(Gray)\n");
+		
 		CGImageRef image = CGImageCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
 		int copiedWidth = 0;
@@ -93,23 +131,59 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		int tolerance = 2;
 		
+		printf("pixel(Gray)->CGImage(RGB)->pixel(Gray)\n");
+			   
 		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
-			printf("pixel(Gray)->CGImage(RGB)->pixel(Gray) OK\n");
+			printf("=>OK (tolerance=%d)\n", tolerance);
+		else
+			printf("=>Error\n");
 		
-		NSData *data = CGImageGetPNGPresentation(image);
-		NSString *path = @"/Users/sonson/Desktop/test2.png";
-		[data writeToFile:path atomically:YES];
+		{
+			NSData *data = CGImageGetPNGPresentation(image);
+			NSString *path = @"/Users/sonson/Desktop/case2.png";
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			int reloadedTolerance = 2;
+			
+			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			printf("pixel(Gray)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
 		
-		CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+		{
+			NSData *data = CGImageGetJPEGPresentation(image);
+			NSString *path = @"/Users/sonson/Desktop/case2.jpg";
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			int reloadedTolerance = 2;
+			
+			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			printf("pixel(Gray)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
 		
-		int reloadedWidth = 0;
-		int reloadedHeight = 0;
-		unsigned char *reloadedPixel = NULL;
-		
-		CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
-		
-		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
-			printf("pixel(Gray)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(Gray) OK\n");
 		
 		CGImageRelease(image);
 	}
