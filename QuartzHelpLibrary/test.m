@@ -1,10 +1,32 @@
-//
-//  test.m
-//  QuartzHelpLibrary
-//
-//  Created by sonson on 11/04/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ * Quartz Help Library
+ * test.m
+ *
+ * Copyright (c) Yuichi YOSHIDA, 11/04/20
+ * All rights reserved.
+ * 
+ * BSD License
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are 
+ * permitted provided that the following conditions are met:
+ * - Redistributions of source code must retain the above copyright notice, this list of
+ *  conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice, this list
+ *  of conditions and the following disclaimer in the documentation and/or other materia
+ * ls provided with the distribution.
+ * - Neither the name of the "Yuichi Yoshida" nor the names of its contributors may be u
+ * sed to endorse or promote products derived from this software without specific prior 
+ * written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY E
+ * XPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES O
+ * F MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SH
+ * ALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENT
+ * AL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROC
+ * UREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS I
+ * NTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRI
+ * CT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF T
+ * HE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "test.h"
 
@@ -19,22 +41,134 @@ int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int toleran
 	return 1;
 }
 
+void dumpRGBPixelArray(unsigned char *pixel, int width, int height) {
+	// make test pattern
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			printf("%02x%02x%02x ", pixel[y * width * 3 + x * 3 + 0], pixel[y * width * 3 + x * 3 + 1], pixel[y * width * 3 + x * 3 + 2]);
+		}
+		printf("\n");
+	}
+}
+
 NSString* makeFilePathInDocumentFolder(NSString *filename) {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	return [documentsDirectory stringByAppendingPathComponent:filename];
 }
 
+void testCGImageRGBBufferReadAndWrite() {
+	printf("\n---------->RGB pixel array convert test\n");
+	// original pixel data
+	int originalWidth = 8;
+	int originalHeight = 8;
+	unsigned char* original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * 3);
+	
+	// make test pattern
+	for (int x = 0; x < originalWidth; x++) {
+		for (int y = 0; y < originalHeight; y++) {
+			if (y <= originalHeight / 2 && x <= originalWidth / 2) {
+				original[y * originalWidth * 3 + x * 3 + 0] = 255;
+				original[y * originalWidth * 3 + x * 3 + 1] = 0;
+				original[y * originalWidth * 3 + x * 3 + 2] = 0;
+			}
+			else if (y <= originalHeight / 2 && x > originalWidth / 2) {
+				original[y * originalWidth * 3 + x * 3 + 0] = 0;
+				original[y * originalWidth * 3 + x * 3 + 1] = 255;
+				original[y * originalWidth * 3 + x * 3 + 2] = 0;
+			}
+			else if (y > originalHeight / 2 && x <= originalWidth / 2) {
+				original[y * originalWidth * 3 + x * 3 + 0] = 0;
+				original[y * originalWidth * 3 + x * 3 + 1] = 0;
+				original[y * originalWidth * 3 + x * 3 + 2] = 255;
+			}
+			else if (y > originalHeight / 2 && x > originalWidth / 2) {
+				original[y * originalWidth * 3 + x * 3 + 0] = 255;
+				original[y * originalWidth * 3 + x * 3 + 1] = 255;
+				original[y * originalWidth * 3 + x * 3 + 2] = 255;
+			}
+		}
+	}
+	
+	// test case 1
+	{
+		printf("\ntest case1\n");
+		
+		CGImageRef image = CGImageCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
+		
+		int copiedWidth = 0;
+		int copiedHeight = 0;
+		unsigned char *copiedPixel = NULL;
+		
+		CGImageCreateRGBPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		
+		int tolerance = 0;
+		
+		printf("pixel(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+		
+		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
+			printf("=>OK (tolerance=%d)\n", tolerance);
+		else
+			printf("=>Error\n");
+		
+		{
+			NSData *data = CGImageGetPNGPresentation(image);
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.png");
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(RGB)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
+		
+		{
+			NSData *data = CGImageGetJPEGPresentation(image);
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.jpg");
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(RGB)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
+	}
+}
+
 void testCGImageGrayBufferReadAndWrite() {
-	printf("\ngray pixel array convert test\n");
+	printf("\n---------->Gray pixel array convert test\n");
 	// original pixel data
 	int originalWidth = 32;
 	int originalHeight = 32;
 	unsigned char* original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight);
 	
 	// make test pattern
-	for (int x = 0; x < originalWidth; x++) {
-		for (int y = 0; y < originalHeight; y++) {
+	for (int y = 0; y < originalHeight; y++) {
+		for (int x = 0; x < originalWidth; x++) {
 			if (y <= originalHeight / 2 && x <= originalWidth / 2) {
 				original[y * originalWidth + x] = 0;
 			}
@@ -53,7 +187,6 @@ void testCGImageGrayBufferReadAndWrite() {
 	// test case 1
 	{
 		printf("\ntest case1\n");
-		printf("pixel(Gray) -> CGImage(Gray) -> write image file -> load image file-> CGImage(RGBA) -> pixel(Gray)\n");
 
 		CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
@@ -125,7 +258,6 @@ void testCGImageGrayBufferReadAndWrite() {
 	// test case 2
 	{
 		printf("\ntest case2\n");
-		printf("pixel(Gray) -> CGImage(RGB) -> write image file -> load image file -> CGImage(RGBA) -> pixel(Gray)\n");
 		
 		CGImageRef image = CGImageCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
@@ -197,23 +329,22 @@ void testCGImageGrayBufferReadAndWrite() {
 	free(original);
 }
 
-void testImage(NSString *path) {
-	CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
-	CGImageDumpImageInformation(imageRef);
-	CGImageDumpAlphaInformation(imageRef);
-	CGImageDumpBitmapInformation(imageRef);
+
+void testCGImageDump() {
+	printf("\n---------->Image information dump test\n\n");
+	NSArray *paths = [NSArray arrayWithObjects:
+					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
+					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
+					  nil];
+	for (NSString *path in paths) {
+		printf("Image file = %s", [path UTF8String]);
+		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+		CGImageDumpImageInformation(imageRef);
+	}
 }
 
 void test() {
-	NSArray *paths = [NSArray arrayWithObjects:
-										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
-										[[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
-										nil];
-	for (NSString *path in paths) {
-		NSLog(@"%@", path);
-		testImage(path);
-	}
-	
-	
+	testCGImageDump();
 	testCGImageGrayBufferReadAndWrite();
+	testCGImageRGBBufferReadAndWrite();
 }

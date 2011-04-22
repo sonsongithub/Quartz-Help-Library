@@ -1,10 +1,32 @@
-//
-//  QuartzHelpLibrary.m
-//  QuartzHelpLibrary
-//
-//  Created by sonson on 11/04/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ * Quartz Help Library
+ * QuartzHelpLibrary.m
+ *
+ * Copyright (c) Yuichi YOSHIDA, 11/04/20
+ * All rights reserved.
+ * 
+ * BSD License
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are 
+ * permitted provided that the following conditions are met:
+ * - Redistributions of source code must retain the above copyright notice, this list of
+ *  conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice, this list
+ *  of conditions and the following disclaimer in the documentation and/or other materia
+ * ls provided with the distribution.
+ * - Neither the name of the "Yuichi Yoshida" nor the names of its contributors may be u
+ * sed to endorse or promote products derived from this software without specific prior 
+ * written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY E
+ * XPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES O
+ * F MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SH
+ * ALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENT
+ * AL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROC
+ * UREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS I
+ * NTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRI
+ * CT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF T
+ * HE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "QuartzHelpLibrary.h"
 
@@ -27,14 +49,22 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 }
 
 void CGImageDumpImageInformation(CGImageRef imageRef) {
+	printf("\n");
+	CGImageDumpImageAttribute(imageRef);
+	CGImageDumpAlphaInformation(imageRef);
+	CGImageDumpBitmapInformation(imageRef);
+	printf("\n");
+}
+
+void CGImageDumpImageAttribute(CGImageRef imageRef) {
 	size_t width = CGImageGetWidth(imageRef);
 	size_t height = CGImageGetHeight(imageRef);
 	size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
 	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
 	size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
 	
-	printf("width  = %d\n", (int)width);
-	printf("height = %d\n", (int)height);
+	printf("width              = %d\n", (int)width);
+	printf("height             = %d\n", (int)height);
 	printf("bits per component = %d\n", (int)bitsPerComponent);
 	printf("bits per pixel     = %d\n", (int)bitsPerPixel);
 	printf("bytes per pixel    = %d\n", (int)bitsPerPixel/8);
@@ -46,28 +76,28 @@ void CGImageDumpAlphaInformation(CGImageRef imageRef) {
 	// alpha information
 	switch(alphaInfo) {
 		case kCGImageAlphaNone:
-			printf("Alpha Info = kCGImageAlphaNone\n");
+			printf("Alpha Info         = kCGImageAlphaNone\n");
 			break;
 		case kCGImageAlphaPremultipliedLast:
-			printf("Alpha Info = kCGImageAlphaPremultipliedLast\n");
+			printf("Alpha Info         = kCGImageAlphaPremultipliedLast\n");
 			break;
 		case kCGImageAlphaPremultipliedFirst:
-			printf("Alpha Info = kCGImageAlphaPremultipliedFirst\n");
+			printf("Alpha Info         = kCGImageAlphaPremultipliedFirst\n");
 			break;
 		case kCGImageAlphaLast:
-			printf("Alpha Info = kCGImageAlphaLast\n");
+			printf("Alpha Info         = kCGImageAlphaLast\n");
 			break;
 		case kCGImageAlphaFirst:
-			printf("Alpha Info = kCGImageAlphaFirst\n");
+			printf("Alpha Info         = kCGImageAlphaFirst\n");
 			break;
 		case kCGImageAlphaNoneSkipLast:
-			printf("Alpha Info = kCGImageAlphaNoneSkipLast\n");
+			printf("Alpha Info         = kCGImageAlphaNoneSkipLast\n");
 			break;
 		case kCGImageAlphaNoneSkipFirst:
-			printf("Alpha Info = kCGImageAlphaNoneSkipFirst\n");
+			printf("Alpha Info         = kCGImageAlphaNoneSkipFirst\n");
 			break;
 		default:
-			printf("Alpha Info = Error unknown\n");
+			printf("Alpha Info         = Error unknown\n");
 			break;
 	}
 }
@@ -78,33 +108,33 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 	
 	// special case
 	if (bitmapInfo == kCGBitmapFloatComponents) {
-		printf("Bitmap Info = kCGBitmapFloatComponents\n");
-		printf("Alpha Info = ?\n");
+		printf("Bitmap Info        = kCGBitmapFloatComponents\n");
+		printf("Alpha Info         = ?\n");
 		return;
 	}
 	
 	// bitmap information
 	switch(byteOrderInfo) {
 		case kCGBitmapByteOrderMask:
-			printf("Bitmap Info = kCGBitmapByteOrderMask\n");
+			printf("Bitmap Info        = kCGBitmapByteOrderMask\n");
 			break;
 		case kCGBitmapByteOrderDefault:
-			printf("Bitmap Info = kCGBitmapByteOrderDefault\n");
+			printf("Bitmap Info        = kCGBitmapByteOrderDefault\n");
 			break;
 		case kCGBitmapByteOrder16Little:
-			printf("Bitmap Info = kCGBitmapByteOrder16Little\n");
+			printf("Bitmap Info        = kCGBitmapByteOrder16Little\n");
 			break;
 		case kCGBitmapByteOrder32Little:
-			printf("Bitmap Info = kCGBitmapByteOrder32Little\n");
+			printf("Bitmap Info        = kCGBitmapByteOrder32Little\n");
 			break;
 		case kCGBitmapByteOrder16Big:
-			printf("Bitmap Info = kCGBitmapByteOrder16Big\n");
+			printf("Bitmap Info        = kCGBitmapByteOrder16Big\n");
 			break;
 		case kCGBitmapByteOrder32Big:
-			printf("Bitmap Info = kCGBitmapByteOrder32Big\n");
+			printf("Bitmap Info        = kCGBitmapByteOrder32Big\n");
 			break;
 		default:
-			printf("Bitmap Info = Error unknown\n");
+			printf("Bitmap Info        = Error unknown\n");
 			break;
 	}
 }
@@ -271,6 +301,114 @@ CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int
 	CGColorSpaceRelease(rgbColorSpace);
 	free(rgbPixel);
 	return image;
+}
+
+CGImageRef CGImageCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height) {
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+	
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
+			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
+			rgbPixel[y * width * 4 + 4 * x + 3] = 255;
+		}
+	}
+	
+	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+	
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(rgbColorSpace);
+	free(rgbPixel);
+	return image;
+}
+
+void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
+	*pixel = NULL;
+	*width = 0;
+	*height = 0;
+	
+	int inputImageWidth = CGImageGetWidth(imageRef);
+	int inputImageHeight = CGImageGetHeight(imageRef);
+	
+	size_t bitsPerPixel_imageRef = CGImageGetBitsPerPixel(imageRef);
+	// size_t bytesPerRow_imageRef = CGImageGetBytesPerRow(imageRef);
+	size_t bytesPerPixel = bitsPerPixel_imageRef / 8;
+	CGImageAlphaInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+	CGImageAlphaInfo bitmapAlphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
+	bitmapInfo = bitmapInfo & kCGBitmapByteOrderMask;
+	CGBitmapInfo byteOrderInfo = (bitmapInfo & kCGBitmapByteOrderMask);
+	
+	ReadImageType readImageType = ReadImage24bit;
+	
+	if (bytesPerPixel != 3 && bytesPerPixel != 4 && bitmapInfo == kCGBitmapFloatComponents) {
+		printf("unsupported image file\n");
+		return;
+	}
+	
+	if (byteOrderInfo != kCGBitmapByteOrder32Big && byteOrderInfo != kCGBitmapByteOrderDefault) {
+		printf("unsupported image file\n");
+		return;
+	}
+	
+	if (bytesPerPixel == 3) {
+		readImageType = ReadImage24bit;
+	}
+	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst || bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst)) {
+		readImageType = ReadImage32bitSkipFirst;
+	}
+	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedLast || bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast)) {
+		readImageType = ReadImage32bitSkipLast;
+	}
+	else {
+		printf("unsupported image file\n");
+		return;
+	}
+	
+	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
+	
+	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
+	
+	unsigned char *pixelData = (unsigned char *) CFDataGetBytePtr(data);
+	
+	unsigned char *output = (unsigned char*)malloc(sizeof(unsigned char) * inputImageWidth * inputImageHeight * 3);
+	
+	if (readImageType == ReadImage24bit) {
+		for (int y = 0; y < inputImageHeight; y++) {
+			for (int x = 0; x < inputImageWidth; x++) {
+				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 3 + x * 3 + 0];
+				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 3 + x * 3 + 1];
+				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 3 + x * 3 + 2];
+			}
+		}
+	}
+	else if (readImageType == ReadImage32bitSkipFirst) {
+		for (int y = 0; y < inputImageHeight; y++) {
+			for (int x = 0; x < inputImageWidth; x++) {
+				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 4 + x * 4 + 1];
+				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 4 + x * 4 + 2];
+				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 4 + x * 4 + 3];
+			}
+		}
+	}
+	else if (readImageType == ReadImage32bitSkipLast) {
+		for (int y = 0; y < inputImageHeight; y++) {
+			for (int x = 0; x < inputImageWidth; x++) {
+				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 4 + x * 4 + 0];
+				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 4 + x * 4 + 1];
+				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 4 + x * 4 + 2];
+			}
+		}
+	}
+	
+	// output
+	*pixel = output;
+	*width = inputImageWidth;
+	*height = inputImageHeight;
+	
+	CFRelease(data);
 }
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef) {
