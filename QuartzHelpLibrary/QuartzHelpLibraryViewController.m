@@ -30,42 +30,50 @@
 
 #import "QuartzHelpLibraryViewController.h"
 
+#import "QuartzHelpLibrary.h"
+
 @implementation QuartzHelpLibraryViewController
 
-- (void)dealloc
-{
-    [super dealloc];
+- (IBAction)openImagePicker:(id)sender {
+	UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+	[controller setDelegate:self];
+	[self presentModalViewController:controller animated:YES];
+	[controller release];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+	
+	int copiedWidth = 0;
+	int copiedHeight = 0;
+	unsigned char *copiedPixel = NULL;
+	
+	CGImageCreateGrayPixelBuffer([image CGImage], &copiedPixel, &copiedWidth, &copiedHeight);
+	
+	int threshold = 120;
+	
+	// binarize
+	for (int y = 0; y < copiedHeight; y++) {
+		for (int x = 0; x < copiedWidth; x++) {
+			copiedPixel[y * copiedWidth+ x] = copiedPixel[y * copiedWidth+ x] > threshold ? 255 : 0;
+		}
+	}
+	
+	CGImageRef binarizedImageRef = CGImageRGBColorCreateWithGrayPixelBuffer(copiedPixel, copiedWidth, copiedHeight);
+	
+	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:binarizedImageRef]];
+	[self.view addSubview:imageView];
+	[imageView setFrame:CGRectMake(20, 20, 100, 100)];
+	[imageView release];
+	
+	[picker dismissModalViewControllerAnimated:YES];
+	
+	CGImageRelease(binarizedImageRef);
+	free(copiedPixel);
 }
 
-#pragma mark - View lifecycle
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-*/
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	[picker dismissModalViewControllerAnimated:YES];
 }
 
 @end

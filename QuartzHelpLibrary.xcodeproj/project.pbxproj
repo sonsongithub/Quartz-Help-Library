@@ -16,7 +16,6 @@
 		148B5D951352DBBD000DB37B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 148B5D931352DBBD000DB37B /* InfoPlist.strings */; };
 		148B5D981352DBBD000DB37B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5D971352DBBD000DB37B /* main.m */; };
 		148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */; };
-		148B5D9E1352DBBD000DB37B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5D9C1352DBBD000DB37B /* MainWindow.xib */; };
 		148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */; };
 		148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */; };
 		14E25FE013614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FD913614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m */; };
@@ -24,6 +23,7 @@
 		14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */; };
 		14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */; };
 		14E25FE613614E2D0070D216 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FE513614E2D0070D216 /* test.m */; };
+		14E25FFB136157B00070D216 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14E25FF9136157B00070D216 /* MainWindow.xib */; };
 		14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D6281360154400B786F0 /* UIImage+pixel.m */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +42,6 @@
 		148B5D971352DBBD000DB37B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		148B5D991352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryAppDelegate.h; sourceTree = "<group>"; };
 		148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryAppDelegate.m; sourceTree = "<group>"; };
-		148B5D9D1352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController.h; sourceTree = "<group>"; };
 		148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController.m; sourceTree = "<group>"; };
 		148B5DA31352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuartzHelpLibraryViewController.xib; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUIImageViewFromRGBPixel.m; path = QuartzHelpLibrary/Test/TestUIImageViewFromRGBPixel.m; sourceTree = "<group>"; };
 		14E25FE413614E2D0070D216 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = QuartzHelpLibrary/Test/test.h; sourceTree = "<group>"; };
 		14E25FE513614E2D0070D216 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = test.m; path = QuartzHelpLibrary/Test/test.m; sourceTree = "<group>"; };
+		14E25FFA136157B00070D216 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		14F9D6271360154400B786F0 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+pixel.h"; sourceTree = "<group>"; };
 		14F9D6281360154400B786F0 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+pixel.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,9 +136,9 @@
 		148B5D901352DBBD000DB37B /* QuartzHelpLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				14E25FF9136157B00070D216 /* MainWindow.xib */,
 				148B5D991352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.h */,
 				148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */,
-				148B5D9C1352DBBD000DB37B /* MainWindow.xib */,
 				148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */,
 				148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */,
 				148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */,
@@ -206,10 +206,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				148B5D951352DBBD000DB37B /* InfoPlist.strings in Resources */,
-				148B5D9E1352DBBD000DB37B /* MainWindow.xib in Resources */,
 				148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */,
 				14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */,
 				14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */,
+				14E25FFB136157B00070D216 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,20 +262,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		148B5D9C1352DBBD000DB37B /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				148B5D9D1352DBBD000DB37B /* en */,
-			);
-			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
 		148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				148B5DA31352DBBD000DB37B /* en */,
 			);
 			name = QuartzHelpLibraryViewController.xib;
+			sourceTree = "<group>";
+		};
+		14E25FF9136157B00070D216 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14E25FFA136157B00070D216 /* en */,
+			);
+			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -296,6 +296,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "52C94F38-747A-40F0-9095-A20827044F3F";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -312,6 +313,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "52C94F38-747A-40F0-9095-A20827044F3F";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

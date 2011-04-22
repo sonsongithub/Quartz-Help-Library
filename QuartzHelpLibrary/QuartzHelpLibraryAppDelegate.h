@@ -33,7 +33,6 @@
 @class QuartzHelpLibraryViewController;
 
 @interface QuartzHelpLibraryAppDelegate : NSObject <UIApplicationDelegate> {
-
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
