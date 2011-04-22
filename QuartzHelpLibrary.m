@@ -32,6 +32,18 @@
 
 #import "UIImage+pixel.h"
 
+typedef enum {
+	ReadImage8bit,
+	ReadImage16bitSkipLast,
+	ReadImage16bitSkipFirst,
+	ReadImage24bit,
+	ReadImage32bitSkipLast,
+	ReadImage32bitSkipFirst,
+}ReadImageType;
+
+#pragma mark -
+#pragma mark Load image file
+
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 	CGImageRef outputImage = NULL;
 	
@@ -47,6 +59,9 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 	
 	return outputImage;
 }
+
+#pragma mark -
+#pragma mark Dump CGImage information
 
 void CGImageDumpImageInformation(CGImageRef imageRef) {
 	printf("\n");
@@ -139,14 +154,8 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 	}
 }
 
-typedef enum {
-	ReadImage8bit,
-	ReadImage16bitSkipLast,
-	ReadImage16bitSkipFirst,
-	ReadImage24bit,
-	ReadImage32bitSkipLast,
-	ReadImage32bitSkipFirst,
-}ReadImageType;
+#pragma mark -
+#pragma mark Read pixel from CGImage
 
 void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
 	*pixel = NULL;
@@ -273,58 +282,6 @@ void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, in
 	CFRelease(data);
 }
 
-CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height) {
-	CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef context = CGBitmapContextCreate(pixel, width, height, 8, width, grayColorSpace, kCGImageAlphaNone);
-	CGImageRef image = CGBitmapContextCreateImage(context);
-	CGColorSpaceRelease(grayColorSpace);
-	return image;
-}
-
-CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height) {
-	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-	
-	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
-	
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width + x + 0];
-			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width + x + 0];
-			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width + x + 0];
-			rgbPixel[y * width * 4 + 4 * x + 3] = 255;
-		}
-	}
-	
-	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-
-	CGImageRef image = CGBitmapContextCreateImage(context);
-	CGColorSpaceRelease(rgbColorSpace);
-	free(rgbPixel);
-	return image;
-}
-
-CGImageRef CGImageCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height) {
-	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-	
-	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
-	
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
-			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
-			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
-			rgbPixel[y * width * 4 + 4 * x + 3] = 255;
-		}
-	}
-	
-	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
-	
-	CGImageRef image = CGBitmapContextCreateImage(context);
-	CGColorSpaceRelease(rgbColorSpace);
-	free(rgbPixel);
-	return image;
-}
-
 void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
 	*pixel = NULL;
 	*width = 0;
@@ -410,6 +367,85 @@ void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int
 	
 	CFRelease(data);
 }
+
+#pragma mark -
+#pragma mark Creating CGImage
+
+CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height) {
+	CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();
+	CGContextRef context = CGBitmapContextCreate(pixel, width, height, 8, width, grayColorSpace, kCGImageAlphaNone);
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(grayColorSpace);
+	return image;
+}
+
+CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height) {
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+	
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width + x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width + x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width + x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 3] = 255;
+		}
+	}
+	
+	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+	
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(rgbColorSpace);
+	free(rgbPixel);
+	return image;
+}
+
+CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height) {
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+	
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
+			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
+		}
+	}
+	
+	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+	
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(rgbColorSpace);
+	free(rgbPixel);
+	return image;
+}
+
+CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height) {
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+	
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
+			rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
+			rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
+			rgbPixel[y * width * 4 + 4 * x + 3] = 255;
+		}
+	}
+	
+	CGContextRef context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+	
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(rgbColorSpace);
+	free(rgbPixel);
+	return image;
+}
+
+#pragma mark -
+#pragma mark Convert CGImage to image file binary
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef) {
 	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];

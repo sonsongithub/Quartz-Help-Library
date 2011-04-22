@@ -32,6 +32,9 @@
 
 #include "QuartzHelpLibrary.h"
 
+#pragma mark -
+#pragma mark help tool
+
 int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int tolerance) {
 	for (int i = 0; i < length; i++) {
 		if (abs(*(b1 + i) - *(b2 + i)) > tolerance) {
@@ -56,6 +59,9 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	return [documentsDirectory stringByAppendingPathComponent:filename];
 }
+
+#pragma mark -
+#pragma mark CGImage and image file
 
 void testCGImageRGBBufferReadAndWrite() {
 	printf("\n---------->RGB pixel array convert test\n");
@@ -94,7 +100,7 @@ void testCGImageRGBBufferReadAndWrite() {
 	{
 		printf("\ntest case1\n");
 		
-		CGImageRef image = CGImageCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageRGBColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -126,7 +132,7 @@ void testCGImageRGBBufferReadAndWrite() {
 			
 			int reloadedTolerance = 2;
 			
-			printf("pixel(RGB)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			printf("pixel(RGB)->CGImage(RGBA)->PNG file(RGBA)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
 				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
@@ -145,11 +151,13 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
+			CGImageDumpImageInformation(imageReloaded);
+			
 			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
-			printf("pixel(RGB)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			printf("pixel(RGB)->CGImage(RGBA)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
 				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
@@ -259,7 +267,7 @@ void testCGImageGrayBufferReadAndWrite() {
 	{
 		printf("\ntest case2\n");
 		
-		CGImageRef image = CGImageCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageRGBColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -329,6 +337,8 @@ void testCGImageGrayBufferReadAndWrite() {
 	free(original);
 }
 
+#pragma mark -
+#pragma mark dump
 
 void testCGImageDump() {
 	printf("\n---------->Image information dump test\n\n");
@@ -342,6 +352,9 @@ void testCGImageDump() {
 		CGImageDumpImageInformation(imageRef);
 	}
 }
+
+#pragma mark -
+#pragma mark test
 
 void test() {
 	testCGImageDump();

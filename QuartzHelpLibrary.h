@@ -30,18 +30,35 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark -
+#pragma mark Load image file
+
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath);
+
+#pragma mark -
+#pragma mark Dump CGImage information
+
 void CGImageDumpImageInformation(CGImageRef imageRef);
+void CGImageDumpImageAttribute(CGImageRef imageRef);
 void CGImageDumpAlphaInformation(CGImageRef imageRef);
 void CGImageDumpBitmapInformation(CGImageRef imageRef);
-void CGImageDumpImageAttribute(CGImageRef imageRef);
+
+#pragma mark -
+#pragma mark Read pixel from CGImage
 
 void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
-CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
-CGImageRef CGImageCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
-
-CGImageRef CGImageCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);
 void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
+
+#pragma mark -
+#pragma mark Creating CGImage
+
+CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
+CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
+CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);
+CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height);
+
+#pragma mark -
+#pragma mark Convert CGImage to image file binary
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef);
 NSData* CGImageGetJPEGPresentation(CGImageRef imageRef);
