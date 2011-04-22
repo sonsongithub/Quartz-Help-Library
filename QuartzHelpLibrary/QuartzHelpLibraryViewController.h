@@ -31,7 +31,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QuartzHelpLibraryViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
-    
+    IBOutlet UIImageView *imageView;
 }
 - (IBAction)openImagePicker:(id)sender;
 @end

@@ -61,10 +61,7 @@
 	
 	CGImageRef binarizedImageRef = CGImageRGBColorCreateWithGrayPixelBuffer(copiedPixel, copiedWidth, copiedHeight);
 	
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:binarizedImageRef]];
-	[self.view addSubview:imageView];
-	[imageView setFrame:CGRectMake(20, 20, 100, 100)];
-	[imageView release];
+	[imageView setImage:[UIImage imageWithCGImage:binarizedImageRef]];
 	
 	[picker dismissModalViewControllerAnimated:YES];
 	

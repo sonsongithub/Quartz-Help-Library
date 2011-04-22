@@ -46,12 +46,7 @@
 	// Override point for customization after application launch.
 	test();
 	 
-	[self.window addSubview:self.viewController.view];
-	
-	[self.window setAutoresizesSubviews:YES];
-	[self.window setFrame:CGRectMake(0, 0, 768, 1024)];
-	[self.viewController.view setFrame:CGRectMake(0, 0, 768, 1024)];
-	[self.viewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+	self.window.rootViewController = self.viewController;
 	
 	[self.window makeKeyAndVisible];
     return YES;
