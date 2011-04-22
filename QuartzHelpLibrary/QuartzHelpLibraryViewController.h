@@ -34,4 +34,5 @@
     IBOutlet UIImageView *imageView;
 }
 - (IBAction)openImagePicker:(id)sender;
+- (void)setBinarizedImageWithInfo:(NSDictionary *)info;
 @end

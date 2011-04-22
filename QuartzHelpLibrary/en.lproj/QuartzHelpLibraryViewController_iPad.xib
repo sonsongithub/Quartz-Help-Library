@@ -82,7 +82,7 @@
 						<string key="NSFrame">{{85, 87}, {32, 32}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="641670956"/>
+						<reference key="NSNextKeyView" ref="832165908"/>
 						<reference key="IBUIBackgroundColor" ref="172666158"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
@@ -114,10 +114,10 @@
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
 					</object>
-					<object class="IBUIImageView" id="641670956">
+					<object class="IBUIImageView" id="832165908">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{272, 167}, {480, 480}}</string>
+						<int key="NSvFlags">319</int>
+						<string key="NSFrame">{{260, 199}, {505, 424}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="798621955"/>
@@ -169,9 +169,9 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">imageView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="641670956"/>
+						<reference key="destination" ref="832165908"/>
 					</object>
-					<int key="connectionID">16</int>
+					<int key="connectionID">21</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -199,12 +199,12 @@
 						<reference key="object" ref="766721923"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="990492446"/>
 							<reference ref="497131677"/>
 							<reference ref="203546181"/>
 							<reference ref="876554263"/>
 							<reference ref="798621955"/>
-							<reference ref="641670956"/>
+							<reference ref="990492446"/>
+							<reference ref="832165908"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -234,8 +234,8 @@
 						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="641670956"/>
+						<int key="objectID">20</int>
+						<reference key="object" ref="832165908"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 				</object>
@@ -253,15 +253,15 @@
 					<string>12.CustomClassName</string>
 					<string>12.IBPluginDependency</string>
 					<string>13.IBPluginDependency</string>
-					<string>15.IBPluginDependency</string>
 					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
+					<string>20.IBPluginDependency</string>
 					<string>9.CustomClassName</string>
 					<string>9.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>QuartzHelpLibraryViewController_iPad</string>
+					<string>QuartzHelpLibraryViewController</string>
 					<string>UIResponder</string>
 					<string>TestDrawCGImageFromRGBPixel</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -270,8 +270,8 @@
 					<string>TestUIImageViewFromRGBPixel</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{353, 156}, {1024, 768}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>TestDrawCGImageFromGrayPixel</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -289,7 +289,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">16</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -322,14 +322,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/QuartzHelpLibraryViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">QuartzHelpLibraryViewController_iPad</string>
-					<string key="superclassName">QuartzHelpLibraryViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/QuartzHelpLibraryViewController_iPad.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

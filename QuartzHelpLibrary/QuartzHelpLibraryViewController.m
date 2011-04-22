@@ -35,13 +35,14 @@
 @implementation QuartzHelpLibraryViewController
 
 - (IBAction)openImagePicker:(id)sender {
+	
 	UIImagePickerController *controller = [[UIImagePickerController alloc] init];
 	[controller setDelegate:self];
 	[self presentModalViewController:controller animated:YES];
 	[controller release];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void)setBinarizedImageWithInfo:(NSDictionary *)info {
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 	
 	int copiedWidth = 0;
@@ -63,10 +64,13 @@
 	
 	[imageView setImage:[UIImage imageWithCGImage:binarizedImageRef]];
 	
-	[picker dismissModalViewControllerAnimated:YES];
-	
 	CGImageRelease(binarizedImageRef);
 	free(copiedPixel);
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	[self setBinarizedImageWithInfo:info];
+	[picker dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
