@@ -20,6 +20,10 @@
 		148B5D9E1352DBBD000DB37B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5D9C1352DBBD000DB37B /* MainWindow.xib */; };
 		148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */; };
 		148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */; };
+		14E25FE013614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FD913614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m */; };
+		14E25FE113614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDB13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m */; };
+		14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */; };
+		14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */; };
 		14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D6281360154400B786F0 /* UIImage+pixel.m */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +48,14 @@
 		148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController.h; sourceTree = "<group>"; };
 		148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController.m; sourceTree = "<group>"; };
 		148B5DA31352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuartzHelpLibraryViewController.xib; sourceTree = "<group>"; };
+		14E25FD813614C8D0070D216 /* TestDrawCGImageFromGrayPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestDrawCGImageFromGrayPixel.h; path = QuartzHelpLibrary/Test/TestDrawCGImageFromGrayPixel.h; sourceTree = "<group>"; };
+		14E25FD913614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestDrawCGImageFromGrayPixel.m; path = QuartzHelpLibrary/Test/TestDrawCGImageFromGrayPixel.m; sourceTree = "<group>"; };
+		14E25FDA13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestDrawCGImageFromRGBPixel.h; path = QuartzHelpLibrary/Test/TestDrawCGImageFromRGBPixel.h; sourceTree = "<group>"; };
+		14E25FDB13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestDrawCGImageFromRGBPixel.m; path = QuartzHelpLibrary/Test/TestDrawCGImageFromRGBPixel.m; sourceTree = "<group>"; };
+		14E25FDC13614C8D0070D216 /* TestUIImageViewFromGrayPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestUIImageViewFromGrayPixel.h; path = QuartzHelpLibrary/Test/TestUIImageViewFromGrayPixel.h; sourceTree = "<group>"; };
+		14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUIImageViewFromGrayPixel.m; path = QuartzHelpLibrary/Test/TestUIImageViewFromGrayPixel.m; sourceTree = "<group>"; };
+		14E25FDE13614C8D0070D216 /* TestUIImageViewFromRGBPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestUIImageViewFromRGBPixel.h; path = QuartzHelpLibrary/Test/TestUIImageViewFromRGBPixel.h; sourceTree = "<group>"; };
+		14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUIImageViewFromRGBPixel.m; path = QuartzHelpLibrary/Test/TestUIImageViewFromRGBPixel.m; sourceTree = "<group>"; };
 		14F9D6271360154400B786F0 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+pixel.h"; sourceTree = "<group>"; };
 		14F9D6281360154400B786F0 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+pixel.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +88,14 @@
 			children = (
 				14687ABF1352E17A0006B3C1 /* test.h */,
 				14687AC01352E17A0006B3C1 /* test.m */,
+				14E25FD813614C8D0070D216 /* TestDrawCGImageFromGrayPixel.h */,
+				14E25FD913614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m */,
+				14E25FDA13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.h */,
+				14E25FDB13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m */,
+				14E25FDC13614C8D0070D216 /* TestUIImageViewFromGrayPixel.h */,
+				14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */,
+				14E25FDE13614C8D0070D216 /* TestUIImageViewFromRGBPixel.h */,
+				14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */,
 			);
 			name = Test;
 			sourceTree = "<group>";
@@ -206,6 +226,10 @@
 				14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */,
 				14687AC11352E17B0006B3C1 /* test.m in Sources */,
 				14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */,
+				14E25FE013614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m in Sources */,
+				14E25FE113614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m in Sources */,
+				14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */,
+				14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -71,8 +71,8 @@ void testCGImageRGBBufferReadAndWrite() {
 	printf("\n");
 	
 	// original pixel data
-	int originalWidth = 8;
-	int originalHeight = 8;
+	int originalWidth = 32;
+	int originalHeight = 32;
 	unsigned char* original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * 3);
 	
 	// make test pattern
@@ -169,7 +169,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		}
 	}
 	
-	// test case 1
+	// test case 2
 	{
 		printf("\ntest case2\n");
 		
@@ -432,6 +432,7 @@ void testCGImageDump() {
 		printf("Image file = %s", [path UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
+		printf("\n");
 	}
 }
 
