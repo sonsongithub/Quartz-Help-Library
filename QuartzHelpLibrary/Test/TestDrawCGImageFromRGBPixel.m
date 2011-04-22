@@ -56,6 +56,7 @@
 	
 	CGImageRef image = CGImageRGBColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
 	
+	// CGImage is inverted, vertically
 	CGContextTranslateCTM(context, 0, originalHeight);
 	CGContextScaleCTM(context, 1, -1);
 	CGContextDrawImage(context, CGRectMake(0, 0, originalWidth, originalHeight), image);
