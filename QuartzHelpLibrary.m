@@ -68,7 +68,6 @@ void CGImageDumpImageInformation(CGImageRef imageRef) {
 	CGImageDumpImageAttribute(imageRef);
 	CGImageDumpAlphaInformation(imageRef);
 	CGImageDumpBitmapInformation(imageRef);
-	printf("\n");
 }
 
 void CGImageDumpImageAttribute(CGImageRef imageRef) {
@@ -422,7 +421,7 @@ CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int wid
 	return image;
 }
 
-CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height) {
+CGImageRef CGImageRGBAColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height) {
 	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
 	
 	unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);

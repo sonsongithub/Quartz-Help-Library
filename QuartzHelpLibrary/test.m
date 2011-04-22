@@ -64,7 +64,12 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 #pragma mark CGImage and image file
 
 void testCGImageRGBBufferReadAndWrite() {
-	printf("\n---------->RGB pixel array convert test\n");
+	printf("\n---------->testCGImageRGBBufferReadAndWrite\n");
+	printf("void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
+	printf("CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("\n");
+	
 	// original pixel data
 	int originalWidth = 8;
 	int originalHeight = 8;
@@ -98,9 +103,77 @@ void testCGImageRGBBufferReadAndWrite() {
 	
 	// test case 1
 	{
-		printf("\ntest case1\n");
+		printf("test case1\n");
 		
 		CGImageRef image = CGImageRGBColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
+		
+		int copiedWidth = 0;
+		int copiedHeight = 0;
+		unsigned char *copiedPixel = NULL;
+		
+		CGImageCreateRGBPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		
+		int tolerance = 0;
+		
+		printf("pixel(RGB)->CGImage(RGB)->pixel(RGB)\n");
+		
+		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
+			printf("=>OK (tolerance=%d)\n", tolerance);
+		else
+			printf("=>Error\n");
+		
+		{
+			NSData *data = CGImageGetPNGPresentation(image);
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.png");
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(RGB)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
+		
+		{
+			NSData *data = CGImageGetJPEGPresentation(image);
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.jpg");
+			[data writeToFile:path atomically:YES];
+			
+			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+			
+			int reloadedWidth = 0;
+			int reloadedHeight = 0;
+			unsigned char *reloadedPixel = NULL;
+			
+			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			
+			int reloadedTolerance = 2;
+			
+			printf("pixel(RGB)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
+			
+			if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance))
+				printf("=>OK (tolerance=%d)\n", reloadedTolerance);
+			else
+				printf("=>Error\n");
+		}
+	}
+	
+	// test case 1
+	{
+		printf("\ntest case2\n");
+		
+		CGImageRef image = CGImageRGBAColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -119,7 +192,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetPNGPresentation(image);
-			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.png");
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase2.png");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
@@ -142,7 +215,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		
 		{
 			NSData *data = CGImageGetJPEGPresentation(image);
-			NSString *path = makeFilePathInDocumentFolder(@"rgbcase1.jpg");
+			NSString *path = makeFilePathInDocumentFolder(@"rgbcase2.jpg");
 			[data writeToFile:path atomically:YES];
 			
 			CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
@@ -150,8 +223,6 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
-			
-			CGImageDumpImageInformation(imageReloaded);
 			
 			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
@@ -168,7 +239,12 @@ void testCGImageRGBBufferReadAndWrite() {
 }
 
 void testCGImageGrayBufferReadAndWrite() {
-	printf("\n---------->Gray pixel array convert test\n");
+	printf("\n---------->testCGImageGrayBufferReadAndWrite\n");
+	printf("void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
+	printf("CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("\n");
+	
 	// original pixel data
 	int originalWidth = 32;
 	int originalHeight = 32;
@@ -194,7 +270,7 @@ void testCGImageGrayBufferReadAndWrite() {
 	
 	// test case 1
 	{
-		printf("\ntest case1\n");
+		printf("test case1\n");
 
 		CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
 		
@@ -341,7 +417,13 @@ void testCGImageGrayBufferReadAndWrite() {
 #pragma mark dump
 
 void testCGImageDump() {
-	printf("\n---------->Image information dump test\n\n");
+	printf("\n---------->test\n");
+	printf("void CGImageDumpImageInformation(CGImageRef imageRef);\n");
+	printf("void CGImageDumpImageAttribute(CGImageRef imageRef);\n");
+	printf("void CGImageDumpAlphaInformation(CGImageRef imageRef);\n");
+	printf("void CGImageDumpBitmapInformation(CGImageRef imageRef);\n");
+	printf("\n");
+	
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
 					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
