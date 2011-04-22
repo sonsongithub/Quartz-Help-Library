@@ -34,22 +34,34 @@
 
 @implementation QuartzHelpLibraryViewController
 
+@synthesize image;
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[imageView setImage:self.image];
+}
+
 - (IBAction)openImagePicker:(id)sender {
 	
 	UIImagePickerController *controller = [[UIImagePickerController alloc] init];
 	[controller setDelegate:self];
+	
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		[controller setSourceType:UIImagePickerControllerSourceTypeCamera];
+	}
+	
 	[self presentModalViewController:controller animated:YES];
 	[controller release];
 }
 
 - (void)setBinarizedImageWithInfo:(NSDictionary *)info {
-	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+	UIImage *cameraImage = [info objectForKey:UIImagePickerControllerOriginalImage];
 	
 	int copiedWidth = 0;
 	int copiedHeight = 0;
 	unsigned char *copiedPixel = NULL;
 	
-	CGImageCreateGrayPixelBuffer([image CGImage], &copiedPixel, &copiedWidth, &copiedHeight);
+	CGImageCreateGrayPixelBuffer([cameraImage CGImage], &copiedPixel, &copiedWidth, &copiedHeight);
 	
 	int threshold = 120;
 	
@@ -61,11 +73,13 @@
 	}
 	
 	CGImageRef binarizedImageRef = CGImageRGBColorCreateWithGrayPixelBuffer(copiedPixel, copiedWidth, copiedHeight);
+	free(copiedPixel);
 	
-	[imageView setImage:[UIImage imageWithCGImage:binarizedImageRef]];
+	self.image = [UIImage imageWithCGImage:binarizedImageRef];
+	
+	[imageView setImage:self.image];
 	
 	CGImageRelease(binarizedImageRef);
-	free(copiedPixel);
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -75,6 +89,11 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[picker dismissModalViewControllerAnimated:YES];
+}
+
+- (void)dealloc {
+    [image release];
+    [super dealloc];
 }
 
 @end

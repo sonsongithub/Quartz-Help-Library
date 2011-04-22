@@ -32,7 +32,9 @@
 
 @interface QuartzHelpLibraryViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     IBOutlet UIImageView *imageView;
+	UIImage *image;
 }
+@property (nonatomic, retain) UIImage *image;
 - (IBAction)openImagePicker:(id)sender;
 - (void)setBinarizedImageWithInfo:(NSDictionary *)info;
 @end

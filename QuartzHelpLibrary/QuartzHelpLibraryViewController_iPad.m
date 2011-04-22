@@ -45,6 +45,11 @@
 - (IBAction)openImagePicker:(id)sender {
 	UIImagePickerController *controller = [[UIImagePickerController alloc] init];
 	[controller setDelegate:self];
+	
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		[controller setSourceType:UIImagePickerControllerSourceTypeCamera];
+	}
+	
 	Class UIPopoverControllerClass = NSClassFromString(@"UIPopoverController");
 	if (UIPopoverControllerClass) {
 		popOverController = [[UIPopoverControllerClass alloc] initWithContentViewController:controller];
@@ -61,6 +66,11 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[popOverController dismissPopoverAnimated:YES];
+}
+
+- (void)dealloc {
+    [popOverController release];
+    [super dealloc];
 }
 
 @end
