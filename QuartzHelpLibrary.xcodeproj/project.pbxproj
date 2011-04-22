@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */; };
-		14687AC11352E17B0006B3C1 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687AC01352E17A0006B3C1 /* test.m */; };
 		14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC21352E5F10006B3C1 /* iossdkhack.jpg */; };
 		14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC41352E5F10006B3C1 /* iossdkhack.png */; };
 		148B5D8B1352DBBD000DB37B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148B5D8A1352DBBD000DB37B /* UIKit.framework */; };
@@ -24,14 +23,13 @@
 		14E25FE113614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDB13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m */; };
 		14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */; };
 		14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */; };
+		14E25FE613614E2D0070D216 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FE513614E2D0070D216 /* test.m */; };
 		14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D6281360154400B786F0 /* UIImage+pixel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibrary.h; sourceTree = "<group>"; };
 		14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibrary.m; sourceTree = "<group>"; };
-		14687ABF1352E17A0006B3C1 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = QuartzHelpLibrary/test.h; sourceTree = "<group>"; };
-		14687AC01352E17A0006B3C1 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = test.m; path = QuartzHelpLibrary/test.m; sourceTree = "<group>"; };
 		14687AC31352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/iossdkhack.jpg; sourceTree = "<group>"; };
 		14687AC51352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/iossdkhack.png; sourceTree = "<group>"; };
 		148B5D861352DBBD000DB37B /* QuartzHelpLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuartzHelpLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +54,8 @@
 		14E25FDD13614C8D0070D216 /* TestUIImageViewFromGrayPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUIImageViewFromGrayPixel.m; path = QuartzHelpLibrary/Test/TestUIImageViewFromGrayPixel.m; sourceTree = "<group>"; };
 		14E25FDE13614C8D0070D216 /* TestUIImageViewFromRGBPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestUIImageViewFromRGBPixel.h; path = QuartzHelpLibrary/Test/TestUIImageViewFromRGBPixel.h; sourceTree = "<group>"; };
 		14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUIImageViewFromRGBPixel.m; path = QuartzHelpLibrary/Test/TestUIImageViewFromRGBPixel.m; sourceTree = "<group>"; };
+		14E25FE413614E2D0070D216 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = QuartzHelpLibrary/Test/test.h; sourceTree = "<group>"; };
+		14E25FE513614E2D0070D216 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = test.m; path = QuartzHelpLibrary/Test/test.m; sourceTree = "<group>"; };
 		14F9D6271360154400B786F0 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+pixel.h"; sourceTree = "<group>"; };
 		14F9D6281360154400B786F0 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+pixel.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,8 +86,8 @@
 		1416AEBE1360145500B89C45 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				14687ABF1352E17A0006B3C1 /* test.h */,
-				14687AC01352E17A0006B3C1 /* test.m */,
+				14E25FE413614E2D0070D216 /* test.h */,
+				14E25FE513614E2D0070D216 /* test.m */,
 				14E25FD813614C8D0070D216 /* TestDrawCGImageFromGrayPixel.h */,
 				14E25FD913614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m */,
 				14E25FDA13614C8D0070D216 /* TestDrawCGImageFromRGBPixel.h */,
@@ -224,12 +224,12 @@
 				148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */,
 				148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */,
 				14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */,
-				14687AC11352E17B0006B3C1 /* test.m in Sources */,
 				14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */,
 				14E25FE013614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m in Sources */,
 				14E25FE113614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m in Sources */,
 				14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */,
 				14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */,
+				14E25FE613614E2D0070D216 /* test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
