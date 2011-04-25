@@ -18,6 +18,9 @@
 		148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */; };
 		148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */; };
 		148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */; };
+		14B377E21365BF4600738C9C /* icon114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377DF1365BF4600738C9C /* icon114x114.png */; };
+		14B377E31365BF4600738C9C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E01365BF4600738C9C /* icon57x57.png */; };
+		14B377E41365BF4600738C9C /* icon72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E11365BF4600738C9C /* icon72x72.png */; };
 		14BCBE5913615FB900FE02AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BCBE5713615FB900FE02AE /* MainWindow-iPad.xib */; };
 		14BCBE5E1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */; };
 		14BCBE62136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BCBE60136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib */; };
@@ -48,6 +51,9 @@
 		148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController.h; sourceTree = "<group>"; };
 		148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController.m; sourceTree = "<group>"; };
 		148B5DA31352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuartzHelpLibraryViewController.xib; sourceTree = "<group>"; };
+		14B377DF1365BF4600738C9C /* icon114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114x114.png; sourceTree = "<group>"; };
+		14B377E01365BF4600738C9C /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57x57.png; sourceTree = "<group>"; };
+		14B377E11365BF4600738C9C /* icon72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon72x72.png; sourceTree = "<group>"; };
 		14BCBE5813615FB900FE02AE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		14BCBE5B1361610400FE02AE /* QuartzHelpLibraryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController_iPad.h; sourceTree = "<group>"; };
 		14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController_iPad.m; sourceTree = "<group>"; };
@@ -81,18 +87,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1416AEBD1360143B00B89C45 /* Resources */ = {
+		1416AEBE1360145500B89C45 /* Test */ = {
 			isa = PBXGroup;
 			children = (
 				14687AC21352E5F10006B3C1 /* iossdkhack.jpg */,
 				14687AC41352E5F10006B3C1 /* iossdkhack.png */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		1416AEBE1360145500B89C45 /* Test */ = {
-			isa = PBXGroup;
-			children = (
 				14E25FE413614E2D0070D216 /* test.h */,
 				14E25FE513614E2D0070D216 /* test.m */,
 				14E25FD813614C8D0070D216 /* TestDrawCGImageFromGrayPixel.h */,
@@ -115,7 +114,6 @@
 				14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */,
 				14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */,
 				1416AEBE1360145500B89C45 /* Test */,
-				1416AEBD1360143B00B89C45 /* Resources */,
 				148B5D901352DBBD000DB37B /* QuartzHelpLibrary */,
 				148B5D891352DBBD000DB37B /* Frameworks */,
 				148B5D871352DBBD000DB37B /* Products */,
@@ -150,6 +148,7 @@
 				14BCBE5B1361610400FE02AE /* QuartzHelpLibraryViewController_iPad.h */,
 				14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */,
 				148B5D911352DBBD000DB37B /* Supporting Files */,
+				14B377DD1365BF4600738C9C /* Resources */,
 			);
 			path = QuartzHelpLibrary;
 			sourceTree = "<group>";
@@ -167,6 +166,25 @@
 				148B5D971352DBBD000DB37B /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14B377DD1365BF4600738C9C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				14B377DE1365BF4600738C9C /* image */,
+			);
+			name = Resources;
+			path = ../../iOSCameraImageProcessing/cv/Resources;
+			sourceTree = "<group>";
+		};
+		14B377DE1365BF4600738C9C /* image */ = {
+			isa = PBXGroup;
+			children = (
+				14B377DF1365BF4600738C9C /* icon114x114.png */,
+				14B377E01365BF4600738C9C /* icon57x57.png */,
+				14B377E11365BF4600738C9C /* icon72x72.png */,
+			);
+			path = image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +241,9 @@
 				14E25FFB136157B00070D216 /* MainWindow.xib in Resources */,
 				14BCBE5913615FB900FE02AE /* MainWindow-iPad.xib in Resources */,
 				14BCBE62136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib in Resources */,
+				14B377E21365BF4600738C9C /* icon114x114.png in Resources */,
+				14B377E31365BF4600738C9C /* icon57x57.png in Resources */,
+				14B377E41365BF4600738C9C /* icon72x72.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
