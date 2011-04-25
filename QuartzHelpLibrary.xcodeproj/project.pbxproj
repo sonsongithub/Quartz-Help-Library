@@ -21,6 +21,10 @@
 		14B377E21365BF4600738C9C /* icon114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377DF1365BF4600738C9C /* icon114x114.png */; };
 		14B377E31365BF4600738C9C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E01365BF4600738C9C /* icon57x57.png */; };
 		14B377E41365BF4600738C9C /* icon72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E11365BF4600738C9C /* icon72x72.png */; };
+		14B3780C1365C44D00738C9C /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B378081365C44D00738C9C /* Default-Landscape.png */; };
+		14B3780D1365C44D00738C9C /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B378091365C44D00738C9C /* Default-Portrait.png */; };
+		14B3780E1365C44D00738C9C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B3780A1365C44D00738C9C /* Default.png */; };
+		14B3780F1365C44D00738C9C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B3780B1365C44D00738C9C /* Default@2x.png */; };
 		14BCBE5913615FB900FE02AE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BCBE5713615FB900FE02AE /* MainWindow-iPad.xib */; };
 		14BCBE5E1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */; };
 		14BCBE62136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BCBE60136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib */; };
@@ -54,6 +58,10 @@
 		14B377DF1365BF4600738C9C /* icon114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114x114.png; sourceTree = "<group>"; };
 		14B377E01365BF4600738C9C /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57x57.png; sourceTree = "<group>"; };
 		14B377E11365BF4600738C9C /* icon72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon72x72.png; sourceTree = "<group>"; };
+		14B378081365C44D00738C9C /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		14B378091365C44D00738C9C /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
+		14B3780A1365C44D00738C9C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		14B3780B1365C44D00738C9C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		14BCBE5813615FB900FE02AE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		14BCBE5B1361610400FE02AE /* QuartzHelpLibraryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController_iPad.h; sourceTree = "<group>"; };
 		14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController_iPad.m; sourceTree = "<group>"; };
@@ -180,6 +188,10 @@
 		14B377DE1365BF4600738C9C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				14B378081365C44D00738C9C /* Default-Landscape.png */,
+				14B378091365C44D00738C9C /* Default-Portrait.png */,
+				14B3780A1365C44D00738C9C /* Default.png */,
+				14B3780B1365C44D00738C9C /* Default@2x.png */,
 				14B377DF1365BF4600738C9C /* icon114x114.png */,
 				14B377E01365BF4600738C9C /* icon57x57.png */,
 				14B377E11365BF4600738C9C /* icon72x72.png */,
@@ -244,6 +256,10 @@
 				14B377E21365BF4600738C9C /* icon114x114.png in Resources */,
 				14B377E31365BF4600738C9C /* icon57x57.png in Resources */,
 				14B377E41365BF4600738C9C /* icon72x72.png in Resources */,
+				14B3780C1365C44D00738C9C /* Default-Landscape.png in Resources */,
+				14B3780D1365C44D00738C9C /* Default-Portrait.png in Resources */,
+				14B3780E1365C44D00738C9C /* Default.png in Resources */,
+				14B3780F1365C44D00738C9C /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
