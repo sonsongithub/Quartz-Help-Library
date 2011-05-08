@@ -30,7 +30,13 @@
 
 #import "QuartzHelpLibrary.h"
 
-#import "UIImage+pixel.h"
+@interface UIImage(pixel)
+
+- (NSData*)PNGRepresentaion;
+- (NSData*)JPEGRepresentaion;
+- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
+
+@end
 
 typedef enum {
 	ReadImage8bit,
@@ -455,3 +461,22 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];
 	return [uiimage JPEGRepresentaion];
 }
+
+#pragma mark -
+#pragma mark UIImage QuartzHelpLibrary category implementation
+
+@implementation UIImage(pixel)
+
+- (NSData*)PNGRepresentaion {
+	return UIImagePNGRepresentation(self);
+}
+
+- (NSData*)JPEGRepresentaion {
+	return [self JPEGRepresentaionWithCompressionQuality:1];
+}
+
+- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality {
+	return UIImageJPEGRepresentation(self, compressionQuality);
+}
+
+@end

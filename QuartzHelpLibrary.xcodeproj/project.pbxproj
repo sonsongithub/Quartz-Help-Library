@@ -34,7 +34,6 @@
 		14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FDF13614C8D0070D216 /* TestUIImageViewFromRGBPixel.m */; };
 		14E25FE613614E2D0070D216 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E25FE513614E2D0070D216 /* test.m */; };
 		14E25FFB136157B00070D216 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14E25FF9136157B00070D216 /* MainWindow.xib */; };
-		14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D6281360154400B786F0 /* UIImage+pixel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,8 +76,6 @@
 		14E25FE413614E2D0070D216 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = QuartzHelpLibrary/Test/test.h; sourceTree = "<group>"; };
 		14E25FE513614E2D0070D216 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = test.m; path = QuartzHelpLibrary/Test/test.m; sourceTree = "<group>"; };
 		14E25FFA136157B00070D216 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		14F9D6271360154400B786F0 /* UIImage+pixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+pixel.h"; sourceTree = "<group>"; };
-		14F9D6281360154400B786F0 /* UIImage+pixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+pixel.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +114,6 @@
 		148B5D7B1352DBBC000DB37B = {
 			isa = PBXGroup;
 			children = (
-				14F9D6271360154400B786F0 /* UIImage+pixel.h */,
-				14F9D6281360154400B786F0 /* UIImage+pixel.m */,
 				14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */,
 				14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */,
 				1416AEBE1360145500B89C45 /* Test */,
@@ -274,7 +269,6 @@
 				148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */,
 				148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */,
 				14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */,
-				14F9D6291360154400B786F0 /* UIImage+pixel.m in Sources */,
 				14E25FE013614C8D0070D216 /* TestDrawCGImageFromGrayPixel.m in Sources */,
 				14E25FE113614C8D0070D216 /* TestDrawCGImageFromRGBPixel.m in Sources */,
 				14E25FE213614C8D0070D216 /* TestUIImageViewFromGrayPixel.m in Sources */,
