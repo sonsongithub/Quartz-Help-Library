@@ -18,6 +18,16 @@
 		148B5D9B1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */; };
 		148B5DA11352DBBD000DB37B /* QuartzHelpLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */; };
 		148B5DA41352DBBD000DB37B /* QuartzHelpLibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */; };
+		14A3CEA1137A54CC008001DD /* testImage_Gray_JPG24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE97137A54CC008001DD /* testImage_Gray_JPG24.jpg */; };
+		14A3CEA2137A54CC008001DD /* testImage_Gray_PNG24.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE98137A54CC008001DD /* testImage_Gray_PNG24.png */; };
+		14A3CEA3137A54CC008001DD /* testImage_Gray_PNG24Alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE99137A54CC008001DD /* testImage_Gray_PNG24Alpha.png */; };
+		14A3CEA4137A54CC008001DD /* testImage_Gray_PNG8.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9A137A54CC008001DD /* testImage_Gray_PNG8.png */; };
+		14A3CEA5137A54CC008001DD /* testImage_Gray_PNG8Alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9B137A54CC008001DD /* testImage_Gray_PNG8Alpha.png */; };
+		14A3CEA6137A54CC008001DD /* testImage_RGB_JPG24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9C137A54CC008001DD /* testImage_RGB_JPG24.jpg */; };
+		14A3CEA7137A54CC008001DD /* testImage_RGB_PNG24.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9D137A54CC008001DD /* testImage_RGB_PNG24.png */; };
+		14A3CEA8137A54CC008001DD /* testImage_RGB_PNG24Alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9E137A54CC008001DD /* testImage_RGB_PNG24Alpha.png */; };
+		14A3CEA9137A54CC008001DD /* testImage_RGB_PNG8.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CE9F137A54CC008001DD /* testImage_RGB_PNG8.png */; };
+		14A3CEAA137A54CC008001DD /* testImage_RGB_PNG8Alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 14A3CEA0137A54CC008001DD /* testImage_RGB_PNG8Alpha.png */; };
 		14B377E21365BF4600738C9C /* icon114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377DF1365BF4600738C9C /* icon114x114.png */; };
 		14B377E31365BF4600738C9C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E01365BF4600738C9C /* icon57x57.png */; };
 		14B377E41365BF4600738C9C /* icon72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B377E11365BF4600738C9C /* icon72x72.png */; };
@@ -54,6 +64,16 @@
 		148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibraryViewController.h; sourceTree = "<group>"; };
 		148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibraryViewController.m; sourceTree = "<group>"; };
 		148B5DA31352DBBD000DB37B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuartzHelpLibraryViewController.xib; sourceTree = "<group>"; };
+		14A3CE97137A54CC008001DD /* testImage_Gray_JPG24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImage_Gray_JPG24.jpg; sourceTree = "<group>"; };
+		14A3CE98137A54CC008001DD /* testImage_Gray_PNG24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_Gray_PNG24.png; sourceTree = "<group>"; };
+		14A3CE99137A54CC008001DD /* testImage_Gray_PNG24Alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_Gray_PNG24Alpha.png; sourceTree = "<group>"; };
+		14A3CE9A137A54CC008001DD /* testImage_Gray_PNG8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_Gray_PNG8.png; sourceTree = "<group>"; };
+		14A3CE9B137A54CC008001DD /* testImage_Gray_PNG8Alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_Gray_PNG8Alpha.png; sourceTree = "<group>"; };
+		14A3CE9C137A54CC008001DD /* testImage_RGB_JPG24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImage_RGB_JPG24.jpg; sourceTree = "<group>"; };
+		14A3CE9D137A54CC008001DD /* testImage_RGB_PNG24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_RGB_PNG24.png; sourceTree = "<group>"; };
+		14A3CE9E137A54CC008001DD /* testImage_RGB_PNG24Alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_RGB_PNG24Alpha.png; sourceTree = "<group>"; };
+		14A3CE9F137A54CC008001DD /* testImage_RGB_PNG8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_RGB_PNG8.png; sourceTree = "<group>"; };
+		14A3CEA0137A54CC008001DD /* testImage_RGB_PNG8Alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage_RGB_PNG8Alpha.png; sourceTree = "<group>"; };
 		14B377DF1365BF4600738C9C /* icon114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114x114.png; sourceTree = "<group>"; };
 		14B377E01365BF4600738C9C /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57x57.png; sourceTree = "<group>"; };
 		14B377E11365BF4600738C9C /* icon72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon72x72.png; sourceTree = "<group>"; };
@@ -118,6 +138,8 @@
 				14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */,
 				1416AEBE1360145500B89C45 /* Test */,
 				148B5D901352DBBD000DB37B /* QuartzHelpLibrary */,
+				14B377DD1365BF4600738C9C /* Resources */,
+				14A3CE96137A54CC008001DD /* testImages */,
 				148B5D891352DBBD000DB37B /* Frameworks */,
 				148B5D871352DBBD000DB37B /* Products */,
 			);
@@ -151,7 +173,6 @@
 				14BCBE5B1361610400FE02AE /* QuartzHelpLibraryViewController_iPad.h */,
 				14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */,
 				148B5D911352DBBD000DB37B /* Supporting Files */,
-				14B377DD1365BF4600738C9C /* Resources */,
 			);
 			path = QuartzHelpLibrary;
 			sourceTree = "<group>";
@@ -171,13 +192,31 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		14A3CE96137A54CC008001DD /* testImages */ = {
+			isa = PBXGroup;
+			children = (
+				14A3CE97137A54CC008001DD /* testImage_Gray_JPG24.jpg */,
+				14A3CE98137A54CC008001DD /* testImage_Gray_PNG24.png */,
+				14A3CE99137A54CC008001DD /* testImage_Gray_PNG24Alpha.png */,
+				14A3CE9A137A54CC008001DD /* testImage_Gray_PNG8.png */,
+				14A3CE9B137A54CC008001DD /* testImage_Gray_PNG8Alpha.png */,
+				14A3CE9C137A54CC008001DD /* testImage_RGB_JPG24.jpg */,
+				14A3CE9D137A54CC008001DD /* testImage_RGB_PNG24.png */,
+				14A3CE9E137A54CC008001DD /* testImage_RGB_PNG24Alpha.png */,
+				14A3CE9F137A54CC008001DD /* testImage_RGB_PNG8.png */,
+				14A3CEA0137A54CC008001DD /* testImage_RGB_PNG8Alpha.png */,
+			);
+			name = testImages;
+			path = QuartzHelpLibrary/testImages;
+			sourceTree = "<group>";
+		};
 		14B377DD1365BF4600738C9C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				14B377DE1365BF4600738C9C /* image */,
 			);
 			name = Resources;
-			path = ../../iOSCameraImageProcessing/cv/Resources;
+			path = ../iOSCameraImageProcessing/cv/Resources;
 			sourceTree = "<group>";
 		};
 		14B377DE1365BF4600738C9C /* image */ = {
@@ -255,6 +294,16 @@
 				14B3780D1365C44D00738C9C /* Default-Portrait.png in Resources */,
 				14B3780E1365C44D00738C9C /* Default.png in Resources */,
 				14B3780F1365C44D00738C9C /* Default@2x.png in Resources */,
+				14A3CEA1137A54CC008001DD /* testImage_Gray_JPG24.jpg in Resources */,
+				14A3CEA2137A54CC008001DD /* testImage_Gray_PNG24.png in Resources */,
+				14A3CEA3137A54CC008001DD /* testImage_Gray_PNG24Alpha.png in Resources */,
+				14A3CEA4137A54CC008001DD /* testImage_Gray_PNG8.png in Resources */,
+				14A3CEA5137A54CC008001DD /* testImage_Gray_PNG8Alpha.png in Resources */,
+				14A3CEA6137A54CC008001DD /* testImage_RGB_JPG24.jpg in Resources */,
+				14A3CEA7137A54CC008001DD /* testImage_RGB_PNG24.png in Resources */,
+				14A3CEA8137A54CC008001DD /* testImage_RGB_PNG24Alpha.png in Resources */,
+				14A3CEA9137A54CC008001DD /* testImage_RGB_PNG8.png in Resources */,
+				14A3CEAA137A54CC008001DD /* testImage_RGB_PNG8Alpha.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

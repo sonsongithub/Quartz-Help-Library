@@ -423,10 +423,30 @@ void testCGImageDump() {
 	printf("void CGImageDumpAlphaInformation(CGImageRef imageRef);\n");
 	printf("void CGImageDumpBitmapInformation(CGImageRef imageRef);\n");
 	printf("\n");
-	
+/*	
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"jpg"],
 					  [[NSBundle mainBundle] pathForResource:@"iossdkhack" ofType:@"png"],
+					  nil];
+	for (NSString *path in paths) {
+		printf("Image file = %s", [path UTF8String]);
+		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+		CGImageDumpImageInformation(imageRef);
+		printf("\n");
+	}
+*/
+	// old test
+	NSArray *paths = [NSArray arrayWithObjects:
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8Alpha.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24Alpha.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_JPG24.jpg" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG8.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG8Alpha.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24.png" ofType:nil],
+					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24Alpha.png" ofType:nil],
 					  nil];
 	for (NSString *path in paths) {
 		printf("Image file = %s", [path UTF8String]);
