@@ -30,6 +30,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+	QH_PIXEL_GRAYSCALE =	0,
+	QH_PIXEL_COLOR =		1 << 0,
+	QH_PIXEL_ANYCOLOR =		1 << 1,
+}QH_PIXEL_TYPE;
+
 #pragma mark -
 #pragma mark Load image file
 
@@ -46,8 +52,10 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef);
 #pragma mark -
 #pragma mark Read pixel from CGImage
 
-void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
-void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
+void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
+void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
+
+void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType);
 
 #pragma mark -
 #pragma mark Creating CGImage

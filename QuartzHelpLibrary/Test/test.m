@@ -65,7 +65,7 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 
 void testCGImageRGBBufferReadAndWrite() {
 	printf("\n---------->testCGImageRGBBufferReadAndWrite\n");
-	printf("void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
+	printf("void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
 	printf("CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("\n");
@@ -111,7 +111,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		int copiedHeight = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageCreateRGBPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		
 		int tolerance = 0;
 		
@@ -133,7 +133,7 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -156,7 +156,7 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -179,7 +179,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		int copiedHeight = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageCreateRGBPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		
 		int tolerance = 0;
 		
@@ -201,7 +201,7 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -224,7 +224,7 @@ void testCGImageRGBBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateRGBPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -240,7 +240,7 @@ void testCGImageRGBBufferReadAndWrite() {
 
 void testCGImageGrayBufferReadAndWrite() {
 	printf("\n---------->testCGImageGrayBufferReadAndWrite\n");
-	printf("void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
+	printf("void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
 	printf("CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("\n");
@@ -278,7 +278,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		int copiedHeight = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageCreateGrayPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		
 		int tolerance = 0;
 		
@@ -300,7 +300,7 @@ void testCGImageGrayBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -323,7 +323,7 @@ void testCGImageGrayBufferReadAndWrite() {
 			int reloadedHeight = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			int reloadedTolerance = 2;
 			
@@ -349,7 +349,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		int copiedHeight = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageCreateGrayPixelBuffer(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		
 		int tolerance = 2;
 		
@@ -373,7 +373,7 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedTolerance = 2;
 			
-			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			printf("pixel(Gray)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
@@ -396,7 +396,7 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedTolerance = 2;
 			
-			CGImageCreateGrayPixelBuffer(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
 			
 			printf("pixel(Gray)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
@@ -444,12 +444,11 @@ void testCGImageDump() {
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24Alpha.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_JPG24.jpg" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG8.png" ofType:nil],
-					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG8Alpha.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24Alpha.png" ofType:nil],
 					  nil];
 	for (NSString *path in paths) {
-		printf("Image file = %s", [path UTF8String]);
+		printf("Image file = %s", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
 		printf("\n");

@@ -162,7 +162,13 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 #pragma mark -
 #pragma mark Read pixel from CGImage
 
-void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
+void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	CGBitmapInfo byteOrderInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask;
+}
+
+void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
 	*pixel = NULL;
 	*width = 0;
 	*height = 0;
@@ -287,7 +293,7 @@ void CGImageCreateGrayPixelBuffer(CGImageRef imageRef, unsigned char **pixel, in
 	CFRelease(data);
 }
 
-void CGImageCreateRGBPixelBuffer(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
+void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
 	*pixel = NULL;
 	*width = 0;
 	*height = 0;
