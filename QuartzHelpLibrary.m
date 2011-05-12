@@ -163,19 +163,61 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 #pragma mark Read pixel from CGImage
 
 void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
-	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+//	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
 	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height));
 	
-	switch(pType) {
-		case QH_PIXEL_GRAYSCALE:
+	// source image data
+	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
+	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
+	unsigned char *sourceImagePixelData = (unsigned char *) CFDataGetBytePtr(data);
+	size_t bytesPerRowSourceImage = CGImageGetBytesPerRow(imageRef);
+	size_t bytesPerRowOutputImage = *width * 1;
+	
+	switch(bytesPerPixel) {
+		case 1:
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+					(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+				}
+			}
 			break;
-		case QH_PIXEL_COLOR:
+		case 2:
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+					(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+				}
+			}
 			break;
-		case QH_PIXEL_ANYCOLOR:
+		case 3:
+			// little endian
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+					int k = (sourceImagePixelData[offset + 0]>>2)
+					+ (sourceImagePixelData[offset + 1]>>1)
+					+ (sourceImagePixelData[offset + 2]>>2);
+					(*pixel)[y * bytesPerRowOutputImage + x] = k;
+				}
+			}
+			break;
+		case 4:
+			// little endian
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+					int k = (sourceImagePixelData[offset + 0]>>2)
+					+ (sourceImagePixelData[offset + 1]>>1)
+					+ (sourceImagePixelData[offset + 2]>>2);
+					(*pixel)[y * bytesPerRowOutputImage + x] = k;
+				}
+			}
 			break;
 	}
 }
@@ -227,24 +269,27 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 			_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
 			break;
 		case QH_PIXEL_ANYCOLOR:
-			_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
-			
-			if (bytesPerPixel == 8) {
+			if (bytesPerPixel == 1) {
 				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
 			}
-			else if (bytesPerPixel == 16) {
+			else if (bytesPerPixel == 2) {
 				// 8 + alpha
 				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
 			}
-			else if (bytesPerPixel == 24) {
+			else if (bytesPerPixel == 3) {
 				// 24
 				_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
 			}
-			else if (bytesPerPixel == 32) {
+			else if (bytesPerPixel == 4) {
 				// 32
 				_CGCreate32bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
 			}
-			
+			else {
+				printf("Error\n");
+			}
+			break;
+		default:
+			printf("Error\n");
 			break;
 	}
 }
