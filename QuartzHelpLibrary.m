@@ -162,11 +162,95 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 #pragma mark -
 #pragma mark Read pixel from CGImage
 
+void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	
+	// save image info
+	*width = CGImageGetWidth(imageRef);
+	*height = CGImageGetHeight(imageRef);
+	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height));
+	
+	switch(pType) {
+		case QH_PIXEL_GRAYSCALE:
+			break;
+		case QH_PIXEL_COLOR:
+			break;
+		case QH_PIXEL_ANYCOLOR:
+			break;
+	}
+}
+
+void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	
+	// save image info
+	*width = CGImageGetWidth(imageRef);
+	*height = CGImageGetHeight(imageRef);
+	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 3);
+	
+	switch(pType) {
+		case QH_PIXEL_GRAYSCALE:
+			break;
+		case QH_PIXEL_COLOR:
+			break;
+		case QH_PIXEL_ANYCOLOR:
+			break;
+	}
+}
+
+void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	
+	// save image info
+	*width = CGImageGetWidth(imageRef);
+	*height = CGImageGetHeight(imageRef);
+	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 4);
+	
+	switch(pType) {
+		case QH_PIXEL_GRAYSCALE:
+			break;
+		case QH_PIXEL_COLOR:
+			break;
+		case QH_PIXEL_ANYCOLOR:
+			break;
+	}
+}
+
 void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
 	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
-	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
-	CGBitmapInfo byteOrderInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask;
+	
+	switch(pType) {
+		case QH_PIXEL_GRAYSCALE:
+			_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			break;
+		case QH_PIXEL_COLOR:
+			_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			break;
+		case QH_PIXEL_ANYCOLOR:
+			_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			
+			if (bytesPerPixel == 8) {
+				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			}
+			else if (bytesPerPixel == 16) {
+				// 8 + alpha
+				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			}
+			else if (bytesPerPixel == 24) {
+				// 24
+				_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			}
+			else if (bytesPerPixel == 32) {
+				// 32
+				_CGCreate32bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			}
+			
+			break;
+	}
 }
+
+#pragma mark -
+#pragma mark Read pixel from CGImage(old)
 
 void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
 	*pixel = NULL;
