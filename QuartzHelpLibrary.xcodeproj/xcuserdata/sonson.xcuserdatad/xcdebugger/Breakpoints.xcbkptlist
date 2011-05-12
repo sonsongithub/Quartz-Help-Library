@@ -8,13 +8,27 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "QuartzHelpLibrary.m"
-         timestampString = "326884796.043902"
+         filePath = "QuartzHelpLibrary/Test/test.m"
+         timestampString = "326897619.172692"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "180"
-         endingLineNumber = "180"
-         landmarkName = "_CGCreate8bitPixelBufferWithImage()"
+         startingLineNumber = "527"
+         endingLineNumber = "527"
+         landmarkName = "imageGrayColorLoadTest()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "QuartzHelpLibrary/Test/test.m"
+         timestampString = "326902085.72245"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "536"
+         endingLineNumber = "536"
+         landmarkName = "imageGrayColorLoadTest()"
          landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>

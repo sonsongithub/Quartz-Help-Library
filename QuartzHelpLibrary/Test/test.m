@@ -519,10 +519,11 @@ void imageGrayColorLoadTest() {
 	for (NSString *path in paths) {
 		unsigned char *pixel = NULL;
 		int width, height;
-		printf("Image file = %s\n", [[path lastPathComponent] UTF8String]);
+		printf("\nImage file = %s\n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+		CGImageDumpImageInformation(imageRef);
+		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_GRAYSCALE);
-		printf("%d,%d\n", width, height);
 		
 		if (compareBuffers(pixel, original, width * height, tolerance))
 			printf("=>OK (tolerance=%d)\n", tolerance);

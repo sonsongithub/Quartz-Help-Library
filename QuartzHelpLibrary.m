@@ -181,11 +181,31 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 	
 	switch(bytesPerPixel) {
 		case 1:
-			for (int y = 0; y < *height; y++) {
-				for (int x = 0; x < *width; x++) {
-					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
-					(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+			{
+				CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
+				int tableCount = CGColorSpaceGetColorTableCount(space);
+				unsigned char* table = (unsigned char* )malloc(tableCount * 3 * sizeof(unsigned char));
+				CGColorSpaceGetColorTable(space, table);
+				
+//				for (int i = 0; i < tableCount; i++) {
+//					printf("%02x%02x%02x ", table[3*i], table[3*i+1], table[3*i+2]);
+//				}
+//				printf("\n");
+				
+				for (int y = 0; y < *height; y++) {
+					for (int x = 0; x < *width; x++) {
+						int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+						int index =  sourceImagePixelData[offset];
+						printf("%02x ", sourceImagePixelData[offset]);
+						int k = (table[index * 3 + 0]>>2)
+						+ (table[index * 3 + 1]>>1)
+						+ (table[index * 3 + 2]>>2);
+						
+						(*pixel)[y * bytesPerRowOutputImage + x] = k;
+					}
+					printf("\n");
 				}
+				free(table);
 			}
 			break;
 		case 2:
@@ -221,7 +241,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			}
 			break;
 		case 4:
-			// last alpha
+			// first alpha
 			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
 					// little endian
@@ -254,7 +274,22 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			// last alpha
 			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
-					// little endian
+					// little endian ARGB
+					// last alpha
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							printf("%02x%02x%02x%02x ", sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 3]);
+							int k = (sourceImagePixelData[offset + 0]>>2)
+							+ (sourceImagePixelData[offset + 1]>>1)
+							+ (sourceImagePixelData[offset + 2]>>2);
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+						printf("\n");
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian
 					// last alpha
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
@@ -262,19 +297,6 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 							int k = (sourceImagePixelData[offset + 0]>>2)
 							+ (sourceImagePixelData[offset + 1]>>1)
 							+ (sourceImagePixelData[offset + 2]>>2);
-							(*pixel)[y * bytesPerRowOutputImage + x] = k;
-						}
-					}
-				}
-				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// little endian
-					// last alpha
-					for (int y = 0; y < *height; y++) {
-						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
-							int k = (sourceImagePixelData[offset + 2]>>2)
-							+ (sourceImagePixelData[offset + 1]>>1)
-							+ (sourceImagePixelData[offset + 0]>>2);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
