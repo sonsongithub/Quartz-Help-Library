@@ -163,7 +163,7 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 #pragma mark Read pixel from CGImage
 
 void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
-//	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
 	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	// save image info
@@ -177,6 +177,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 	unsigned char *sourceImagePixelData = (unsigned char *) CFDataGetBytePtr(data);
 	size_t bytesPerRowSourceImage = CGImageGetBytesPerRow(imageRef);
 	size_t bytesPerRowOutputImage = *width * 1;
+	CGBitmapInfo byteOrderInfo = (CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask);
 	
 	switch(bytesPerPixel) {
 		case 1:
@@ -188,10 +189,22 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			}
 			break;
 		case 2:
-			for (int y = 0; y < *height; y++) {
-				for (int x = 0; x < *width; x++) {
-					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
-					(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+			// first alpha
+			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
+				for (int y = 0; y < *height; y++) {
+					for (int x = 0; x < *width; x++) {
+						int offset = y * bytesPerRowSourceImage + x * bytesPerPixel + 1;
+						(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+					}
+				}
+			}
+			// last alpha
+			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
+				for (int y = 0; y < *height; y++) {
+					for (int x = 0; x < *width; x++) {
+						int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+						(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+					}
 				}
 			}
 			break;
@@ -208,54 +221,94 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			}
 			break;
 		case 4:
-			// little endian
-			for (int y = 0; y < *height; y++) {
-				for (int x = 0; x < *width; x++) {
-					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
-					int k = (sourceImagePixelData[offset + 0]>>2)
-					+ (sourceImagePixelData[offset + 1]>>1)
-					+ (sourceImagePixelData[offset + 2]>>2);
-					(*pixel)[y * bytesPerRowOutputImage + x] = k;
+			// last alpha
+			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
+				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian
+					// last alpha
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int k = (sourceImagePixelData[offset + 0]>>2)
+							+ (sourceImagePixelData[offset + 1]>>1)
+							+ (sourceImagePixelData[offset + 2]>>2);
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// little endian
+					// last alpha
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int k = (sourceImagePixelData[offset + 2]>>2)
+							+ (sourceImagePixelData[offset + 1]>>1)
+							+ (sourceImagePixelData[offset + 0]>>2);
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+					}
 				}
 			}
+			
+			// last alpha
+			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
+				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian
+					// last alpha
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int k = (sourceImagePixelData[offset + 0]>>2)
+							+ (sourceImagePixelData[offset + 1]>>1)
+							+ (sourceImagePixelData[offset + 2]>>2);
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// little endian
+					// last alpha
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int k = (sourceImagePixelData[offset + 2]>>2)
+							+ (sourceImagePixelData[offset + 1]>>1)
+							+ (sourceImagePixelData[offset + 0]>>2);
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+					}
+				}
+			}
+			break;
+		default:
+			printf("Error\n");
 			break;
 	}
 }
 
 void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
-	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+//	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	
+	printf("Not implemented, yet\n");
+	return;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
 	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 3);
-	
-	switch(pType) {
-		case QH_PIXEL_GRAYSCALE:
-			break;
-		case QH_PIXEL_COLOR:
-			break;
-		case QH_PIXEL_ANYCOLOR:
-			break;
-	}
 }
 
 void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
-	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+//	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	
+	printf("Not implemented, yet\n");
+	return;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
 	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 4);
-	
-	switch(pType) {
-		case QH_PIXEL_GRAYSCALE:
-			break;
-		case QH_PIXEL_COLOR:
-			break;
-		case QH_PIXEL_ANYCOLOR:
-			break;
-	}
 }
 
 void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
