@@ -184,26 +184,32 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 				// open color table
 				CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
 				
-				if (CGColorSpaceGetModel(space) != kCGColorSpaceModelIndexed) {
-					goto LOAD_EXCEPTION;
+				if (CGColorSpaceGetModel(space) == kCGColorSpaceModelIndexed) {
+					int tableCount = CGColorSpaceGetColorTableCount(space);
+					unsigned char* table = (unsigned char* )malloc(tableCount * 3 * sizeof(unsigned char));
+					CGColorSpaceGetColorTable(space, table);
+					
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							int index =  sourceImagePixelData[offset];
+							int k = (table[index * 3 + 0]>>2)
+							+ (table[index * 3 + 1]>>1)
+							+ (table[index * 3 + 2]>>2);
+							
+							(*pixel)[y * bytesPerRowOutputImage + x] = k;
+						}
+					}
+					free(table);
 				}
-				
-				int tableCount = CGColorSpaceGetColorTableCount(space);
-				unsigned char* table = (unsigned char* )malloc(tableCount * 3 * sizeof(unsigned char));
-				CGColorSpaceGetColorTable(space, table);
-				
-				for (int y = 0; y < *height; y++) {
-					for (int x = 0; x < *width; x++) {
-						int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-						int index =  sourceImagePixelData[offset];
-						int k = (table[index * 3 + 0]>>2)
-						+ (table[index * 3 + 1]>>1)
-						+ (table[index * 3 + 2]>>2);
-						
-						(*pixel)[y * bytesPerRowOutputImage + x] = k;
+				else {
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
+						}
 					}
 				}
-				free(table);
 			}
 			break;
 		case QH_BYTES_PER_PIXEL_16BIT:

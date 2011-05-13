@@ -295,9 +295,13 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
+		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+//		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
+		
+		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
 		
 		int tolerance = 0;
 		
