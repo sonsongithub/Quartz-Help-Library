@@ -55,7 +55,7 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef);
 void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
 void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);
 
-void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bitsPerPixel, QH_PIXEL_TYPE pType);
+void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);
 
 #pragma mark -
 #pragma mark Creating CGImage
