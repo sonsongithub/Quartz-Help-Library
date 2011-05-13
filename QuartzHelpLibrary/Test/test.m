@@ -122,9 +122,14 @@ void testCGImageRGBBufferReadAndWrite() {
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
+		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+//		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_COLOR);
+		
+//		CGImageDumpImageInformation(image);
+//		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
 		
 		int tolerance = 0;
 		
@@ -450,7 +455,7 @@ void testCGImageDump() {
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24Alpha.png" ofType:nil],
 					  nil];
 	for (NSString *path in paths) {
-		printf("Image file = %s", [[path lastPathComponent] UTF8String]);
+		printf("Image file = %s\n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
 		printf("\n");
@@ -503,7 +508,4 @@ void test() {
 	testCGImageDump();
 	testCGImageGrayBufferReadAndWrite();
 	testCGImageRGBBufferReadAndWrite();
-	
-	//
-	imageLoadTest();
 }

@@ -461,19 +461,7 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			// first alpha
 			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
-					// little endian ARGB
-					for (int y = 0; y < *height; y++) {
-						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 1];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 3];
-						}
-					}
-				}
-				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian BGRA
+					// little endian BGRA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
@@ -484,6 +472,18 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 						}
 					}
 				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian ARGB
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 3];
+						}
+					}
+				}
 				else
 					goto LOAD_EXCEPTION;
 			}
@@ -491,7 +491,19 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			// last alpha
 			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
-					// little endian RGBA
+					// little endian ABGR
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 0];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian RGBA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
@@ -499,18 +511,6 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
-						}
-					}
-				}
-				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian ABGR
-					for (int y = 0; y < *height; y++) {
-						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 3];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 1];
 						}
 					}
 				}
@@ -657,7 +657,7 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			// first alpha
 			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
-					// little endian ARGB
+					// little endian BGRA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
@@ -670,7 +670,7 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 					}
 				}
 				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian BGRA
+					// big endian ARGB
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
@@ -689,20 +689,7 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			// last alpha
 			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
 				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
-					// little endian RGBA
-					for (int y = 0; y < *height; y++) {
-						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 3];
-						}
-					}
-				}
-				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian ABGR
+					// little endian ABGR
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
@@ -711,6 +698,19 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 1];
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 0];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian -> RGBA
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 3];
 						}
 					}
 				}
