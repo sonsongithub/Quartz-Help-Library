@@ -534,15 +534,203 @@ LOAD_EXCEPTION:
 }
 
 void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType) {
-//	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
-	
-	printf("Not implemented, yet\n");
-	return;
+	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
+	size_t inputImageBytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
-	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 4);
+	*bytesPerPixel = QH_BYTES_PER_PIXEL_32BIT;
+	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
+	
+	// source image data
+	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
+	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
+	unsigned char *sourceImagePixelData = (unsigned char *) CFDataGetBytePtr(data);
+	size_t bytesPerRowSourceImage = CGImageGetBytesPerRow(imageRef);
+	size_t bytesPerRowOutputImage = *width * (*bytesPerPixel);
+	CGBitmapInfo byteOrderInfo = (CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask);
+	
+	switch(inputImageBytesPerPixel) {
+		case QH_BYTES_PER_PIXEL_8BIT:
+		{
+			// open color table
+			CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
+			
+			if (CGColorSpaceGetModel(space) != kCGColorSpaceModelIndexed) {
+				goto LOAD_EXCEPTION;
+			}
+			
+			int tableCount = CGColorSpaceGetColorTableCount(space);
+			unsigned char* table = (unsigned char* )malloc(tableCount * (*bytesPerPixel) * sizeof(unsigned char));
+			CGColorSpaceGetColorTable(space, table);
+			
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+					int index =  sourceImagePixelData[offset];
+					
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = table[index * 3 + 0];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = table[index * 3 + 1];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = table[index * 3 + 2];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = DEFAULT_ALPHA_VALUE;
+				}
+			}
+			free(table);
+		}
+			break;
+		case QH_BYTES_PER_PIXEL_16BIT:
+			// first alpha
+			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
+				if (byteOrderInfo == kCGBitmapByteOrder16Little || byteOrderInfo == kCGBitmapByteOrder16Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian AY
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 1;
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset - 1];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder16Big) {
+					// big endian YA
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 0;
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 1];
+						}
+					}
+				}
+				else
+					goto LOAD_EXCEPTION;
+			}
+			// last alpha
+			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
+				if (byteOrderInfo == kCGBitmapByteOrder16Little || byteOrderInfo == kCGBitmapByteOrder16Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian YA
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 0;
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 1];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder16Big) {
+					// big endian AY
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 1;
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset - 1];
+						}
+					}
+				}
+				else
+					goto LOAD_EXCEPTION;
+			}
+			break;
+		case QH_BYTES_PER_PIXEL_24BIT:
+			// maybe, there are not any following caces.
+			// little endian?
+			for (int y = 0; y < *height; y++) {
+				for (int x = 0; x < *width; x++) {
+					int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+					
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = DEFAULT_ALPHA_VALUE;
+				}
+			}
+			break;
+		case QH_BYTES_PER_PIXEL_32BIT:
+			// first alpha
+			if (bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst || bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst) {
+				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian ARGB
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 3];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 0];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian BGRA
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 0];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 3];
+						}
+					}
+				}
+				else
+					goto LOAD_EXCEPTION;
+			}
+			
+			// last alpha
+			else if (bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast || bitmapAlphaInfo == kCGImageAlphaPremultipliedLast) {
+				if (byteOrderInfo == kCGBitmapByteOrder32Little || byteOrderInfo == kCGBitmapByteOrder32Host || byteOrderInfo == kCGBitmapByteOrderDefault) {
+					// little endian RGBA
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 3];
+						}
+					}
+				}
+				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
+					// big endian ABGR
+					for (int y = 0; y < *height; y++) {
+						for (int x = 0; x < *width; x++) {
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 3];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 1];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = sourceImagePixelData[offset + 0];
+						}
+					}
+				}
+				else
+					goto LOAD_EXCEPTION;
+			}
+			break;
+		default:
+			goto LOAD_EXCEPTION;
+			break;
+	}
+	return;
+LOAD_EXCEPTION:
+	printf("Error\n");
+	free(*pixel);
+	*width = 0;
+	*height = 0;
+	*bytesPerPixel = 0;
+	*pixel = NULL;
+	return;
 }
 
 void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType) {

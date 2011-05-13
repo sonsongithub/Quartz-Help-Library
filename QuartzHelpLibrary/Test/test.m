@@ -480,11 +480,15 @@ void imageGrayColorLoadTest() {
 		CGImageDumpImageInformation(imageRef);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_GRAYSCALE);
-		dumpPixelArray(pixel, width, height, 1);
+		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
-		dumpPixelArray(pixel, width, height, 3);
+		dumpPixelArray(pixel, width, height, bytesPerPixel);
+		free(pixel);
+		
+		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_ANYCOLOR);
+		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 	}
 }

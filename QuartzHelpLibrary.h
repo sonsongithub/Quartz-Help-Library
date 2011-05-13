@@ -31,9 +31,9 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-	QH_PIXEL_GRAYSCALE =	0,
-	QH_PIXEL_COLOR =		1 << 0,
-	QH_PIXEL_ANYCOLOR =		1 << 1,
+	QH_PIXEL_GRAYSCALE =			0,
+	QH_PIXEL_COLOR =				1 << 0,
+	QH_PIXEL_ANYCOLOR =				1 << 1,
 }QH_PIXEL_TYPE;
 
 typedef enum {
@@ -43,6 +43,8 @@ typedef enum {
 	QH_BYTES_PER_PIXEL_24BIT =		3,
 	QH_BYTES_PER_PIXEL_32BIT =		4,
 }QH_BYTES_PER_PIXEL;
+
+#define DEFAULT_ALPHA_VALUE			0xff
 
 #pragma mark -
 #pragma mark Load image file
