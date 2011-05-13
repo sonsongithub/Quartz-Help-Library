@@ -485,16 +485,16 @@ void imageGrayColorLoadTest() {
 					  nil];
 	for (NSString *path in paths) {
 		unsigned char *pixel = NULL;
-		int width, height;
+		int width, height, bitPerPixel;
 		printf("\nImage file = %s\n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
 		
-		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_GRAYSCALE);
+		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bitPerPixel, QH_PIXEL_GRAYSCALE);
 		dumpPixelArray(pixel, width, height, 1);
 		free(pixel);
 		
-		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_COLOR);
+		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bitPerPixel, QH_PIXEL_COLOR);
 		dumpPixelArray(pixel, width, height, 3);
 		free(pixel);
 	}

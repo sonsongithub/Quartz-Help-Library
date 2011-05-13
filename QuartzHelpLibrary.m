@@ -161,9 +161,9 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 #pragma mark -
 #pragma mark Read pixel from CGImage
 
-void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bitsPerPixel, QH_PIXEL_TYPE pType) {
 	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
-	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
+	size_t inputImageBytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
@@ -178,7 +178,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 	size_t bytesPerRowOutputImage = *width * 1;
 	CGBitmapInfo byteOrderInfo = (CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask);
 	
-	switch(bytesPerPixel) {
+	switch(inputImageBytesPerPixel) {
 		case 1:
 			{
 				// open color table
@@ -194,7 +194,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 				
 				for (int y = 0; y < *height; y++) {
 					for (int x = 0; x < *width; x++) {
-						int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+						int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 						int index =  sourceImagePixelData[offset];
 						int k = (table[index * 3 + 0]>>2)
 						+ (table[index * 3 + 1]>>1)
@@ -213,7 +213,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// little endian AY
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel + 1;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 1;
 							(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
 						}
 					}
@@ -222,7 +222,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// big endian YA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel + 0;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 0;
 							(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
 						}
 					}
@@ -236,7 +236,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// little endian YA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel + 0;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 0;
 							(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
 						}
 					}
@@ -245,7 +245,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// big endian AY
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel + 1;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel + 1;
 							(*pixel)[y * bytesPerRowOutputImage + x] = sourceImagePixelData[offset];
 						}
 					}
@@ -259,7 +259,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			// little endian?
 			for (int y = 0; y < *height; y++) {
 				for (int x = 0; x < *width; x++) {
-					int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+					int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 					int k = (sourceImagePixelData[offset + 0]>>2)
 					+ (sourceImagePixelData[offset + 1]>>1)
 					+ (sourceImagePixelData[offset + 2]>>2);
@@ -274,7 +274,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// little endian ARGB
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int k = (sourceImagePixelData[offset + 1]>>2)
 							+ (sourceImagePixelData[offset + 2]>>1)
 							+ (sourceImagePixelData[offset + 3]>>2);
@@ -286,7 +286,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// big endian BGRA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int k = (sourceImagePixelData[offset + 2]>>2)
 							+ (sourceImagePixelData[offset + 1]>>1)
 							+ (sourceImagePixelData[offset + 0]>>2);
@@ -304,7 +304,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// little endian RGBA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int k = (sourceImagePixelData[offset + 0]>>2)
 							+ (sourceImagePixelData[offset + 1]>>1)
 							+ (sourceImagePixelData[offset + 2]>>2);
@@ -316,7 +316,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					// big endian ABGR
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
-							int offset = y * bytesPerRowSourceImage + x * bytesPerPixel;
+							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int k = (sourceImagePixelData[offset + 3]>>2)
 							+ (sourceImagePixelData[offset + 2]>>1)
 							+ (sourceImagePixelData[offset + 1]>>2);
@@ -338,25 +338,27 @@ LOAD_EXCEPTION:
 	free(*pixel);
 	*width = 0;
 	*height = 0;
+	*bitsPerPixel = 0;
 	*pixel = NULL;
 	return;
 }
 
-void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bitsPerPixel, QH_PIXEL_TYPE pType) {
 	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
 	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	// save image info
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
-	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 3);
+	*bitsPerPixel = 3;
+	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bitsPerPixel));
 	
 	// source image data
 	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
 	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
 	unsigned char *sourceImagePixelData = (unsigned char *) CFDataGetBytePtr(data);
 	size_t bytesPerRowSourceImage = CGImageGetBytesPerRow(imageRef);
-	size_t bytesPerRowOutputImage = *width * 3;
+	size_t bytesPerRowOutputImage = *width * (*bitsPerPixel);
 	CGBitmapInfo byteOrderInfo = (CGImageGetBitmapInfo(imageRef) & kCGBitmapByteOrderMask);
 	
 	switch(bytesPerPixel) {
@@ -526,11 +528,12 @@ LOAD_EXCEPTION:
 	free(*pixel);
 	*width = 0;
 	*height = 0;
+	*bitsPerPixel = 0;
 	*pixel = NULL;
 	return;
 }
 
-void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bitsPerPixel, QH_PIXEL_TYPE pType) {
 //	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
 	
 	printf("Not implemented, yet\n");
@@ -542,31 +545,31 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * 4);
 }
 
-void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, QH_PIXEL_TYPE pType) {
+void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bitsPerPixel, QH_PIXEL_TYPE pType) {
 	size_t bytesPerPixel = CGImageGetBitsPerPixel(imageRef) / 8;
 	
 	switch(pType) {
 		case QH_PIXEL_GRAYSCALE:
-			_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			break;
 		case QH_PIXEL_COLOR:
-			_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+			_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			break;
 		case QH_PIXEL_ANYCOLOR:
 			if (bytesPerPixel == 1) {
-				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			}
 			else if (bytesPerPixel == 2) {
 				// 8 + alpha
-				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+				_CGCreate8bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			}
 			else if (bytesPerPixel == 3) {
 				// 24
-				_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+				_CGCreate24bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			}
 			else if (bytesPerPixel == 4) {
 				// 32
-				_CGCreate32bitPixelBufferWithImage(imageRef, pixel, width, height, pType);
+				_CGCreate32bitPixelBufferWithImage(imageRef, pixel, width, height, bitsPerPixel, pType);
 			}
 			else {
 				printf("Error\n");
