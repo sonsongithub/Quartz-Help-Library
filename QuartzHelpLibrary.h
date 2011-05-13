@@ -36,6 +36,14 @@ typedef enum {
 	QH_PIXEL_ANYCOLOR =		1 << 1,
 }QH_PIXEL_TYPE;
 
+typedef enum {
+	QH_BYTES_PER_PIXEL_UNKNOWN =	0,
+	QH_BYTES_PER_PIXEL_8BIT =		1,
+	QH_BYTES_PER_PIXEL_16BIT =		2,
+	QH_BYTES_PER_PIXEL_24BIT =		3,
+	QH_BYTES_PER_PIXEL_32BIT =		4,
+}QH_BYTES_PER_PIXEL;
+
 #pragma mark -
 #pragma mark Load image file
 
