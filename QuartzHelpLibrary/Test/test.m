@@ -54,11 +54,14 @@ void dumpRGBPixelArray(unsigned char *pixel, int width, int height) {
 	}
 }
 
-void dumpPixelArray(unsigned char *pixel, int width, int height) {
+void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPixel) {
 	// make test pattern
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
-			printf("%02x ", pixel[y * width + x + 0]);
+			for (int i = 0; i < bytesPerPixel; i++) {
+				printf("%02x", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
+			}
+			printf(" ");
 		}
 		printf("\n");
 	}
@@ -468,42 +471,6 @@ void testCGImageDump() {
 #pragma mark - Image load test
 
 void imageGrayColorLoadTest() {
-	// test setting
-	int tolerance = 3;
-	
-	// make grand truth gray scale colors
-	int originalWidth = 48;
-	int originalHeight = 32;
-	unsigned char* original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight);
-	
-	// make test pattern
-	for (int y = 0; y < originalHeight; y++) {
-		for (int x = 0; x < originalWidth; x++) {
-			if (y < 16) {
-				if (x < 16) {
-					original[y * originalWidth + x] = 0;
-				}
-				else if (x < 32) {
-					original[y * originalWidth + x] = 85;
-				}
-				else {
-					original[y * originalWidth + x] = 127;
-				}
-			}
-			else {
-				if (x < 16) {
-					original[y * originalWidth + x] = 170;
-				}
-				else if (x < 32) {
-					original[y * originalWidth + x] = 255;
-				}
-				else {
-					original[y * originalWidth + x] = 212;
-				}
-			}
-		}
-	}
-	
 	// make file path
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
@@ -524,20 +491,13 @@ void imageGrayColorLoadTest() {
 		CGImageDumpImageInformation(imageRef);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_GRAYSCALE);
-		dumpPixelArray(pixel, width, height);
+		dumpPixelArray(pixel, width, height, 1);
+		free(pixel);
 		
-//		if (compareBuffers(pixel, original, width * height, tolerance))
-//			printf("=>OK (tolerance=%d)\n", tolerance);
-//		else {
-//			dumpPixelArray(pixel, width, height);
-//			//dumpPixelArray(original, width, height);
-//			printf("=>Error\n");
-//		}
-		
+		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_COLOR);
+		dumpPixelArray(pixel, width, height, 3);
 		free(pixel);
 	}
-	
-	free(original);
 }
 
 void imageLoadTest() {
