@@ -298,7 +298,6 @@ void testCGImageGrayBufferReadAndWrite() {
 		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-//		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 		
 		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
@@ -321,9 +320,10 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 			
 			int reloadedTolerance = 2;
 			
@@ -344,9 +344,10 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 			
 			int reloadedTolerance = 2;
 			
@@ -370,9 +371,10 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
+		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGCreateGrayPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 		
 		int tolerance = 2;
 		
@@ -392,11 +394,12 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
 			int reloadedTolerance = 2;
 			
-			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 			
 			printf("pixel(Gray)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
@@ -415,11 +418,12 @@ void testCGImageGrayBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
 			int reloadedTolerance = 2;
 			
-			CGCreateGrayPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 			
 			printf("pixel(Gray)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
@@ -469,7 +473,7 @@ void testCGImageDump() {
 
 #pragma mark - Image load test
 
-void imageGrayColorLoadTest() {
+void imageLoadTest() {
 	// make file path
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
@@ -503,14 +507,11 @@ void imageGrayColorLoadTest() {
 	}
 }
 
-void imageLoadTest() {
-	imageGrayColorLoadTest();
-}
-
 #pragma mark - test
 
 void test() {
 	testCGImageDump();
 	testCGImageGrayBufferReadAndWrite();
 	testCGImageRGBBufferReadAndWrite();
+	imageLoadTest();
 }
