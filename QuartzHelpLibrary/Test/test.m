@@ -78,7 +78,7 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 
 void testCGImageRGBBufferReadAndWrite() {
 	printf("\n---------->testCGImageRGBBufferReadAndWrite\n");
-	printf("void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
+	printf("void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
 	printf("CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height);\n");
 	printf("\n");
@@ -125,11 +125,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-//		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_COLOR);
-		
-//		CGImageDumpImageInformation(image);
-//		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
 		
 		int tolerance = 0;
 		
@@ -149,9 +145,10 @@ void testCGImageRGBBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_COLOR);
 			
 			int reloadedTolerance = 2;
 			
@@ -172,9 +169,10 @@ void testCGImageRGBBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_COLOR);
 			
 			int reloadedTolerance = 2;
 			
@@ -195,9 +193,10 @@ void testCGImageRGBBufferReadAndWrite() {
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
+		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGCreateRGBPixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight);
+		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_COLOR);
 		
 		int tolerance = 0;
 		
@@ -217,9 +216,10 @@ void testCGImageRGBBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_COLOR);
 			
 			int reloadedTolerance = 2;
 			
@@ -240,9 +240,10 @@ void testCGImageRGBBufferReadAndWrite() {
 			
 			int reloadedWidth = 0;
 			int reloadedHeight = 0;
+			int reloadedBytesPerPixel = 0;
 			unsigned char *reloadedPixel = NULL;
 			
-			CGCreateRGBPixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight);
+			CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, QH_PIXEL_COLOR);
 			
 			int reloadedTolerance = 2;
 			

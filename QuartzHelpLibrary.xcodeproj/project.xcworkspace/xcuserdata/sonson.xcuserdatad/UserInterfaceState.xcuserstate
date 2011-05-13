@@ -9042,9 +9042,9 @@
 		<string>PrimaryDocumentVisibleCharacterRange</string>
 		<string>HideAllIssues</string>
 		<string>PrimaryDocumentSelectedCharacterRange</string>
-		<real>326990076.59509999</real>
-		<string>{4636, 1580}</string>
-		<string>{5144, 0}</string>
+		<real>326990385.05840701</real>
+		<string>{10378, 1376}</string>
+		<string>{3074, 0}</string>
 		<string>testCGImageRGBBufferReadAndWrite()</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
@@ -9834,7 +9834,7 @@
 				</dict>
 				<dict>
 					<key>CF$UID</key>
-					<integer>770</integer>
+					<integer>772</integer>
 				</dict>
 				<dict>
 					<key>CF$UID</key>
@@ -15658,9 +15658,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>326990076.59452301</real>
-		<string>{4636, 1580}</string>
-		<string>{5144, 0}</string>
+		<real>326990385.05775398</real>
+		<string>{10378, 1376}</string>
+		<string>{3074, 0}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -18328,7 +18328,7 @@
 				<integer>1382</integer>
 			</dict>
 			<key>NS.time</key>
-			<real>326990072.02152902</real>
+			<real>326990383.81649798</real>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -18339,7 +18339,7 @@
 			<key>$classname</key>
 			<string>NSDate</string>
 		</dict>
-		<string>Today at 23:34</string>
+		<string>Today at 23:39</string>
 		<integer>106</integer>
 		<dict>
 			<key>$class</key>
