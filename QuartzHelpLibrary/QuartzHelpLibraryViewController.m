@@ -69,9 +69,11 @@
 	
 	// update image views
 	for (NSString *path in paths) {
+		NSLog(@"%@", path);
 		unsigned char *pixel = NULL;
 		int width, height, bytesPerPixel;
-		printf("€nImage file = %s€n", [[path lastPathComponent] UTF8String]);
+		NSLog(@"Image file2 = %@", [path lastPathComponent]);
+//		printf("€nImage file2 = %s€n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
 		
@@ -80,6 +82,8 @@
 		CGImageRef duplicatedImage = CGImageRGBColorCreateWithRGBPixelBuffer(pixel, width, height);
 		
 		UIImageView *v = *p;
+		
+		
 		
 		[v setImage:[UIImage imageWithCGImage:duplicatedImage]];
 		

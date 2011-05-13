@@ -489,20 +489,20 @@ void imageLoadTest() {
 	for (NSString *path in paths) {
 		unsigned char *pixel = NULL;
 		int width, height, bytesPerPixel;
-		printf("\nImage file = %s\n", [[path lastPathComponent] UTF8String]);
+//		printf("\nImage file = %s\n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
-		CGImageDumpImageInformation(imageRef);
+//		CGImageDumpImageInformation(imageRef);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_GRAYSCALE);
-		dumpPixelArray(pixel, width, height, bytesPerPixel);
+//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
-		dumpPixelArray(pixel, width, height, bytesPerPixel);
+//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_ANYCOLOR);
-		dumpPixelArray(pixel, width, height, bytesPerPixel);
+//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 	}
 }
