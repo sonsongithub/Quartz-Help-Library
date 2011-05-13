@@ -524,14 +524,15 @@ void imageGrayColorLoadTest() {
 		CGImageDumpImageInformation(imageRef);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, QH_PIXEL_GRAYSCALE);
+		dumpPixelArray(pixel, width, height);
 		
-		if (compareBuffers(pixel, original, width * height, tolerance))
-			printf("=>OK (tolerance=%d)\n", tolerance);
-		else {
-			dumpPixelArray(pixel, width, height);
-			dumpPixelArray(original, width, height);
-			printf("=>Error\n");
-		}
+//		if (compareBuffers(pixel, original, width * height, tolerance))
+//			printf("=>OK (tolerance=%d)\n", tolerance);
+//		else {
+//			dumpPixelArray(pixel, width, height);
+//			//dumpPixelArray(original, width, height);
+//			printf("=>Error\n");
+//		}
 		
 		free(pixel);
 	}
