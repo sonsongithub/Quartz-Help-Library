@@ -44,17 +44,34 @@ int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int toleran
 	return 1;
 }
 
-void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPixel) {
+typedef enum {
+	DUMP_PIXEL_HEX = 0,
+	DUMP_PIXEL_DEC = 1
+}DUMP_PIXEL_FORMAT;
+
+void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPixel, int type) {
 	// make test pattern
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			for (int i = 0; i < bytesPerPixel; i++) {
-				printf("%02x", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
-				//printf("%03d", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
+	if (type == DUMP_PIXEL_HEX) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				for (int i = 0; i < bytesPerPixel; i++) {
+					printf("%02x", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
+				}
+				printf(" ");
 			}
-			printf(" ");
+			printf("\n");
 		}
-		printf("\n");
+	}
+	else {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				for (int i = 0; i < bytesPerPixel; i++) {
+					printf("%03d", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
+				}
+				printf(" ");
+			}
+			printf("\n");
+		}
 	}
 }
 
@@ -116,17 +133,19 @@ void testCGImageRGBBufferReadAndWrite() {
 		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
+		CGImageDumpImageInformation(image);
+		
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_COLOR);
 		
 		int tolerance = 0;
 		
 		printf("pixel(RGB)->CGImage(RGB)->pixel(RGB)\n");
 		
-		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
+		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel, DUMP_PIXEL_HEX);
 		
 		printf("\n");
 		
-		dumpPixelArray(original, copiedWidth, copiedHeight, copiedBytesPerPixel);
+		dumpPixelArray(original, copiedWidth, copiedHeight, copiedBytesPerPixel, DUMP_PIXEL_HEX);
 		
 		assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance));
 		
@@ -190,10 +209,7 @@ void testCGImageRGBBufferReadAndWrite() {
 		
 		printf("pixel(RGB)->CGImage(RGBA)->pixel(RGB)\n");
 		
-		if (compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance))
-			printf("=>OK (tolerance=%d)\n", tolerance);
-		else
-			printf("=>Error\n");
+		assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance));
 		
 		{
 			NSData *data = CGImageGetPNGPresentation(image);
@@ -282,8 +298,6 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 		
-//		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
-		
 		int tolerance = 0;
 		
 		printf("pixel(Gray)->CGImage(Gray)->pixel(Gray)\n");
@@ -349,10 +363,7 @@ void testCGImageGrayBufferReadAndWrite() {
 		
 		CGImageDumpImageInformation(image);
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
-		
-//		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel);
-//		dumpPixelArray(original, copiedWidth, copiedHeight, copiedBytesPerPixel);
-		
+			
 		int tolerance = 2;
 		
 		printf("pixel(Gray)->CGImage(RGB)->pixel(Gray)\n");
