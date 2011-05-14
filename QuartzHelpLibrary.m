@@ -533,9 +533,9 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 2];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
 							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
-							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 0];
+							(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
 						}
 					}
 				}
