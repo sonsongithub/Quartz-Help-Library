@@ -111,9 +111,10 @@
 	
 	int copiedWidth = 0;
 	int copiedHeight = 0;
+	int copiedBytesPerPixel = 0;
 	unsigned char *copiedPixel = NULL;
 	
-	CGCreateGrayPixelBufferWithImage([cameraImage CGImage], &copiedPixel, &copiedWidth, &copiedHeight);
+	CGCreatePixelBufferWithImage([cameraImage CGImage], &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 	
 	int threshold = 120;
 	

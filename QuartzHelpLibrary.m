@@ -158,6 +158,17 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 	}
 }
 
+#pragma mark - Convert RGB to Y
+int getYFromRGB(int r, int g, int b) {
+	int  y =
+	  ( ( 306 * (int)r + 512 ) >> 10 )
+	+ ( ( 601 * (int)g + 512 ) >> 10 )
+	+ ( ( 117 * (int)b + 512 ) >> 10 );
+	if ( y < 0x00 )  y = 0x00;
+	if ( y > 0xFF )  y = 0xFF;
+	return  y;
+}
+
 #pragma mark -
 #pragma mark Read pixel from CGImage
 
@@ -169,6 +180,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 	*width = CGImageGetWidth(imageRef);
 	*height = CGImageGetHeight(imageRef);
 	*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height));
+	*bytesPerPixel = 1;
 	
 	// source image data
 	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
@@ -319,13 +331,18 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					}
 				}
 				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian ABGR
+					// big endian BGRA
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
+							
+							int k = getYFromRGB(sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1], sourceImagePixelData[offset]);
+							
+							/*
 							int k = (sourceImagePixelData[offset + 3]>>2)
 							+ (sourceImagePixelData[offset + 2]>>1)
 							+ (sourceImagePixelData[offset + 1]>>2);
+							*/
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -338,6 +355,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			goto LOAD_EXCEPTION;
 			break;
 	}
+	CFRelease(data);
 	return;
 LOAD_EXCEPTION:
 	printf("Error\n");
@@ -346,6 +364,7 @@ LOAD_EXCEPTION:
 	*height = 0;
 	*bytesPerPixel = 0;
 	*pixel = NULL;
+	CFRelease(data);
 	return;
 }
 
@@ -528,6 +547,7 @@ void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			goto LOAD_EXCEPTION;
 			break;
 	}
+	CFRelease(data);
 	return;
 LOAD_EXCEPTION:
 	printf("Error\n");
@@ -536,6 +556,7 @@ LOAD_EXCEPTION:
 	*height = 0;
 	*bytesPerPixel = 0;
 	*pixel = NULL;
+	CFRelease(data);
 	return;
 }
 
@@ -728,6 +749,9 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 			goto LOAD_EXCEPTION;
 			break;
 	}
+	
+	CFRelease(data);
+	
 	return;
 LOAD_EXCEPTION:
 	printf("Error\n");
@@ -736,6 +760,7 @@ LOAD_EXCEPTION:
 	*height = 0;
 	*bytesPerPixel = 0;
 	*pixel = NULL;
+	CFRelease(data);
 	return;
 }
 
@@ -773,220 +798,6 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 			printf("Error\n");
 			break;
 	}
-}
-
-#pragma mark -
-#pragma mark Read pixel from CGImage(old)
-
-void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
-	*pixel = NULL;
-	*width = 0;
-	*height = 0;
-	
-	int inputImageWidth = CGImageGetWidth(imageRef);
-	int inputImageHeight = CGImageGetHeight(imageRef);
-	
-	size_t bitsPerPixel_imageRef = CGImageGetBitsPerPixel(imageRef);
-	size_t bytesPerRow_imageRef = CGImageGetBytesPerRow(imageRef);
-	size_t bytesPerPixel = bitsPerPixel_imageRef / 8;
-	CGImageAlphaInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
-	CGImageAlphaInfo bitmapAlphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
-	bitmapInfo = bitmapInfo & kCGBitmapByteOrderMask;
-	CGBitmapInfo byteOrderInfo = (bitmapInfo & kCGBitmapByteOrderMask);
-	
-	ReadImageType readImageType = ReadImage24bit;
-	
-	if (bytesPerPixel > 4 || bitmapInfo == kCGBitmapFloatComponents) {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	if (byteOrderInfo != kCGBitmapByteOrder32Big && byteOrderInfo != kCGBitmapByteOrderDefault) {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	if (bytesPerPixel == 1) {
-		readImageType = ReadImage8bit;
-	}
-	else if (bytesPerPixel == 2 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst || bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst)) {
-		readImageType = ReadImage16bitSkipFirst;
-	}
-	else if (bytesPerPixel == 2 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedLast || bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast)) {
-		readImageType = ReadImage16bitSkipLast;
-	}
-	else if (bytesPerPixel == 3) {
-		readImageType = ReadImage24bit;
-	}
-	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst || bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst)) {
-		readImageType = ReadImage32bitSkipFirst;
-	}
-	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedLast || bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast)) {
-		readImageType = ReadImage32bitSkipLast;
-	}
-	else {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
-	
-	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
-	
-	unsigned char *pixelData = (unsigned char *) CFDataGetBytePtr(data);
-	
-	unsigned char *output = (unsigned char*)malloc(sizeof(unsigned char) * inputImageWidth * inputImageHeight);
-	
-	if (readImageType == ReadImage8bit) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				output[y * inputImageWidth + x] = pixelData[offset];
-			}
-		}
-	}
-	else if (readImageType == ReadImage16bitSkipFirst) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				output[y * inputImageWidth + x] = pixelData[offset + 1];
-			}
-		}
-	}
-	else if (readImageType == ReadImage16bitSkipLast) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				output[y * inputImageWidth + x] = pixelData[offset + 0];
-			}
-		}
-	}
-	else if (readImageType == ReadImage24bit) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				int k = (pixelData[offset + 0]>>2)
-					  + (pixelData[offset + 1]>>1)
-					  + (pixelData[offset + 2]>>2);
-				output[y * inputImageWidth + x] = k;
-			}
-		}
-	}
-	else if (readImageType == ReadImage32bitSkipFirst) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				int k = (pixelData[offset + 1]>>2)
-				+ (pixelData[offset + 2]>>1)
-				+ (pixelData[offset + 3]>>2);
-				output[y * inputImageWidth + x] = k;
-			}
-		}
-	}
-	else if (readImageType == ReadImage32bitSkipLast) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				int offset = y * bytesPerRow_imageRef + x * bytesPerPixel;
-				int k = (pixelData[offset + 0]>>2)
-				+ (pixelData[offset + 1]>>1)
-				+ (pixelData[offset + 2]>>2);
-				output[y * inputImageWidth + x] = k;
-			}
-		}
-	}
-	
-	// output
-	*pixel = output;
-	*width = inputImageWidth;
-	*height = inputImageHeight;
-	
-	CFRelease(data);
-}
-
-void CGCreateRGBPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height) {
-	*pixel = NULL;
-	*width = 0;
-	*height = 0;
-	
-	int inputImageWidth = CGImageGetWidth(imageRef);
-	int inputImageHeight = CGImageGetHeight(imageRef);
-	
-	size_t bitsPerPixel_imageRef = CGImageGetBitsPerPixel(imageRef);
-	// size_t bytesPerRow_imageRef = CGImageGetBytesPerRow(imageRef);
-	size_t bytesPerPixel = bitsPerPixel_imageRef / 8;
-	CGImageAlphaInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
-	CGImageAlphaInfo bitmapAlphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
-	bitmapInfo = bitmapInfo & kCGBitmapByteOrderMask;
-	CGBitmapInfo byteOrderInfo = (bitmapInfo & kCGBitmapByteOrderMask);
-	
-	ReadImageType readImageType = ReadImage24bit;
-	
-	if (bytesPerPixel != 3 && bytesPerPixel != 4 && bitmapInfo == kCGBitmapFloatComponents) {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	if (byteOrderInfo != kCGBitmapByteOrder32Big && byteOrderInfo != kCGBitmapByteOrderDefault) {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	if (bytesPerPixel == 3) {
-		readImageType = ReadImage24bit;
-	}
-	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedFirst || bitmapAlphaInfo == kCGImageAlphaFirst || bitmapAlphaInfo == kCGImageAlphaNoneSkipFirst)) {
-		readImageType = ReadImage32bitSkipFirst;
-	}
-	else if (bytesPerPixel == 4 && (bitmapAlphaInfo == kCGImageAlphaPremultipliedLast || bitmapAlphaInfo == kCGImageAlphaLast || bitmapAlphaInfo == kCGImageAlphaNoneSkipLast)) {
-		readImageType = ReadImage32bitSkipLast;
-	}
-	else {
-		printf("unsupported image file\n");
-		return;
-	}
-	
-	CGDataProviderRef inputImageProvider = CGImageGetDataProvider(imageRef);
-	
-	CFDataRef data = CGDataProviderCopyData(inputImageProvider);
-	
-	unsigned char *pixelData = (unsigned char *) CFDataGetBytePtr(data);
-	
-	unsigned char *output = (unsigned char*)malloc(sizeof(unsigned char) * inputImageWidth * inputImageHeight * 3);
-	
-	if (readImageType == ReadImage24bit) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 3 + x * 3 + 0];
-				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 3 + x * 3 + 1];
-				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 3 + x * 3 + 2];
-			}
-		}
-	}
-	else if (readImageType == ReadImage32bitSkipFirst) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 4 + x * 4 + 1];
-				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 4 + x * 4 + 2];
-				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 4 + x * 4 + 3];
-			}
-		}
-	}
-	else if (readImageType == ReadImage32bitSkipLast) {
-		for (int y = 0; y < inputImageHeight; y++) {
-			for (int x = 0; x < inputImageWidth; x++) {
-				output[y * inputImageWidth * 3 + x * 3 + 0] = pixelData[y * inputImageWidth * 4 + x * 4 + 0];
-				output[y * inputImageWidth * 3 + x * 3 + 1] = pixelData[y * inputImageWidth * 4 + x * 4 + 1];
-				output[y * inputImageWidth * 3 + x * 3 + 2] = pixelData[y * inputImageWidth * 4 + x * 4 + 2];
-			}
-		}
-	}
-	
-	// output
-	*pixel = output;
-	*width = inputImageWidth;
-	*height = inputImageHeight;
-	
-	CFRelease(data);
 }
 
 #pragma mark -
