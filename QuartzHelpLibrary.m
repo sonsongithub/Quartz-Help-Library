@@ -788,6 +788,101 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 #pragma mark -
 #pragma mark Creating CGImage
 
+CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType) {
+	if (bytesPerPixel == QH_BYTES_PER_PIXEL_8BIT) {
+		if (target_pType == QH_PIXEL_GRAYSCALE) {
+			CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();
+			CGContextRef context = CGBitmapContextCreate(pixel, width, height, 8, width, grayColorSpace, kCGImageAlphaNone);
+			CGImageRef image = CGBitmapContextCreateImage(context);
+			CGColorSpaceRelease(grayColorSpace);
+			return image;
+		}
+		else if (target_pType == QH_PIXEL_COLOR || target_pType == QH_PIXEL_ANYCOLOR) {
+			CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+			
+			unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+			
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width + x + 0];
+					rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width + x + 0];
+					rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width + x + 0];
+					rgbPixel[y * width * 4 + 4 * x + 3] = 255;
+				}
+			}
+			CGContextRef context = NULL;
+			
+			if (target_pType == QH_PIXEL_COLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+			if (target_pType == QH_PIXEL_ANYCOLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaLast | kCGBitmapByteOrder32Big);
+			
+			CGImageRef image = CGBitmapContextCreateImage(context);
+			CGColorSpaceRelease(rgbColorSpace);
+			free(rgbPixel);
+			return image;
+		}
+	}
+	else if (bytesPerPixel == QH_BYTES_PER_PIXEL_24BIT) {
+		if (target_pType == QH_PIXEL_COLOR || target_pType == QH_PIXEL_ANYCOLOR) {
+			CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+			
+			unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+			
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
+					rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
+					rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
+					rgbPixel[y * width * 4 + 4 * x + 3] = DEFAULT_ALPHA_VALUE;
+				}
+			}
+			CGContextRef context = NULL;
+			
+			if (target_pType == QH_PIXEL_COLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+			if (target_pType == QH_PIXEL_ANYCOLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaLast | kCGBitmapByteOrder32Big);
+			
+			CGImageRef image = CGBitmapContextCreateImage(context);
+			CGColorSpaceRelease(rgbColorSpace);
+			free(rgbPixel);
+			return image;
+		}
+	}
+	else if (bytesPerPixel == QH_BYTES_PER_PIXEL_32BIT) {
+		if (target_pType == QH_PIXEL_COLOR || target_pType == QH_PIXEL_ANYCOLOR) {
+			CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+			
+			unsigned char *rgbPixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * 4);
+			
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 4 + 4 * x + 0];
+					rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 4 + 4 * x + 1];
+					rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 4 + 4 * x + 2];
+					rgbPixel[y * width * 4 + 4 * x + 3] = pixel[y * width * 4 + 4 * x + 3];
+				}
+			}
+			CGContextRef context = NULL;
+			
+			if (target_pType == QH_PIXEL_COLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+			if (target_pType == QH_PIXEL_ANYCOLOR)
+				context = CGBitmapContextCreate(rgbPixel, width, height, 8, width * 4, rgbColorSpace, kCGImageAlphaLast | kCGBitmapByteOrder32Big);
+			
+			CGImageRef image = CGBitmapContextCreateImage(context);
+			CGColorSpaceRelease(rgbColorSpace);
+			free(rgbPixel);
+			return image;
+		}
+	}
+	else {
+		printf("Unsupported input or output format.\n");
+	}
+	return NULL;
+}
+
 CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height) {
 	CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();
 	CGContextRef context = CGBitmapContextCreate(pixel, width, height, 8, width, grayColorSpace, kCGImageAlphaNone);

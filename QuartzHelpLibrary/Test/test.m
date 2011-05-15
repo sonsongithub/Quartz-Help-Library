@@ -86,9 +86,8 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 
 void testCGImageRGBBufferReadAndWrite() {
 	printf("\n---------->testCGImageRGBBufferReadAndWrite\n");
-	printf("void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
-	printf("CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);\n");
-	printf("CGImageRef CGImageRGBAColorCreateWithRGBAPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);\n");
+	printf("CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType);\n");
 	printf("\n");
 	
 	// original pixel data
@@ -126,7 +125,7 @@ void testCGImageRGBBufferReadAndWrite() {
 	{
 		printf("test case1\n");
 		
-		CGImageRef image = CGImageRGBColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_24BIT, QH_PIXEL_COLOR);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -197,7 +196,7 @@ void testCGImageRGBBufferReadAndWrite() {
 	{
 		printf("\ntest case2\n");
 		
-		CGImageRef image = CGImageRGBAColorCreateWithRGBPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_24BIT, QH_PIXEL_COLOR);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -268,9 +267,8 @@ void testCGImageRGBBufferReadAndWrite() {
 
 void testCGImageGrayBufferReadAndWrite() {
 	printf("\n---------->testCGImageGrayBufferReadAndWrite\n");
-	printf("void CGCreateGrayPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height);\n");
-	printf("CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
-	printf("CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);\n");
+	printf("void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);\n");
+	printf("CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType);\n");
 	printf("\n");
 	
 	// original pixel data
@@ -300,7 +298,7 @@ void testCGImageGrayBufferReadAndWrite() {
 	{
 		printf("test case1\n");
 
-		CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_8BIT, QH_PIXEL_GRAYSCALE);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -371,7 +369,7 @@ void testCGImageGrayBufferReadAndWrite() {
 	{
 		printf("\ntest case2\n");
 		
-		CGImageRef image = CGImageRGBColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
+		CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_8BIT, QH_PIXEL_GRAYSCALE);
 		
 		int copiedWidth = 0;
 		int copiedHeight = 0;
@@ -447,9 +445,6 @@ void testCGImageGrayBufferReadAndWrite() {
 void testCGImageDump() {
 	printf("\n---------->test\n");
 	printf("void CGImageDumpImageInformation(CGImageRef imageRef);\n");
-	printf("void CGImageDumpImageAttribute(CGImageRef imageRef);\n");
-	printf("void CGImageDumpAlphaInformation(CGImageRef imageRef);\n");
-	printf("void CGImageDumpBitmapInformation(CGImageRef imageRef);\n");
 	printf("\n");
 
 	// test file paths
