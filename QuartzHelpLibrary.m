@@ -205,9 +205,8 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int index =  sourceImagePixelData[offset];
-							int k = (table[index * 3 + 0]>>2)
-							+ (table[index * 3 + 1]>>1)
-							+ (table[index * 3 + 2]>>2);
+							
+							int k = getYFromRGB(table[index * 3 + 0], table[index * 3 + 1], table[index * 3 + 2]);
 							
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
@@ -278,9 +277,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			for (int y = 0; y < *height; y++) {
 				for (int x = 0; x < *width; x++) {
 					int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-					int k = (sourceImagePixelData[offset + 0]>>2)
-					+ (sourceImagePixelData[offset + 1]>>1)
-					+ (sourceImagePixelData[offset + 2]>>2);
+					int k = getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
 					(*pixel)[y * bytesPerRowOutputImage + x] = k;
 				}
 			}
@@ -293,21 +290,17 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = (sourceImagePixelData[offset + 1]>>2)
-							+ (sourceImagePixelData[offset + 2]>>1)
-							+ (sourceImagePixelData[offset + 3]>>2);
+							int k = getYFromRGB(sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 3]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
 				}
 				else if (byteOrderInfo == kCGBitmapByteOrder32Big) {
-					// big endian BGRA
+					// big endian ABGR
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = (sourceImagePixelData[offset + 2]>>2)
-							+ (sourceImagePixelData[offset + 1]>>1)
-							+ (sourceImagePixelData[offset + 0]>>2);
+							int k = getYFromRGB(sourceImagePixelData[offset + 3], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -323,9 +316,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = (sourceImagePixelData[offset + 0]>>2)
-							+ (sourceImagePixelData[offset + 1]>>1)
-							+ (sourceImagePixelData[offset + 2]>>2);
+							int k = getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -337,12 +328,6 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							
 							int k = getYFromRGB(sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1], sourceImagePixelData[offset]);
-							
-							/*
-							int k = (sourceImagePixelData[offset + 3]>>2)
-							+ (sourceImagePixelData[offset + 2]>>1)
-							+ (sourceImagePixelData[offset + 1]>>2);
-							*/
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
