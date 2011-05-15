@@ -68,10 +68,6 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 #pragma mark Creating CGImage
 
 CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType);
-CGImageRef CGImageGrayColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
-CGImageRef CGImageRGBColorCreateWithGrayPixelBuffer(unsigned char *pixel, int width, int height);
-CGImageRef CGImageRGBColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);
-CGImageRef CGImageRGBAColorCreateWithRGBPixelBuffer(unsigned char *pixel, int width, int height);
 
 #pragma mark -
 #pragma mark Convert CGImage to image file binary

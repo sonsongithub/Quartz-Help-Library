@@ -69,7 +69,7 @@
 		}
 	}
 	
-	CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
+	CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_8BIT, QH_PIXEL_GRAYSCALE);
 	
 	// CGImage is inverted, vertically
 	CGContextTranslateCTM(context, 0, originalHeight);

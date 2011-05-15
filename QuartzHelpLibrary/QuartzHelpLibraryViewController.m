@@ -77,7 +77,7 @@
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
 		
-		CGImageRef duplicatedImage = CGImageRGBColorCreateWithRGBPixelBuffer(pixel, width, height);
+		CGImageRef duplicatedImage = CGImageCreateWithPixelBuffer(pixel, width, height, QH_BYTES_PER_PIXEL_24BIT, QH_PIXEL_COLOR);
 		
 		UIImageView *v = *p;
 		
@@ -123,7 +123,8 @@
 		}
 	}
 	
-	CGImageRef binarizedImageRef = CGImageRGBColorCreateWithGrayPixelBuffer(copiedPixel, copiedWidth, copiedHeight);
+	CGImageRef binarizedImageRef = CGImageCreateWithPixelBuffer(copiedPixel, copiedWidth, copiedHeight, QH_BYTES_PER_PIXEL_8BIT, QH_PIXEL_COLOR);
+	
 	free(copiedPixel);
 	
 	self.image = [UIImage imageWithCGImage:binarizedImageRef];

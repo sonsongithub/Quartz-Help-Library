@@ -59,7 +59,7 @@
 		}
 	}
 	
-	CGImageRef image = CGImageGrayColorCreateWithGrayPixelBuffer(original, originalWidth, originalHeight);
+	CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, QH_BYTES_PER_PIXEL_8BIT, QH_PIXEL_GRAYSCALE);
 	
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithCGImage:image]];
 	[self addSubview:imageView];
