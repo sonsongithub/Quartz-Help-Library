@@ -133,19 +133,11 @@ void testCGImageRGBBufferReadAndWrite() {
 		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageDumpImageInformation(image);
-		
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_COLOR);
 		
 		int tolerance = 0;
 		
 		printf("pixel(RGB)->CGImage(RGB)->pixel(RGB)\n");
-		
-		dumpPixelArray(copiedPixel, copiedWidth, copiedHeight, copiedBytesPerPixel, DUMP_PIXEL_HEX);
-		
-		printf("\n");
-		
-		dumpPixelArray(original, copiedWidth, copiedHeight, copiedBytesPerPixel, DUMP_PIXEL_HEX);
 		
 		assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance));
 		
@@ -168,6 +160,9 @@ void testCGImageRGBBufferReadAndWrite() {
 			printf("pixel(RGB)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		{
@@ -189,7 +184,13 @@ void testCGImageRGBBufferReadAndWrite() {
 			printf("pixel(RGB)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
+		
+		free(copiedPixel);
+		CGImageRelease(image);
 	}
 	
 	// test case 2
@@ -230,6 +231,9 @@ void testCGImageRGBBufferReadAndWrite() {
 			printf("pixel(RGB)->CGImage(RGBA)->PNG file(RGBA)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		{
@@ -251,8 +255,15 @@ void testCGImageRGBBufferReadAndWrite() {
 			printf("pixel(RGB)->CGImage(RGBA)->JPG file(RGB)->CGImage(RGBA)->pixel(RGB)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
+		free(copiedPixel);
+		CGImageRelease(image);
 	}
+	
+	free(original);
 }
 
 void testCGImageGrayBufferReadAndWrite() {
@@ -323,6 +334,9 @@ void testCGImageGrayBufferReadAndWrite() {
 			printf("pixel(Gray)->CGImage(Gray)->PNG file(Gray)->CGImage(RGBA)->pixel(Gray)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		{
@@ -344,6 +358,9 @@ void testCGImageGrayBufferReadAndWrite() {
 			printf("pixel(Gray)->CGImage(Gray)->JPG file(Gray)->CGImage(RGBA)->pixel(Gray)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		CGImageRelease(image);
@@ -361,7 +378,6 @@ void testCGImageGrayBufferReadAndWrite() {
 		int copiedBytesPerPixel = 0;
 		unsigned char *copiedPixel = NULL;
 		
-		CGImageDumpImageInformation(image);
 		CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, QH_PIXEL_GRAYSCALE);
 			
 		int tolerance = 2;
@@ -389,6 +405,9 @@ void testCGImageGrayBufferReadAndWrite() {
 			printf("pixel(Gray)->CGImage(RGB)->PNG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		{
@@ -410,6 +429,9 @@ void testCGImageGrayBufferReadAndWrite() {
 			printf("pixel(Gray)->CGImage(RGB)->JPG file(RGB)->CGImage(RGBA)->pixel(Gray)\n");
 			
 			assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, reloadedTolerance));
+			
+			free(reloadedPixel);
+			CGImageRelease(imageReloaded);
 		}
 		
 		
@@ -468,20 +490,15 @@ void imageLoadTest() {
 	for (NSString *path in paths) {
 		unsigned char *pixel = NULL;
 		int width, height, bytesPerPixel;
-//		printf("\nImage file = %s\n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
-//		CGImageDumpImageInformation(imageRef);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_GRAYSCALE);
-//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
-//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 		
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_ANYCOLOR);
-//		dumpPixelArray(pixel, width, height, bytesPerPixel);
 		free(pixel);
 	}
 }

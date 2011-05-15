@@ -69,11 +69,9 @@
 	
 	// update image views
 	for (NSString *path in paths) {
-		NSLog(@"%@", path);
 		unsigned char *pixel = NULL;
 		int width, height, bytesPerPixel;
-		NSLog(@"Image file2 = %@", [path lastPathComponent]);
-//		printf("€nImage file2 = %s€n", [[path lastPathComponent] UTF8String]);
+		printf("Image file2 = %s€n", [[path lastPathComponent] UTF8String]);
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		CGImageDumpImageInformation(imageRef);
 		
