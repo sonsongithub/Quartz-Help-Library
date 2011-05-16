@@ -84,6 +84,174 @@ NSString* makeFilePathInDocumentFolder(NSString *filename) {
 #pragma mark -
 #pragma mark CGImage and image file
 
+typedef enum {
+	QH_TEST_JPG = 0,
+	QH_TEST_PNG = 1,
+}QH_TEST_IMAGE_TYPE;
+
+void copyTestPixelPattern(unsigned char *pixel, int width, int height, QH_PIXEL_TYPE testType) {
+	if (testType == QH_PIXEL_GRAYSCALE) {
+		// make test pattern
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (y <= height / 2 && x <= width / 2) {
+					pixel[y * width + x] = 0;
+				}
+				if (y <= height / 2 && x > width / 2) {
+					pixel[y * width + x] = 85;
+				}
+				if (y > height / 2 && x <= width / 2) {
+					pixel[y * width + x] = 170;
+				}
+				if (y > height / 2 && x > width / 2) {
+					pixel[y * width + x] = 255;
+				}
+			}
+		}
+	}
+	else if (testType == QH_PIXEL_COLOR) {
+		// make test pattern
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (y <= height / 2 && x <= width / 2) {
+					pixel[y * width * 3 + x * 3 + 0] = 255;
+					pixel[y * width * 3 + x * 3 + 1] = 0;
+					pixel[y * width * 3 + x * 3 + 2] = 0;
+				}
+				else if (y <= height / 2 && x > width / 2) {
+					pixel[y * width * 3 + x * 3 + 0] = 0;
+					pixel[y * width * 3 + x * 3 + 1] = 255;
+					pixel[y * width * 3 + x * 3 + 2] = 0;
+				}
+				else if (y > height / 2 && x <= width / 2) {
+					pixel[y * width * 3 + x * 3 + 0] = 0;
+					pixel[y * width * 3 + x * 3 + 1] = 0;
+					pixel[y * width * 3 + x * 3 + 2] = 255;
+				}
+				else if (y > height / 2 && x > width / 2) {
+					pixel[y * width * 3 + x * 3 + 0] = 255;
+					pixel[y * width * 3 + x * 3 + 1] = 255;
+					pixel[y * width * 3 + x * 3 + 2] = 255;
+				}
+			}
+		}
+	}
+	else {
+		printf("Unsupported test condition.\n");
+		assert(0);
+	}	
+}
+
+void testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_TYPE testType, QH_TEST_IMAGE_TYPE fileType) {
+	// parameter
+	int tolerance = 2;
+	QH_BYTES_PER_PIXEL bytesPerPixel = QH_BYTES_PER_PIXEL_UNKNOWN;
+	
+	// original pixel data
+	int originalWidth = 32;
+	int originalHeight = 32;
+	unsigned char* original = NULL;
+	
+	// alloc test pattern
+	if (testType == QH_PIXEL_GRAYSCALE) {
+		bytesPerPixel = QH_BYTES_PER_PIXEL_8BIT;
+		original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * QH_BYTES_PER_PIXEL_8BIT);
+	}
+	else if (testType == QH_PIXEL_COLOR) {
+		bytesPerPixel = QH_BYTES_PER_PIXEL_24BIT;
+		original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * QH_BYTES_PER_PIXEL_24BIT);
+	}
+	else {
+		printf("Unsupported test condition.\n");
+		assert(0);
+	}
+	
+	// copy test pattern
+	copyTestPixelPattern(original, originalWidth, originalHeight, testType);
+	
+	// make CGImage
+	CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, bytesPerPixel, testType);
+	
+	// write CGImage as image file
+	NSData *data = nil;
+	if (fileType == QH_TEST_JPG) {
+		data = CGImageGetJPEGPresentation(image);
+	}
+	else if (fileType == QH_TEST_PNG) {
+		data = CGImageGetPNGPresentation(image);
+	}
+	else {
+		printf("Unsupported test condition.\n");
+		assert(0);
+	}
+	NSString *path = makeFilePathInDocumentFolder(@"tempfile");
+	[data writeToFile:path atomically:YES];
+	
+	// load CGImage from image file
+	CGImageRef imageReloaded = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
+	
+	// load pixel array from CGImage
+	int reloadedWidth = 0;
+	int reloadedHeight = 0;
+	int reloadedBytesPerPixel = 0;
+	unsigned char *reloadedPixel = NULL;
+	CGCreatePixelBufferWithImage(imageReloaded, &reloadedPixel, &reloadedWidth, &reloadedHeight, &reloadedBytesPerPixel, testType);
+	
+	assert(compareBuffers(original, reloadedPixel, reloadedWidth * reloadedHeight, tolerance));
+	
+	free(reloadedPixel);
+	CGImageRelease(imageReloaded);
+	
+	// release memory
+	CGImageRelease(image);
+	free(original);
+}
+
+void testPixel2CGImage2Pixel(QH_PIXEL_TYPE testType) {
+	// parameter
+	int tolerance = 2;
+	QH_BYTES_PER_PIXEL bytesPerPixel = QH_BYTES_PER_PIXEL_UNKNOWN;
+	
+	// original pixel data
+	int originalWidth = 32;
+	int originalHeight = 32;
+	unsigned char* original = NULL;
+	
+	// alloc test pattern
+	if (testType == QH_PIXEL_GRAYSCALE) {
+		bytesPerPixel = QH_BYTES_PER_PIXEL_8BIT;
+		original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * QH_BYTES_PER_PIXEL_8BIT);
+	}
+	else if (testType == QH_PIXEL_COLOR) {
+		bytesPerPixel = QH_BYTES_PER_PIXEL_24BIT;
+		original = (unsigned char*)malloc(sizeof(unsigned char) * originalWidth * originalHeight * QH_BYTES_PER_PIXEL_24BIT);
+	}
+	else {
+		printf("Unsupported test condition.\n");
+		assert(0);
+	}
+	
+	// copy test pattern
+	copyTestPixelPattern(original, originalWidth, originalHeight, testType);
+	
+	// make CGImage
+	CGImageRef image = CGImageCreateWithPixelBuffer(original, originalWidth, originalHeight, bytesPerPixel, testType);
+	
+	// copy pixel from CGImage
+	int copiedWidth = 0;
+	int copiedHeight = 0;
+	int copiedBytesPerPixel = 0;
+	unsigned char *copiedPixel = NULL;
+	CGCreatePixelBufferWithImage(image, &copiedPixel, &copiedWidth, &copiedHeight, &copiedBytesPerPixel, testType);
+	
+	// test
+	assert(compareBuffers(original, copiedPixel, originalWidth * originalHeight, tolerance));
+	
+	// release memory
+	CGImageRelease(image);
+	free(original);
+}
+
 void testCGImageRGBBufferReadAndWrite() {
 	printf("\n---------->testCGImageRGBBufferReadAndWrite\n");
 	printf("void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);\n");
@@ -501,8 +669,17 @@ void imageLoadTest() {
 #pragma mark - test
 
 void test() {
-	testCGImageDump();
-	testCGImageGrayBufferReadAndWrite();
-	testCGImageRGBBufferReadAndWrite();
-	imageLoadTest();
+	testPixel2CGImage2Pixel(QH_PIXEL_GRAYSCALE);
+	testPixel2CGImage2Pixel(QH_PIXEL_COLOR);
+	
+	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_COLOR, QH_TEST_JPG);
+	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_GRAYSCALE, QH_TEST_JPG);
+	
+	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_COLOR, QH_TEST_PNG);
+	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_GRAYSCALE, QH_TEST_PNG);
+	
+//	testCGImageDump();
+//	testCGImageGrayBufferReadAndWrite();
+//	testCGImageRGBBufferReadAndWrite();
+//	imageLoadTest();
 }
