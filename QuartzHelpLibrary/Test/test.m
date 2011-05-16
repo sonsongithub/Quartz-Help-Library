@@ -49,7 +49,7 @@ typedef enum {
 	DUMP_PIXEL_DEC = 1
 }DUMP_PIXEL_FORMAT;
 
-void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPixel, int type) {
+void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPixel, DUMP_PIXEL_FORMAT type) {
 	// make test pattern
 	if (type == DUMP_PIXEL_HEX) {
 		for (int y = 0; y < height; y++) {
@@ -285,6 +285,7 @@ void testCGImageDump() {
 void imageLoadTest() {
 	// make file path
 	NSArray *paths = [NSArray arrayWithObjects:
+					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8Alpha.png" ofType:nil],
@@ -296,17 +297,34 @@ void imageLoadTest() {
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24Alpha.png" ofType:nil],
 					  nil];
 	for (NSString *path in paths) {
+		NSLog(@"%@", path);
+		
+		// load grand truth raw data file
+		NSString *rawPath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"raw"];
+		NSData *data = [NSData dataWithContentsOfFile:rawPath];
+		NSLog(@"%d", [data length]);
+		
+		// image data
 		unsigned char *pixel = NULL;
 		int width, height, bytesPerPixel;
+		int tolerance = 2;
+		
+		// load image file as CGImage
 		CGImageRef imageRef = CGImageCreateWithPNGorJPEGFilePath((CFStringRef)path);
 		
-		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_GRAYSCALE);
-		free(pixel);
-		
+		// copy image to pixel array from CGImage
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
-		free(pixel);
 		
-		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_ANYCOLOR);
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n%s", [path UTF8String]);
+		dumpPixelArray(pixel, width, height, bytesPerPixel, DUMP_PIXEL_HEX);
+		
+		printf("\n");
+		
+		dumpPixelArray([data bytes], width, height, bytesPerPixel, DUMP_PIXEL_HEX);
+		
+		assert(compareBuffers(pixel, (unsigned char*)[data bytes], width * height * bytesPerPixel, tolerance));
+		
+		// release pixel array
 		free(pixel);
 	}
 }
@@ -324,4 +342,6 @@ void test() {
 	
 	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_COLOR, QH_TEST_PNG);
 	testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_GRAYSCALE, QH_TEST_PNG);
+	
+	imageLoadTest();
 }
