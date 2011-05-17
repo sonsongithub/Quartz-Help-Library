@@ -38,10 +38,36 @@
 int compareBuffers(unsigned char* b1, unsigned char *b2, int length, int tolerance) {
 	for (int i = 0; i < length; i++) {
 		if (abs(*(b1 + i) - *(b2 + i)) > tolerance) {
+			printf("diff = %d (%02X) (%02X)\n", *(b1 + i) - *(b2 + i), *(b1 + i), *(b2 + i));
 			return 0;	
 		}
 	}
 	return 1;
+}
+
+int compareBuffersWithXandY(unsigned char* b1, unsigned char *b2, int width, int height, int bytesPerPixel, int tolerance) {
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			for (int i = 0; i < bytesPerPixel; i++) {
+				int offset = (y * width + x) * bytesPerPixel + i;
+				unsigned char v1 = *(b1 + offset);
+				unsigned char v2 = *(b2 + offset);
+				if (abs(v1 - v2) > tolerance) {
+					printf("%d,%d(%d)....%02x vs %02x\n", x, y, i, v1, v2);	
+					return 0;
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+void dumpPixel(unsigned char *pixel, int width, int height, int bytesPerPixel, int x, int y) {
+	for (int i = 0; i < bytesPerPixel; i++) {
+		int offset = (y * width + x) * bytesPerPixel + i;
+		printf("%02x", pixel[offset]);
+	}
+	printf("\n");
 }
 
 typedef enum {
@@ -64,7 +90,7 @@ void dumpPixelArray(unsigned char *pixel, int width, int height, int bytesPerPix
 	}
 	else {
 		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < width/2; x++) {
 				for (int i = 0; i < bytesPerPixel; i++) {
 					printf("%03d", pixel[y * width * bytesPerPixel + x * bytesPerPixel + i]);
 				}
@@ -283,26 +309,26 @@ void testCGImageDump() {
 #pragma mark - Image load test
 
 void imageLoadTest() {
+	//
+	// test code Image file->CGImage->pixel vs RAW data.
+	//
 	// make file path
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8.png" ofType:nil],
-					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG8Alpha.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24.png" ofType:nil],
-					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_PNG24Alpha.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_JPG24.jpg" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG8.png" ofType:nil],
 					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24.png" ofType:nil],
-					  [[NSBundle mainBundle] pathForResource:@"testImage_RGB_PNG24Alpha.png" ofType:nil],
 					  nil];
 	for (NSString *path in paths) {
-		NSLog(@"%@", path);
+		// file name
+		printf("%s\n", [[path lastPathComponent] UTF8String]);
 		
 		// load grand truth raw data file
 		NSString *rawPath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"raw"];
 		NSData *data = [NSData dataWithContentsOfFile:rawPath];
-		NSLog(@"%d", [data length]);
 		
 		// image data
 		unsigned char *pixel = NULL;
@@ -315,14 +341,8 @@ void imageLoadTest() {
 		// copy image to pixel array from CGImage
 		CGCreatePixelBufferWithImage(imageRef, &pixel, &width, &height, &bytesPerPixel, QH_PIXEL_COLOR);
 		
-		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n%s", [path UTF8String]);
-		dumpPixelArray(pixel, width, height, bytesPerPixel, DUMP_PIXEL_HEX);
-		
-		printf("\n");
-		
-		dumpPixelArray([data bytes], width, height, bytesPerPixel, DUMP_PIXEL_HEX);
-		
-		assert(compareBuffers(pixel, (unsigned char*)[data bytes], width * height * bytesPerPixel, tolerance));
+		// test
+		assert(compareBuffersWithXandY(pixel, (unsigned char*)[data bytes], width, height, bytesPerPixel, tolerance));
 		
 		// release pixel array
 		free(pixel);
