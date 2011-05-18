@@ -884,7 +884,7 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 
 #pragma mark - UIImage QuartzHelpLibrary category implementation
 
-@implementation UIImage(pixel)
+@implementation UIImage(QuartzHelpLibrary)
 
 - (NSData*)PNGRepresentaion {
 	return UIImagePNGRepresentation(self);

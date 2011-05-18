@@ -52,7 +52,7 @@ typedef enum {
 
 #pragma mark - UIImage category
 
-@interface UIImage(pixel)
+@interface UIImage(QuartzHelpLibrary)
 - (NSData*)PNGRepresentaion;
 - (NSData*)JPEGRepresentaion;
 - (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
