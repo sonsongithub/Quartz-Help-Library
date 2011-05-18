@@ -30,6 +30,8 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - Invaliables
+
 typedef enum {
 	QH_PIXEL_GRAYSCALE =			0,
 	QH_PIXEL_COLOR =				1 << 0,
@@ -44,30 +46,35 @@ typedef enum {
 	QH_BYTES_PER_PIXEL_32BIT =		4,
 }QH_BYTES_PER_PIXEL;
 
-#define DEFAULT_ALPHA_VALUE			0xff
+#define QH_DEFAULT_ALPHA_VALUE		0xff
 
-#pragma mark -
-#pragma mark Load image file
+#define QH_DEFAULT_JPG_QUALITY		1.0
+
+#pragma mark - UIImage category
+
+@interface UIImage(pixel)
+- (NSData*)PNGRepresentaion;
+- (NSData*)JPEGRepresentaion;
+- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
+@end
+
+#pragma mark - Load image file
 
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath);
 
-#pragma mark -
-#pragma mark Dump CGImage information
+#pragma mark - Dump CGImage information
 
 void CGImageDumpImageInformation(CGImageRef imageRef);
 
-#pragma mark -
-#pragma mark Read pixel from CGImage
+#pragma mark - Read pixel from CGImage
 
 void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);
 
-#pragma mark -
-#pragma mark Creating CGImage
+#pragma mark - Creating CGImage
 
 CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType);
 
-#pragma mark -
-#pragma mark Convert CGImage to image file binary
+#pragma mark - Convert CGImage to image file binary
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef);
 NSData* CGImageGetJPEGPresentation(CGImageRef imageRef);

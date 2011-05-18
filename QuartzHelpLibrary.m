@@ -30,24 +30,7 @@
 
 #import "QuartzHelpLibrary.h"
 
-@interface UIImage(pixel)
-
-- (NSData*)PNGRepresentaion;
-- (NSData*)JPEGRepresentaion;
-- (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
-
-@end
-
-typedef enum {
-	ReadImage8bit,
-	ReadImage16bitSkipLast,
-	ReadImage16bitSkipFirst,
-	ReadImage24bit,
-	ReadImage32bitSkipLast,
-	ReadImage32bitSkipFirst,
-}ReadImageType;
-
-#pragma mark - Private functions 
+#pragma mark - Declare private functions
 
 void _CGImageDumpImageAttribute(CGImageRef imageRef);
 void _CGImageDumpAlphaInformation(CGImageRef imageRef);
@@ -589,7 +572,7 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = table[index * 3 + 0];
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = table[index * 3 + 1];
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = table[index * 3 + 2];
-					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = DEFAULT_ALPHA_VALUE;
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = QH_DEFAULT_ALPHA_VALUE;
 				}
 			}
 			free(table);
@@ -665,7 +648,7 @@ void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pix
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 0] = sourceImagePixelData[offset + 0];
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 1] = sourceImagePixelData[offset + 1];
 					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 2] = sourceImagePixelData[offset + 2];
-					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = DEFAULT_ALPHA_VALUE;
+					(*pixel)[y * bytesPerRowOutputImage + x * (*bytesPerPixel) + 3] = QH_DEFAULT_ALPHA_VALUE;
 				}
 			}
 			break;
@@ -811,7 +794,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 					rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width + x + 0];
 					rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width + x + 0];
 					rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width + x + 0];
-					rgbPixel[y * width * 4 + 4 * x + 3] = 255;
+					rgbPixel[y * width * 4 + 4 * x + 3] = QH_DEFAULT_ALPHA_VALUE;
 				}
 			}
 			CGContextRef context = NULL;
@@ -838,7 +821,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 					rgbPixel[y * width * 4 + 4 * x + 0] = pixel[y * width * 3 + 3 * x + 0];
 					rgbPixel[y * width * 4 + 4 * x + 1] = pixel[y * width * 3 + 3 * x + 1];
 					rgbPixel[y * width * 4 + 4 * x + 2] = pixel[y * width * 3 + 3 * x + 2];
-					rgbPixel[y * width * 4 + 4 * x + 3] = DEFAULT_ALPHA_VALUE;
+					rgbPixel[y * width * 4 + 4 * x + 3] = QH_DEFAULT_ALPHA_VALUE;
 				}
 			}
 			CGContextRef context = NULL;
@@ -908,7 +891,7 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 }
 
 - (NSData*)JPEGRepresentaion {
-	return [self JPEGRepresentaionWithCompressionQuality:1];
+	return [self JPEGRepresentaionWithCompressionQuality:QH_DEFAULT_JPG_QUALITY];
 }
 
 - (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality {
