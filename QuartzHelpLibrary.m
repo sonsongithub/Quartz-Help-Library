@@ -775,7 +775,7 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 #pragma mark -
 #pragma mark Creating CGImage
 
-CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType) {
+CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, QH_PIXEL_TYPE target_pType) {
 	if (bytesPerPixel == QH_BYTES_PER_PIXEL_8BIT) {
 		if (target_pType == QH_PIXEL_GRAYSCALE) {
 			CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();

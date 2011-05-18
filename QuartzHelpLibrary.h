@@ -72,7 +72,7 @@ void CGCreatePixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, in
 
 #pragma mark - Creating CGImage
 
-CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, int target_pType);
+CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int height, int bytesPerPixel, QH_PIXEL_TYPE target_pType);
 
 #pragma mark - Convert CGImage to image file binary
 
