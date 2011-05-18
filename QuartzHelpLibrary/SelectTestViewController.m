@@ -28,6 +28,7 @@
 		testNames = [[NSMutableArray array] retain];
 		[testNames addObject:@"QuartzHelpLibraryViewController"];
 		[testNames addObject:@"ImageLoadTestViewController"];
+		[testNames addObject:@"OrientationTestViewController"];
 	}
 }
 

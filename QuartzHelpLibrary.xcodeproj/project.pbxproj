@@ -28,6 +28,10 @@
 		1427FFED13840D560087ABD0 /* ImageLoadTestViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 1427FFEB13840D560087ABD0 /* ImageLoadTestViewController_iPad.m */; };
 		1454E3F1138413E100C9C28A /* ImageLoadTestViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1454E3ED138413E100C9C28A /* ImageLoadTestViewController_iPad.xib */; };
 		1454E3F2138413E100C9C28A /* ImageLoadTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1454E3EF138413E100C9C28A /* ImageLoadTestViewController.xib */; };
+		1454E3F713842B5500C9C28A /* OrientationTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1454E3F513842B5500C9C28A /* OrientationTestViewController.m */; };
+		1454E3FC13842B6B00C9C28A /* OrientationTestViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 1454E3FA13842B6B00C9C28A /* OrientationTestViewController_iPad.m */; };
+		1454E4021384357A00C9C28A /* OrientationTestViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1454E3FE1384357A00C9C28A /* OrientationTestViewController_iPad.xib */; };
+		1454E4031384357A00C9C28A /* OrientationTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1454E4001384357A00C9C28A /* OrientationTestViewController.xib */; };
 		14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */; };
 		14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC21352E5F10006B3C1 /* iossdkhack.jpg */; };
 		14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC41352E5F10006B3C1 /* iossdkhack.png */; };
@@ -85,6 +89,12 @@
 		1427FFEB13840D560087ABD0 /* ImageLoadTestViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLoadTestViewController_iPad.m; sourceTree = "<group>"; };
 		1454E3EE138413E100C9C28A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ImageLoadTestViewController_iPad.xib; sourceTree = "<group>"; };
 		1454E3F0138413E100C9C28A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ImageLoadTestViewController.xib; sourceTree = "<group>"; };
+		1454E3F413842B5500C9C28A /* OrientationTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationTestViewController.h; sourceTree = "<group>"; };
+		1454E3F513842B5500C9C28A /* OrientationTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrientationTestViewController.m; sourceTree = "<group>"; };
+		1454E3F913842B6B00C9C28A /* OrientationTestViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationTestViewController_iPad.h; sourceTree = "<group>"; };
+		1454E3FA13842B6B00C9C28A /* OrientationTestViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrientationTestViewController_iPad.m; sourceTree = "<group>"; };
+		1454E3FF1384357A00C9C28A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OrientationTestViewController_iPad.xib; sourceTree = "<group>"; };
+		1454E4011384357A00C9C28A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OrientationTestViewController.xib; sourceTree = "<group>"; };
 		14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibrary.h; sourceTree = "<group>"; };
 		14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibrary.m; sourceTree = "<group>"; };
 		14687AC31352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/iossdkhack.jpg; sourceTree = "<group>"; };
@@ -185,6 +195,10 @@
 				148B5DA01352DBBD000DB37B /* QuartzHelpLibraryViewController.m */,
 				14BCBE5B1361610400FE02AE /* QuartzHelpLibraryViewController_iPad.h */,
 				14BCBE5C1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m */,
+				1454E3F413842B5500C9C28A /* OrientationTestViewController.h */,
+				1454E3F513842B5500C9C28A /* OrientationTestViewController.m */,
+				1454E3F913842B6B00C9C28A /* OrientationTestViewController_iPad.h */,
+				1454E3FA13842B6B00C9C28A /* OrientationTestViewController_iPad.m */,
 			);
 			name = TestViewControllers;
 			path = QuartzHelpLibrary;
@@ -240,6 +254,8 @@
 		148B5D911352DBBD000DB37B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1454E3FE1384357A00C9C28A /* OrientationTestViewController_iPad.xib */,
+				1454E4001384357A00C9C28A /* OrientationTestViewController.xib */,
 				1454E3ED138413E100C9C28A /* ImageLoadTestViewController_iPad.xib */,
 				1454E3EF138413E100C9C28A /* ImageLoadTestViewController.xib */,
 				1427FFDA138403DF0087ABD0 /* SelectTestViewController.xib */,
@@ -378,6 +394,8 @@
 				1427FFE4138404300087ABD0 /* SelectTestViewController_iPad.xib in Resources */,
 				1454E3F1138413E100C9C28A /* ImageLoadTestViewController_iPad.xib in Resources */,
 				1454E3F2138413E100C9C28A /* ImageLoadTestViewController.xib in Resources */,
+				1454E4021384357A00C9C28A /* OrientationTestViewController_iPad.xib in Resources */,
+				1454E4031384357A00C9C28A /* OrientationTestViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +420,8 @@
 				1427FFE01384041B0087ABD0 /* SelectTestViewController_iPad.m in Sources */,
 				1427FFE813840D410087ABD0 /* ImageLoadTestViewController.m in Sources */,
 				1427FFED13840D560087ABD0 /* ImageLoadTestViewController_iPad.m in Sources */,
+				1454E3F713842B5500C9C28A /* OrientationTestViewController.m in Sources */,
+				1454E3FC13842B6B00C9C28A /* OrientationTestViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +458,22 @@
 				1454E3F0138413E100C9C28A /* en */,
 			);
 			name = ImageLoadTestViewController.xib;
+			sourceTree = "<group>";
+		};
+		1454E3FE1384357A00C9C28A /* OrientationTestViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1454E3FF1384357A00C9C28A /* en */,
+			);
+			name = OrientationTestViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		1454E4001384357A00C9C28A /* OrientationTestViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1454E4011384357A00C9C28A /* en */,
+			);
+			name = OrientationTestViewController.xib;
 			sourceTree = "<group>";
 		};
 		14687AC21352E5F10006B3C1 /* iossdkhack.jpg */ = {
