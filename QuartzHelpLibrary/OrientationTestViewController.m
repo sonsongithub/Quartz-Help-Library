@@ -12,6 +12,12 @@
 
 @implementation OrientationTestViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+	[self setTitle:NSStringFromClass([self class])];
+}
+
 - (void)showImage {
 	int width = 32;
 	int height = 32;
