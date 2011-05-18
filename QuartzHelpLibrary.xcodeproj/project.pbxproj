@@ -20,6 +20,10 @@
 		141D62741381648C0075A615 /* testImage_RGB_JPG24.raw in Resources */ = {isa = PBXBuildFile; fileRef = 141D626B1381648C0075A615 /* testImage_RGB_JPG24.raw */; };
 		141D62751381648C0075A615 /* testImage_RGB_PNG24.raw in Resources */ = {isa = PBXBuildFile; fileRef = 141D626C1381648C0075A615 /* testImage_RGB_PNG24.raw */; };
 		141D62771381648C0075A615 /* testImage_RGB_PNG8.raw in Resources */ = {isa = PBXBuildFile; fileRef = 141D626E1381648C0075A615 /* testImage_RGB_PNG8.raw */; };
+		1427FFD7138403C10087ABD0 /* SelectTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1427FFD5138403C10087ABD0 /* SelectTestViewController.m */; };
+		1427FFDC138403DF0087ABD0 /* SelectTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1427FFDA138403DF0087ABD0 /* SelectTestViewController.xib */; };
+		1427FFE01384041B0087ABD0 /* SelectTestViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 1427FFDE1384041B0087ABD0 /* SelectTestViewController_iPad.m */; };
+		1427FFE4138404300087ABD0 /* SelectTestViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1427FFE2138404300087ABD0 /* SelectTestViewController_iPad.xib */; };
 		14687ABD1352DE8E0006B3C1 /* QuartzHelpLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */; };
 		14687AC61352E5F10006B3C1 /* iossdkhack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC21352E5F10006B3C1 /* iossdkhack.jpg */; };
 		14687AC71352E5F10006B3C1 /* iossdkhack.png in Resources */ = {isa = PBXBuildFile; fileRef = 14687AC41352E5F10006B3C1 /* iossdkhack.png */; };
@@ -65,6 +69,12 @@
 		141D626B1381648C0075A615 /* testImage_RGB_JPG24.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = testImage_RGB_JPG24.raw; sourceTree = "<group>"; };
 		141D626C1381648C0075A615 /* testImage_RGB_PNG24.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = testImage_RGB_PNG24.raw; sourceTree = "<group>"; };
 		141D626E1381648C0075A615 /* testImage_RGB_PNG8.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = testImage_RGB_PNG8.raw; sourceTree = "<group>"; };
+		1427FFD4138403C10087ABD0 /* SelectTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectTestViewController.h; sourceTree = "<group>"; };
+		1427FFD5138403C10087ABD0 /* SelectTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectTestViewController.m; sourceTree = "<group>"; };
+		1427FFDB138403DF0087ABD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SelectTestViewController.xib; sourceTree = "<group>"; };
+		1427FFDD1384041B0087ABD0 /* SelectTestViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectTestViewController_iPad.h; sourceTree = "<group>"; };
+		1427FFDE1384041B0087ABD0 /* SelectTestViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectTestViewController_iPad.m; sourceTree = "<group>"; };
+		1427FFE3138404300087ABD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SelectTestViewController_iPad.xib; sourceTree = "<group>"; };
 		14687ABB1352DE8E0006B3C1 /* QuartzHelpLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuartzHelpLibrary.h; sourceTree = "<group>"; };
 		14687ABC1352DE8E0006B3C1 /* QuartzHelpLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuartzHelpLibrary.m; sourceTree = "<group>"; };
 		14687AC31352E5F10006B3C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/iossdkhack.jpg; sourceTree = "<group>"; };
@@ -189,6 +199,10 @@
 		148B5D901352DBBD000DB37B /* QuartzHelpLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				1427FFD4138403C10087ABD0 /* SelectTestViewController.h */,
+				1427FFD5138403C10087ABD0 /* SelectTestViewController.m */,
+				1427FFDD1384041B0087ABD0 /* SelectTestViewController_iPad.h */,
+				1427FFDE1384041B0087ABD0 /* SelectTestViewController_iPad.m */,
 				148B5D991352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.h */,
 				148B5D9A1352DBBD000DB37B /* QuartzHelpLibraryAppDelegate.m */,
 				148B5D9F1352DBBD000DB37B /* QuartzHelpLibraryViewController.h */,
@@ -203,6 +217,8 @@
 		148B5D911352DBBD000DB37B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1427FFDA138403DF0087ABD0 /* SelectTestViewController.xib */,
+				1427FFE2138404300087ABD0 /* SelectTestViewController_iPad.xib */,
 				148B5DA21352DBBD000DB37B /* QuartzHelpLibraryViewController.xib */,
 				14BCBE60136162C200FE02AE /* QuartzHelpLibraryViewController_iPad.xib */,
 				14E25FF9136157B00070D216 /* MainWindow.xib */,
@@ -332,6 +348,8 @@
 				140EE2DE13823C1200BAFD46 /* icon57x57.png in Resources */,
 				140EE2DF13823C1200BAFD46 /* icon72x72.png in Resources */,
 				140EE2E013823C1200BAFD46 /* icon114x114.png in Resources */,
+				1427FFDC138403DF0087ABD0 /* SelectTestViewController.xib in Resources */,
+				1427FFE4138404300087ABD0 /* SelectTestViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,12 +370,30 @@
 				14E25FE313614C8D0070D216 /* TestUIImageViewFromRGBPixel.m in Sources */,
 				14E25FE613614E2D0070D216 /* test.m in Sources */,
 				14BCBE5E1361610500FE02AE /* QuartzHelpLibraryViewController_iPad.m in Sources */,
+				1427FFD7138403C10087ABD0 /* SelectTestViewController.m in Sources */,
+				1427FFE01384041B0087ABD0 /* SelectTestViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1427FFDA138403DF0087ABD0 /* SelectTestViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1427FFDB138403DF0087ABD0 /* en */,
+			);
+			name = SelectTestViewController.xib;
+			sourceTree = "<group>";
+		};
+		1427FFE2138404300087ABD0 /* SelectTestViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1427FFE3138404300087ABD0 /* en */,
+			);
+			name = SelectTestViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
 		14687AC21352E5F10006B3C1 /* iossdkhack.jpg */ = {
 			isa = PBXVariantGroup;
 			children = (
