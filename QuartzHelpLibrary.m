@@ -47,8 +47,14 @@ typedef enum {
 	ReadImage32bitSkipFirst,
 }ReadImageType;
 
-#pragma mark -
-#pragma mark Load image file
+#pragma mark - Private functions 
+
+void _CGImageDumpImageAttribute(CGImageRef imageRef);
+void _CGImageDumpAlphaInformation(CGImageRef imageRef);
+void _CGImageDumpBitmapInformation(CGImageRef imageRef);
+int _getYFromRGB(int r, int g, int b);
+
+#pragma mark - Load image file
 
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 	CGImageRef outputImage = NULL;
@@ -69,13 +75,7 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath) {
 #pragma mark -
 #pragma mark Dump CGImage information
 
-void CGImageDumpImageInformation(CGImageRef imageRef) {
-	CGImageDumpImageAttribute(imageRef);
-	CGImageDumpAlphaInformation(imageRef);
-	CGImageDumpBitmapInformation(imageRef);
-}
-
-void CGImageDumpImageAttribute(CGImageRef imageRef) {
+void _CGImageDumpImageAttribute(CGImageRef imageRef) {
 	size_t width = CGImageGetWidth(imageRef);
 	size_t height = CGImageGetHeight(imageRef);
 	size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
@@ -90,7 +90,7 @@ void CGImageDumpImageAttribute(CGImageRef imageRef) {
 	printf("bytes per row      = %d\n", (int)bytesPerRow);
 }
 
-void CGImageDumpAlphaInformation(CGImageRef imageRef) {
+void _CGImageDumpAlphaInformation(CGImageRef imageRef) {
 	CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
 	// alpha information
 	switch(alphaInfo) {
@@ -121,7 +121,7 @@ void CGImageDumpAlphaInformation(CGImageRef imageRef) {
 	}
 }
 
-void CGImageDumpBitmapInformation(CGImageRef imageRef) {
+void _CGImageDumpBitmapInformation(CGImageRef imageRef) {
 	CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
 	CGBitmapInfo byteOrderInfo = (bitmapInfo & kCGBitmapByteOrderMask);
 	
@@ -158,19 +158,23 @@ void CGImageDumpBitmapInformation(CGImageRef imageRef) {
 	}
 }
 
-#pragma mark - Convert RGB to Y
-int getYFromRGB(int r, int g, int b) {
+void CGImageDumpImageInformation(CGImageRef imageRef) {
+	_CGImageDumpImageAttribute(imageRef);
+	_CGImageDumpAlphaInformation(imageRef);
+	_CGImageDumpBitmapInformation(imageRef);
+}
+
+#pragma mark - Read pixel from CGImage
+
+int _getYFromRGB(int r, int g, int b) {
 	int  y =
-	  ( ( 306 * (int)r + 512 ) >> 10 )
+	( ( 306 * (int)r + 512 ) >> 10 )
 	+ ( ( 601 * (int)g + 512 ) >> 10 )
 	+ ( ( 117 * (int)b + 512 ) >> 10 );
 	if ( y < 0x00 )  y = 0x00;
 	if ( y > 0xFF )  y = 0xFF;
 	return  y;
 }
-
-#pragma mark -
-#pragma mark Read pixel from CGImage
 
 void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType) {
 	CGImageAlphaInfo bitmapAlphaInfo = CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask;
@@ -206,7 +210,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							int index =  sourceImagePixelData[offset];
 							
-							int k = getYFromRGB(table[index * 3 + 0], table[index * 3 + 1], table[index * 3 + 2]);
+							int k = _getYFromRGB(table[index * 3 + 0], table[index * 3 + 1], table[index * 3 + 2]);
 							
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
@@ -277,7 +281,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 			for (int y = 0; y < *height; y++) {
 				for (int x = 0; x < *width; x++) {
 					int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-					int k = getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
+					int k = _getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
 					(*pixel)[y * bytesPerRowOutputImage + x] = k;
 				}
 			}
@@ -290,7 +294,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = getYFromRGB(sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 3]);
+							int k = _getYFromRGB(sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 3]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -300,7 +304,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = getYFromRGB(sourceImagePixelData[offset + 3], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1]);
+							int k = _getYFromRGB(sourceImagePixelData[offset + 3], sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -316,7 +320,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 					for (int y = 0; y < *height; y++) {
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
-							int k = getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
+							int k = _getYFromRGB(sourceImagePixelData[offset + 0], sourceImagePixelData[offset + 1], sourceImagePixelData[offset + 2]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -327,7 +331,7 @@ void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixe
 						for (int x = 0; x < *width; x++) {
 							int offset = y * bytesPerRowSourceImage + x * inputImageBytesPerPixel;
 							
-							int k = getYFromRGB(sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1], sourceImagePixelData[offset]);
+							int k = _getYFromRGB(sourceImagePixelData[offset + 2], sourceImagePixelData[offset + 1], sourceImagePixelData[offset]);
 							(*pixel)[y * bytesPerRowOutputImage + x] = k;
 						}
 					}
@@ -883,8 +887,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 	return NULL;
 }
 
-#pragma mark -
-#pragma mark Convert CGImage to image file binary
+#pragma mark - Convert CGImage to image file binary
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef) {
 	UIImage *uiimage = [UIImage imageWithCGImage:imageRef];
@@ -896,8 +899,7 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return [uiimage JPEGRepresentaion];
 }
 
-#pragma mark -
-#pragma mark UIImage QuartzHelpLibrary category implementation
+#pragma mark - UIImage QuartzHelpLibrary category implementation
 
 @implementation UIImage(pixel)
 

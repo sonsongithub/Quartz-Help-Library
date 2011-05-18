@@ -55,9 +55,6 @@ CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath);
 #pragma mark Dump CGImage information
 
 void CGImageDumpImageInformation(CGImageRef imageRef);
-void CGImageDumpImageAttribute(CGImageRef imageRef);
-void CGImageDumpAlphaInformation(CGImageRef imageRef);
-void CGImageDumpBitmapInformation(CGImageRef imageRef);
 
 #pragma mark -
 #pragma mark Read pixel from CGImage

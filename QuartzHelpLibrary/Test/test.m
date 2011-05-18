@@ -311,6 +311,7 @@ void testCGImageDump() {
 void imageLoadTest() {
 	//
 	// test code Image file->CGImage->pixel vs RAW data.
+	// only RGB
 	//
 	// make file path
 	NSArray *paths = [NSArray arrayWithObjects:
