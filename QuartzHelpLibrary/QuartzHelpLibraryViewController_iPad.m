@@ -69,7 +69,6 @@
 }
 
 - (void)dealloc {
-    [popOverController release];
     [super dealloc];
 }
 

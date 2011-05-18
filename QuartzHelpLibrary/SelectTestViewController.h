@@ -10,7 +10,7 @@
 
 
 @interface SelectTestViewController : UITableViewController {
-    
+	NSMutableArray *testNames;
 }
 
 @end

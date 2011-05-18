@@ -33,16 +33,6 @@
 @interface QuartzHelpLibraryViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     IBOutlet UIImageView *imageView;
 	UIImage *image;
-	
-	IBOutlet UIImageView *imageView01;
-	IBOutlet UIImageView *imageView02;
-	IBOutlet UIImageView *imageView03;
-	IBOutlet UIImageView *imageView04;
-	IBOutlet UIImageView *imageView05;
-	IBOutlet UIImageView *imageView06;
-	IBOutlet UIImageView *imageView07;
-	IBOutlet UIImageView *imageView08;
-	IBOutlet UIImageView *imageView09;
 }
 @property (nonatomic, retain) UIImage *image;
 - (IBAction)openImagePicker:(id)sender;
