@@ -35,3 +35,4 @@
 #define QH_ORIENTATION_TEST_BYTES_PER_PIXEL	3
 
 void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixel, UIImageOrientation orientation);
+void testImageOrientation();
