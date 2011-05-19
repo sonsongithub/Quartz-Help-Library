@@ -901,7 +901,8 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 - (CGImageRef)createCGImageRotated {
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	
-	CGSize imageSize = self.size;
+	CGSize uiimageSize = self.size;
+	CGSize cgimageSize = CGSizeMake(CGImageGetWidth(self.CGImage), CGImageGetHeight(self.CGImage));
 	CGSize outputSize = self.size;
 	
 	switch(self.imageOrientation) {
@@ -909,56 +910,45 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 			transform = CGAffineTransformIdentity;
 			break;
 		case UIImageOrientationUpMirrored:
-			transform = CGAffineTransformMakeTranslation(imageSize.width, 0.0);
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width, 0.0);
 			transform = CGAffineTransformScale(transform, -1.0, 1.0);
 			break;
 		case UIImageOrientationDown:
-			transform = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width, uiimageSize.height);
 			transform = CGAffineTransformRotate(transform, M_PI);
 			break;
 		case UIImageOrientationDownMirrored:
-			transform = CGAffineTransformMakeTranslation(0.0, imageSize.height);
+			transform = CGAffineTransformMakeTranslation(0.0, uiimageSize.height);
 			transform = CGAffineTransformScale(transform, 1.0, -1.0);
 			break;
 		case UIImageOrientationLeftMirrored:
-			outputSize.width = imageSize.height;
-			outputSize.height = imageSize.width;
-			transform = CGAffineTransformMakeTranslation(imageSize.height, imageSize.width);
-			transform = CGAffineTransformScale(transform, -1.0, 1.0);
-			transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height);
+			transform = CGAffineTransformScale(transform, 1, -1);
+			transform = CGAffineTransformTranslate(transform, uiimageSize.width, 0);
+			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
 			break;
 		case UIImageOrientationLeft:
-			outputSize.width = imageSize.height;
-			outputSize.height = imageSize.width;
-			transform = CGAffineTransformMakeTranslation(0.0, imageSize.width);
-			transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width, 0);
+			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
 			break;
 		case UIImageOrientationRightMirrored:
-			outputSize.width = imageSize.height;
-			outputSize.height = imageSize.width;
-			transform = CGAffineTransformMakeScale(-1.0, 1.0);
-			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height);
+			transform = CGAffineTransformScale(transform, 1, -1);
+			transform = CGAffineTransformTranslate(transform, 0, uiimageSize.height);
+			transform = CGAffineTransformRotate(transform, -M_PI / 2.0);
 			break;
 		case UIImageOrientationRight:
-			outputSize.width = imageSize.height;
-			outputSize.height = imageSize.width;
-			transform = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
-			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height);
+			transform = CGAffineTransformRotate(transform, -M_PI / 2.0);
 			break;
 		default:
 			return NULL;
 	}
 	
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	
-	CGContextRef context = CGBitmapContextCreate(NULL, (int)imageSize.width, (int)imageSize.height, 8, (int)imageSize.width * 4, space, kCGBitmapByteOrder32Host|kCGImageAlphaNoneSkipLast);
-	if (self.imageOrientation == UIImageOrientationRight || self.imageOrientation == UIImageOrientationLeft) {
-		CGContextTranslateCTM(context, 0, 1);
-	} else {
-		CGContextTranslateCTM(context, 0, 0);
-	}
+	CGContextRef context = CGBitmapContextCreate(NULL, (int)outputSize.width, (int)outputSize.height, 8, (int)outputSize.width * 4, space, kCGBitmapByteOrder32Host|kCGImageAlphaNoneSkipLast);
 	CGContextConcatCTM(context, transform);
-	CGContextDrawImage(context, CGRectMake(0, 0, outputSize.width, outputSize.height), self.CGImage);
+	CGContextDrawImage(context, CGRectMake(0, 0, cgimageSize.width, cgimageSize.height), self.CGImage);
 	CGImageRef image = CGBitmapContextCreateImage(context);	
 	CGContextRelease(context);
 	CGColorSpaceRelease(space);
