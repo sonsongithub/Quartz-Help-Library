@@ -335,118 +335,52 @@
 	CGImageRef source = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
 	free(pixel);
 	
-	UIImage *image = nil;
 	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationUp];
-	[true_up setImage:image];
-	[up setImage:[UIImage imageWithCGImage:image.CGImage]];
+	int rot[8];
+	{
+		int *p = rot;
+		*p++ = UIImageOrientationUp;
+		*p++ = UIImageOrientationUpMirrored;
+		*p++ = UIImageOrientationDown;
+		*p++ = UIImageOrientationDownMirrored;
+		*p++ = UIImageOrientationLeft;
+		*p++ = UIImageOrientationLeftMirrored;
+		*p++ = UIImageOrientationRight;
+		*p++ = UIImageOrientationRightMirrored;
+	}
 	
+	UIImageView *trueImageViews[8];
+	{
+		UIImageView **p = trueImageViews;
+		*p++ = true_up;
+		*p++ = true_upMirrored;
+		*p++ = true_down;
+		*p++ = true_downMirrored;
+		*p++ = true_left;
+		*p++ = true_leftMirrored;
+		*p++ = true_right;
+		*p++ = true_rightMirrored;
+	}
 	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationDown];
-	[true_down setImage:image];
+	UIImageView *testImageViews[8];
+	{
+		UIImageView **p = testImageViews;
+		*p++ = up;
+		*p++ = upMirrored;
+		*p++ = down;
+		*p++ = downMirrored;
+		*p++ = left;
+		*p++ = leftMirrored;
+		*p++ = right;
+		*p++ = rightMirrored;
+	}
 	
-	CGImageRef rotatedCGImage = NULL;
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[down setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationLeft];
-	[true_left setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[left setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationRight];
-	[true_right setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[right setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationUpMirrored];
-	[true_upMirrored setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[upMirrored setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationDownMirrored];
-	[true_downMirrored setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[downMirrored setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
+	for (int i = 0; i < 8; i++) {
+		UIImage *image = [UIImage imageWithCGImage:source scale:1 orientation:rot[i]];
+		[trueImageViews[i] setImage:image];
+		[testImageViews[i] setImage:[image getRotatedImage]];
+	}
 
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationLeftMirrored];
-	[true_leftMirrored setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[leftMirrored setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-	image = [UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationRightMirrored];
-	[true_rightMirrored setImage:image];
-	
-	rotatedCGImage = [image createCGImageRotated];
-	[rightMirrored setImage:[UIImage imageWithCGImage:rotatedCGImage]];
-	CGImageRelease(rotatedCGImage);
-	
-//	[true_leftMirrored setImage:[UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationLeftMirrored]];
-//	[true_rightMirrored setImage:[UIImage imageWithCGImage:source scale:1 orientation:UIImageOrientationRightMirrored]];
-/*	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationUp];
-	CGImageRef upSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[up setImage:[UIImage imageWithCGImage:upSource]];
-	CGImageRelease(upSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationDown];
-	CGImageRef downSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[down setImage:[UIImage imageWithCGImage:downSource]];
-	CGImageRelease(downSource);
-	
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationLeft];
-	CGImageRef leftSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[left setImage:[UIImage imageWithCGImage:leftSource]];
-	CGImageRelease(leftSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationRight];
-	CGImageRef rightSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[right setImage:[UIImage imageWithCGImage:rightSource]];
-	CGImageRelease(rightSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationUpMirrored];
-	CGImageRef upMirroredSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[upMirrored setImage:[UIImage imageWithCGImage:upMirroredSource]];
-	CGImageRelease(upMirroredSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationDownMirrored];
-	CGImageRef downMirroredSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[downMirrored setImage:[UIImage imageWithCGImage:downMirroredSource]];
-	CGImageRelease(downMirroredSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationLeftMirrored];
-	CGImageRef leftMirroredSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[leftMirrored setImage:[UIImage imageWithCGImage:leftMirroredSource]];
-	CGImageRelease(leftMirroredSource);
-	
-	[self makeImage:&pixel width:&width height:&height bytesPerPixel:&bytesPerPixel orientation:UIImageOrientationRightMirrored];
-	CGImageRef rightMirroredSource = CGImageCreateWithPixelBuffer(pixel, width, height, bytesPerPixel, QH_PIXEL_COLOR);
-	free(pixel);
-	[rightMirrored setImage:[UIImage imageWithCGImage:rightMirroredSource]];
-	CGImageRelease(rightMirroredSource);
-*/	
 	CGImageRelease(source);
 }
 

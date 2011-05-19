@@ -898,6 +898,13 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return UIImageJPEGRepresentation(self, compressionQuality);
 }
 
+- (UIImage*)getRotatedImage {
+	CGImageRef rotated = [self createCGImageRotated];
+	UIImage *output = [UIImage imageWithCGImage:rotated];
+	CGImageRelease(rotated);
+	return output;
+}
+
 - (CGImageRef)createCGImageRotated {
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	

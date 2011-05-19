@@ -56,6 +56,7 @@ typedef enum {
 - (NSData*)PNGRepresentaion;
 - (NSData*)JPEGRepresentaion;
 - (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
+- (UIImage*)getRotatedImage;
 - (CGImageRef)createCGImageRotated;
 @end
 
