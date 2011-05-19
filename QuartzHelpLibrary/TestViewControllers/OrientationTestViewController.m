@@ -12,14 +12,30 @@
 
 @implementation OrientationTestViewController
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	BOOL hidden = self.navigationController.navigationBar.hidden;
+	[self.navigationController setNavigationBarHidden:!hidden animated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 	[self setTitle:NSStringFromClass([self class])];
+	[self.navigationController.navigationBar setTranslucent:YES];
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[self.navigationController.navigationBar setTranslucent:NO];	
 }
 
 - (void)showImage {
-	int width = 32;
+	int width = 48;
 	int height = 32;
 	int bytesPerPixel = 3;
 	unsigned char *pixel = (unsigned char*)malloc(sizeof(unsigned char) * width * height * bytesPerPixel);
