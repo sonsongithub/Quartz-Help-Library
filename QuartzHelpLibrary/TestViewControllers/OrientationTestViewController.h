@@ -10,8 +10,6 @@
 
 
 @interface OrientationTestViewController : UIViewController {
-	IBOutlet UIImageView *original;
-	
     IBOutlet UIImageView *true_up;
     IBOutlet UIImageView *true_down;
     IBOutlet UIImageView *true_left;

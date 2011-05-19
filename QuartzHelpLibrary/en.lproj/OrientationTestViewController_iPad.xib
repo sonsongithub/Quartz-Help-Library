@@ -292,7 +292,7 @@
 					</object>
 					<object class="IBUIImageView" id="1020589278">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 20}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -303,7 +303,7 @@
 					</object>
 					<object class="IBUIImageView" id="929816134">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 76}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -314,7 +314,7 @@
 					</object>
 					<object class="IBUIImageView" id="944367224">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 188}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -325,7 +325,7 @@
 					</object>
 					<object class="IBUIImageView" id="19768071">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 132}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -336,7 +336,7 @@
 					</object>
 					<object class="IBUIImageView" id="955929163">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 244}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -347,7 +347,7 @@
 					</object>
 					<object class="IBUIImageView" id="3357780">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 300}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -358,7 +358,7 @@
 					</object>
 					<object class="IBUIImageView" id="202450787">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 412}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -369,7 +369,7 @@
 					</object>
 					<object class="IBUIImageView" id="262077896">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{324, 356}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -805,7 +805,6 @@
 							<string>downMirrored</string>
 							<string>left</string>
 							<string>leftMirrored</string>
-							<string>original</string>
 							<string>right</string>
 							<string>rightMirrored</string>
 							<string>true_down</string>
@@ -837,7 +836,6 @@
 							<string>UIImageView</string>
 							<string>UIImageView</string>
 							<string>UIImageView</string>
-							<string>UIImageView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -848,7 +846,6 @@
 							<string>downMirrored</string>
 							<string>left</string>
 							<string>leftMirrored</string>
-							<string>original</string>
 							<string>right</string>
 							<string>rightMirrored</string>
 							<string>true_down</string>
@@ -878,10 +875,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">leftMirrored</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">original</string>
 								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
