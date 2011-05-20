@@ -905,6 +905,54 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return output;
 }
 
+
+- (CGImageRef)createCGImageRotated2 {
+	
+	unsigned char *source = NULL;
+	int sourceWidth = 0;
+	int sourceHeight = 0;
+	int sourceBytesPerPixel = 0;
+	
+	int targetWidth = self.size.width;
+	int targetHeight = self.size.height;
+	
+	CGCreatePixelBufferWithImage(self.CGImage, &source, &sourceWidth, &sourceHeight, &sourceBytesPerPixel, QH_PIXEL_COLOR);
+	
+	unsigned char* target = (unsigned char*)malloc(sizeof(unsigned char) * targetWidth * targetHeight * 4);
+	
+	if (self.imageOrientation == UIImageOrientationUp) {
+		for (int y = 0; y < targetHeight; y++) {
+			for (int x = 0; x < targetWidth; x++) {
+				target[y * targetWidth * 4 + 4 * x + 0] = source[y * sourceWidth * 3 + 3 * x + 0];
+				target[y * targetWidth * 4 + 4 * x + 1] = source[y * sourceWidth * 3 + 3 * x + 1];
+				target[y * targetWidth * 4 + 4 * x + 2] = source[y * sourceWidth * 3 + 3 * x + 2];
+				target[y * targetWidth * 4 + 4 * x + 3] = QH_DEFAULT_ALPHA_VALUE;
+			}
+		}
+	}
+	else if (self.imageOrientation == UIImageOrientationUpMirrored) {
+		for (int y = 0; y < targetHeight; y++) {
+			for (int x = 0; x < targetWidth; x++) {
+				int tx = targetWidth - 1 - x;
+				target[y * targetWidth * 4 + 4 * tx + 0] = source[y * sourceWidth * 3 + 3 * x + 0];
+				target[y * targetWidth * 4 + 4 * tx + 1] = source[y * sourceWidth * 3 + 3 * x + 1];
+				target[y * targetWidth * 4 + 4 * tx + 2] = source[y * sourceWidth * 3 + 3 * x + 2];
+				target[y * targetWidth * 4 + 4 * tx + 3] = QH_DEFAULT_ALPHA_VALUE;
+			}
+		}
+	}
+	else {
+	}
+	
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef context = CGBitmapContextCreate(target, targetWidth, targetHeight, 8, targetWidth * 4, rgbColorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);	
+	CGImageRef image = CGBitmapContextCreateImage(context);
+	CGColorSpaceRelease(rgbColorSpace);
+	free(target);
+	free(source);
+	return image;
+}
+
 - (CGImageRef)createCGImageRotated {
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	
@@ -953,7 +1001,7 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	}
 	
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = CGBitmapContextCreate(NULL, (int)outputSize.width, (int)outputSize.height, 8, (int)outputSize.width * 4, space, kCGBitmapByteOrder32Host|kCGImageAlphaNoneSkipLast);
+	CGContextRef context = CGBitmapContextCreate(NULL, (int)outputSize.width, (int)outputSize.height, 8, (int)outputSize.width * 4, space, kCGBitmapByteOrder32Big|kCGImageAlphaNoneSkipLast);
 	CGContextConcatCTM(context, transform);
 	CGContextDrawImage(context, CGRectMake(0, 0, cgimageSize.width, cgimageSize.height), self.CGImage);
 	CGImageRef image = CGBitmapContextCreateImage(context);	

@@ -39,6 +39,32 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 	int defaultHeight = QH_ORIENTATION_TEST_HEIGHT;
 	int defaultBytesPerPixel = QH_ORIENTATION_TEST_BYTES_PER_PIXEL;
 	
+	unsigned char *source = (unsigned char*)malloc(sizeof(unsigned char) * (defaultWidth) * (defaultHeight) * (defaultBytesPerPixel));
+	for (int x = 0; x < (defaultWidth); x++) {
+		for (int y = 0; y < defaultHeight; y++) {
+			if (y < defaultHeight / 2 && x < (*width) / 2) {
+				source[y * (defaultWidth) * 3 + x * 3 + 0] = 255;
+				source[y * (defaultWidth) * 3 + x * 3 + 1] = 120;
+				source[y * (defaultWidth) * 3 + x * 3 + 2] = 0;
+			}
+			else if (y <= defaultHeight / 2 && x >= (defaultWidth) / 2) {
+				source[y * (defaultWidth) * 3 + x * 3 + 0] = 0;
+				source[y * (defaultWidth) * 3 + x * 3 + 1] = 255;
+				source[y * (defaultWidth) * 3 + x * 3 + 2] = 0;
+			}
+			else if (y >= defaultHeight / 2 && x < (defaultWidth) / 2) {
+				source[y * (defaultWidth) * 3 + x * 3 + 0] = 0;
+				source[y * (defaultWidth) * 3 + x * 3 + 1] = 0;
+				source[y * (defaultWidth) * 3 + x * 3 + 2] = 255;
+			}
+			else if (y >= defaultHeight / 2 && x >= (defaultWidth) / 2) {
+				source[y * (defaultWidth) * 3 + x * 3 + 0] = 200;
+				source[y * (defaultWidth) * 3 + x * 3 + 1] = 200;
+				source[y * (defaultWidth) * 3 + x * 3 + 2] = 200;
+			}
+		}
+	}
+	
 	switch(orientation) {
 		case UIImageOrientationUp:
 			*width = defaultWidth;
@@ -47,26 +73,23 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
 			for (int x = 0; x < (*width); x++) {
 				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 255;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 200;
-					}
+					(*pixel)[y * (*width) * 3 + x * 3 + 0] = source[y * (defaultWidth) * 3 + x * 3 + 0];
+					(*pixel)[y * (*width) * 3 + x * 3 + 1] = source[y * (defaultWidth) * 3 + x * 3 + 1];
+					(*pixel)[y * (*width) * 3 + x * 3 + 2] = source[y * (defaultWidth) * 3 + x * 3 + 2];
+				}
+			}
+			break;
+		case UIImageOrientationUpMirrored:
+			*width = defaultWidth;
+			*height = defaultHeight;
+			*bytesPerPixel = defaultBytesPerPixel;
+			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
+			for (int x = 0; x < (*width); x++) {
+				int tx = *width - 1 - x;
+				for (int y = 0; y < (*height); y++) {
+					(*pixel)[y * (*width) * 3 + tx * 3 + 0] = source[y * (defaultWidth) * 3 + x * 3 + 0];
+					(*pixel)[y * (*width) * 3 + tx * 3 + 1] = source[y * (defaultWidth) * 3 + x * 3 + 1];
+					(*pixel)[y * (*width) * 3 + tx * 3 + 2] = source[y * (defaultWidth) * 3 + x * 3 + 2];
 				}
 			}
 			break;
@@ -76,35 +99,27 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 			*bytesPerPixel = defaultBytesPerPixel;
 			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
 			for (int x = 0; x < (*width); x++) {
+				int tx = *width - 1 - x;
 				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 255;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 200;
-					}
+					int ty = *height - 1 - y;
+					(*pixel)[ty * (*width) * 3 + tx * 3 + 0] = source[y * (defaultWidth) * 3 + x * 3 + 0];
+					(*pixel)[ty * (*width) * 3 + tx * 3 + 1] = source[y * (defaultWidth) * 3 + x * 3 + 1];
+					(*pixel)[ty * (*width) * 3 + tx * 3 + 2] = source[y * (defaultWidth) * 3 + x * 3 + 2];
+				}
+			}
+			break;
+			
+		case UIImageOrientationDownMirrored:
+			*width = defaultWidth;
+			*height = defaultHeight;
+			*bytesPerPixel = defaultBytesPerPixel;
+			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
+			for (int x = 0; x < (*width); x++) {
+				for (int y = 0; y < (*height); y++) {
+					int ty = *height - 1 - y;
+					(*pixel)[ty * (*width) * 3 + x * 3 + 0] = source[y * (defaultWidth) * 3 + x * 3 + 0];
+					(*pixel)[ty * (*width) * 3 + x * 3 + 1] = source[y * (defaultWidth) * 3 + x * 3 + 1];
+					(*pixel)[ty * (*width) * 3 + x * 3 + 2] = source[y * (defaultWidth) * 3 + x * 3 + 2];
 				}
 			}
 			break;
@@ -115,132 +130,11 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
 			for (int x = 0; x < (*width); x++) {
 				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 255;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 200;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-				}
-			}
-			break;
-		case UIImageOrientationRight:
-			*width = defaultHeight;
-			*height = defaultWidth;
-			*bytesPerPixel = defaultBytesPerPixel;
-			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
-			for (int x = 0; x < (*width); x++) {
-				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 200;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 255;
-					}
-				}
-			}
-			break;		
-		case UIImageOrientationUpMirrored:
-			*width = defaultWidth;
-			*height = defaultHeight;
-			*bytesPerPixel = defaultBytesPerPixel;
-			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
-			for (int x = 0; x < (*width); x++) {
-				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 200;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 255;
-					}
-				}
-			}
-			break;			
-		case UIImageOrientationDownMirrored:
-			*width = defaultWidth;
-			*height = defaultHeight;
-			*bytesPerPixel = defaultBytesPerPixel;
-			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
-			for (int x = 0; x < (*width); x++) {
-				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 255;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 200;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 200;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						(*pixel)[y * (*width) * 3 + x * 3 + 0] = 0;
-						(*pixel)[y * (*width) * 3 + x * 3 + 1] = 255;
-						(*pixel)[y * (*width) * 3 + x * 3 + 2] = 0;
-					}
+					int tx = *height - y - 1;
+					int ty = x;
+					(*pixel)[y * (*width) * 3 + x * 3 + 0] = source[ty * (defaultWidth) * 3 + tx * 3 + 0];
+					(*pixel)[y * (*width) * 3 + x * 3 + 1] = source[ty * (defaultWidth) * 3 + tx * 3 + 1];
+					(*pixel)[y * (*width) * 3 + x * 3 + 2] = source[ty * (defaultWidth) * 3 + tx * 3 + 2];
 				}
 			}
 			break;
@@ -251,34 +145,26 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
 			for (int x = 0; x < (*width); x++) {
 				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 200;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 255;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
+					int tx = y;
+					int ty = x;
+					(*pixel)[y * (*width) * 3 + x * 3 + 0] = source[ty * (defaultWidth) * 3 + tx * 3 + 0];
+					(*pixel)[y * (*width) * 3 + x * 3 + 1] = source[ty * (defaultWidth) * 3 + tx * 3 + 1];
+					(*pixel)[y * (*width) * 3 + x * 3 + 2] = source[ty * (defaultWidth) * 3 + tx * 3 + 2];
+				}
+			}
+			break;
+		case UIImageOrientationRight:
+			*width = defaultHeight;
+			*height = defaultWidth;
+			*bytesPerPixel = defaultBytesPerPixel;
+			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
+			for (int x = 0; x < (*width); x++) {
+				for (int y = 0; y < (*height); y++) {
+					int tx = y;
+					int ty = *width - x - 1;
+					(*pixel)[y * (*width) * 3 + x * 3 + 0] = source[ty * (defaultWidth) * 3 + tx * 3 + 0];
+					(*pixel)[y * (*width) * 3 + x * 3 + 1] = source[ty * (defaultWidth) * 3 + tx * 3 + 1];
+					(*pixel)[y * (*width) * 3 + x * 3 + 2] = source[ty * (defaultWidth) * 3 + tx * 3 + 2];
 				}
 			}
 			break;
@@ -289,40 +175,18 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 			*pixel = (unsigned char*)malloc(sizeof(unsigned char) * (*width) * (*height) * (*bytesPerPixel));
 			for (int x = 0; x < (*width); x++) {
 				for (int y = 0; y < (*height); y++) {
-					if (y < (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y <= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 255;
-					}
-					else if (y >= (*height) / 2 && x < (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 0;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 255;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 0;
-					}
-					else if (y >= (*height) / 2 && x >= (*width) / 2) {
-						int tmpx = *width - x - 1;
-						int tmpy = *height - y - 1;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 0] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 1] = 200;
-						(*pixel)[tmpy * (*width) * 3 + tmpx * 3 + 2] = 200;
-					}
+					int tx = *height - y - 1;
+					int ty = *width - x - 1;
+					(*pixel)[y * (*width) * 3 + x * 3 + 0] = source[ty * (defaultWidth) * 3 + tx * 3 + 0];
+					(*pixel)[y * (*width) * 3 + x * 3 + 1] = source[ty * (defaultWidth) * 3 + tx * 3 + 1];
+					(*pixel)[y * (*width) * 3 + x * 3 + 2] = source[ty * (defaultWidth) * 3 + tx * 3 + 2];
 				}
 			}
 			break;
 		default:
 			break;
 	}
+	free(source);
 }
 
 void testImageOrientation() {
@@ -349,7 +213,8 @@ void testImageOrientation() {
 		*p++ = UIImageOrientationRightMirrored;
 	}
 	
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 2; i++) {
+		printf("------------------------------------------------------------------\n");
 		int width = QH_ORIENTATION_TEST_WIDTH;
 		int height = QH_ORIENTATION_TEST_HEIGHT;
 		int bytesPerPixel = QH_ORIENTATION_TEST_BYTES_PER_PIXEL;
@@ -357,7 +222,7 @@ void testImageOrientation() {
 		
 		makeImage(&pixel, &width, &height, &bytesPerPixel, rot[i]);
 		UIImage *image = [UIImage imageWithCGImage:source scale:1 orientation:rot[i]];
-		CGImageRef rotated = [image createCGImageRotated];
+		CGImageRef rotated = [image createCGImageRotated2];
 		
 		int r_width = 0;
 		int r_height = 0;
@@ -379,9 +244,7 @@ void testImageOrientation() {
 		
 		assert(width == r_width);
 		assert(height == r_height);
-		//assert(compareBuffersWithXandY(pixel, r_pixel, r_width, r_height, r_bytesPerPixel, tolerance));
-		
-		compareBuffersWithXandY(pixel, r_pixel, r_width, r_height, r_bytesPerPixel, tolerance);
+		assert(compareBuffersWithXandY(pixel, r_pixel, r_width, r_height, r_bytesPerPixel, tolerance));
 
 		free(pixel);
 		free(r_pixel);

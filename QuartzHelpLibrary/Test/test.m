@@ -294,5 +294,5 @@ void test() {
 	
 	imageLoadTest();
 	
-	testImageOrientation();
+//	testImageOrientation();
 }
