@@ -213,7 +213,18 @@ void testImageOrientation() {
 		*p++ = UIImageOrientationRightMirrored;
 	}
 	
+	NSMutableArray *titles = [NSMutableArray arrayWithCapacity:8];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationUp", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationUpMirrored", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationDown", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationDownMirrored", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationLeft", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationLeftMirrored", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationRight", nil)];
+	[titles addObject:NSLocalizedString(@"UIImageOrientationRightMirrored", nil)];
+	
 	for (int i = 0; i < 8; i++) {
+		printf("%s\n", [[titles objectAtIndex:i] UTF8String]);
 		int width = QH_ORIENTATION_TEST_WIDTH;
 		int height = QH_ORIENTATION_TEST_HEIGHT;
 		int bytesPerPixel = QH_ORIENTATION_TEST_BYTES_PER_PIXEL;
@@ -239,4 +250,5 @@ void testImageOrientation() {
 		free(r_pixel);
 	}
 	CGImageRelease(source);
+	printf("testImageOrientation OK\n\n");
 }

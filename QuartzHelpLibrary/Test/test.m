@@ -159,6 +159,8 @@ void testPixel2CGImage2File2CGImage2Pixel(QH_PIXEL_TYPE testType, QH_TEST_IMAGE_
 	// release memory
 	CGImageRelease(image);
 	free(original);
+	
+	printf("testPixel2CGImage2File2CGImage2Pixel OK\n\n");
 }
 
 void testPixel2CGImage2Pixel(QH_PIXEL_TYPE testType) {
@@ -204,6 +206,8 @@ void testPixel2CGImage2Pixel(QH_PIXEL_TYPE testType) {
 	// release memory
 	CGImageRelease(image);
 	free(original);
+	
+	printf("testPixel2CGImage2Pixel OK\n\n");
 }
 
 #pragma mark -
@@ -228,6 +232,7 @@ void testCGImageDump() {
 		CGImageDumpImageInformation(imageRef);
 		printf("\n");
 	}
+	printf("testCGImageDump OK\n\n");
 }
 
 #pragma mark - Image load test
@@ -272,6 +277,7 @@ void imageLoadTest() {
 		// release pixel array
 		free(pixel);
 	}
+	printf("imageLoadTest OK\n\n");
 }
 
 #pragma mark - Test
