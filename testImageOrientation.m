@@ -44,7 +44,7 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 		for (int y = 0; y < defaultHeight; y++) {
 			if (y < defaultHeight / 2 && x < (*width) / 2) {
 				source[y * (defaultWidth) * 3 + x * 3 + 0] = 255;
-				source[y * (defaultWidth) * 3 + x * 3 + 1] = 120;
+				source[y * (defaultWidth) * 3 + x * 3 + 1] = 0;
 				source[y * (defaultWidth) * 3 + x * 3 + 2] = 0;
 			}
 			else if (y <= defaultHeight / 2 && x >= (defaultWidth) / 2) {
@@ -190,7 +190,7 @@ void makeImage(unsigned char **pixel, int *width, int *height, int *bytesPerPixe
 }
 
 void testImageOrientation() {
-	
+	int tolerance = 2;
 	int width = QH_ORIENTATION_TEST_WIDTH;
 	int height = QH_ORIENTATION_TEST_HEIGHT;
 	int bytesPerPixel = QH_ORIENTATION_TEST_BYTES_PER_PIXEL;
@@ -213,8 +213,7 @@ void testImageOrientation() {
 		*p++ = UIImageOrientationRightMirrored;
 	}
 	
-	for (int i = 0; i < 2; i++) {
-		printf("------------------------------------------------------------------\n");
+	for (int i = 0; i < 8; i++) {
 		int width = QH_ORIENTATION_TEST_WIDTH;
 		int height = QH_ORIENTATION_TEST_HEIGHT;
 		int bytesPerPixel = QH_ORIENTATION_TEST_BYTES_PER_PIXEL;
@@ -222,28 +221,18 @@ void testImageOrientation() {
 		
 		makeImage(&pixel, &width, &height, &bytesPerPixel, rot[i]);
 		UIImage *image = [UIImage imageWithCGImage:source scale:1 orientation:rot[i]];
-		CGImageRef rotated = [image createCGImageRotated2];
+		CGImageRef rotated = [image createCGImageRotated];
 		
 		int r_width = 0;
 		int r_height = 0;
 		int r_bytesPerPixel = 0;
 		unsigned char *r_pixel = NULL;
 		
-		CGImageDumpImageInformation(rotated);
-		
 		CGCreatePixelBufferWithImage(rotated, &r_pixel, &r_width, &r_height, &r_bytesPerPixel, QH_PIXEL_COLOR);
-		
-		int tolerance = 2;
-		
-		dumpPixelArray(pixel, width, height, bytesPerPixel, DUMP_PIXEL_HEX);
-		
-		printf("\n");
-		printf("\n");
-		
-		dumpPixelArray(r_pixel, width, height, bytesPerPixel, DUMP_PIXEL_HEX);
 		
 		assert(width == r_width);
 		assert(height == r_height);
+		assert(bytesPerPixel == r_bytesPerPixel);
 		assert(compareBuffersWithXandY(pixel, r_pixel, r_width, r_height, r_bytesPerPixel, tolerance));
 
 		free(pixel);

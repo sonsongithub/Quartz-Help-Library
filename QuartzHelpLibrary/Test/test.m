@@ -210,10 +210,6 @@ void testPixel2CGImage2Pixel(QH_PIXEL_TYPE testType) {
 #pragma mark Dump
 
 void testCGImageDump() {
-	printf("\n---------->test\n");
-	printf("void CGImageDumpImageInformation(CGImageRef imageRef);\n");
-	printf("\n");
-
 	// test file paths
 	NSArray *paths = [NSArray arrayWithObjects:
 					  [[NSBundle mainBundle] pathForResource:@"testImage_Gray_JPG24.jpg" ofType:nil],
@@ -294,5 +290,5 @@ void test() {
 	
 	imageLoadTest();
 	
-//	testImageOrientation();
+	testImageOrientation();
 }
