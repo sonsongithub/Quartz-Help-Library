@@ -36,6 +36,10 @@
 
 @implementation OrientationTestViewController
 
++ (NSString*)testDescription {
+	return NSLocalizedString(@"UIImage orientation", nil);
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	BOOL hidden = self.navigationController.navigationBar.hidden;
 	[self.navigationController setNavigationBarHidden:!hidden animated:YES];
@@ -43,7 +47,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	[self setTitle:NSStringFromClass([self class])];
+	[self setTitle:[[self class] testDescription]];
 	[self.navigationController.navigationBar setTranslucent:YES];
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 }

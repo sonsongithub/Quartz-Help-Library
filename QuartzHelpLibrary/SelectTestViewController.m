@@ -10,6 +10,8 @@
 
 #import "QuartzHelpLibraryViewController.h"
 
+#import "UIViewController+test.h"
+
 @implementation SelectTestViewController
 
 - (void)dealloc
@@ -61,7 +63,12 @@
     }
     
     // Configure the cell...
-	[cell.textLabel setText:[testNames objectAtIndex:indexPath.row]];
+	
+	NSString *className = [testNames objectAtIndex:indexPath.row];
+	Class targetClass = NSClassFromString(className);
+	
+	[cell.textLabel setText:[targetClass testDescription]];
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }

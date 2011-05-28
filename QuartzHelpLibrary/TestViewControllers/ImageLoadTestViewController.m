@@ -34,9 +34,13 @@
 
 @implementation ImageLoadTestViewController
 
++ (NSString*)testDescription {
+	return NSLocalizedString(@"Image load test", nil);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self setTitle:NSStringFromClass([self class])];
+	[self setTitle:[[self class] testDescription]];
 }
 
 - (void)viewDidLoad {

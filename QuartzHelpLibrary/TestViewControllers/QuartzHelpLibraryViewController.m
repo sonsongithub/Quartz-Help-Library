@@ -36,10 +36,14 @@
 
 @synthesize image;
 
++ (NSString*)testDescription {
+	return NSLocalizedString(@"Image picker", nil);
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-	[self setTitle:NSStringFromClass([self class])];
+	[self setTitle:[[self class] testDescription]];
 }
 
 - (IBAction)openImagePicker:(id)sender {
