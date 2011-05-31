@@ -1011,4 +1011,21 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return image;
 }
 
+#pragma mark - Resize
+
+CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale) {
+	CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
+	CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+	size_t bytesPerPixel = bitsPerPixel / 8;
+	size_t resizedWidth = CGImageGetWidth(imageRef) * scale;
+	size_t resizedHieght = CGImageGetHeight(imageRef) * scale;
+	CGContextRef context = CGBitmapContextCreate(NULL, resizedWidth, resizedHieght, 8, resizedWidth * bytesPerPixel, space, bitmapInfo);
+	
+	CGContextDrawImage(context, CGRectMake(0, 0, resizedWidth, resizedHieght), imageRef);
+	CGImageRef resizedImage = CGBitmapContextCreateImage(context);
+	CGContextRelease(context);
+	return resizedImage;
+}
+
 @end

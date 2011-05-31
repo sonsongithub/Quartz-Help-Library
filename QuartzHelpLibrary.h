@@ -28,6 +28,7 @@
  * HE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 #pragma mark - Invaliables
@@ -80,3 +81,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 
 NSData* CGImageGetPNGPresentation(CGImageRef imageRef);
 NSData* CGImageGetJPEGPresentation(CGImageRef imageRef);
+
+#pragma mark - Resize
+
+CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale);
