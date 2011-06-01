@@ -59,6 +59,7 @@ typedef enum {
 - (NSData*)JPEGRepresentaionWithCompressionQuality:(float)compressionQuality;
 - (UIImage*)getRotatedImage;
 - (CGImageRef)createCGImageRotated;
+- (CGImageRef)createCGImageRotatedWithResizing:(float)scale;
 @end
 
 #pragma mark - Load image file

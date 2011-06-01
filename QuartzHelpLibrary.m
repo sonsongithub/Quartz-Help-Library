@@ -882,6 +882,23 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return [uiimage JPEGRepresentaion];
 }
 
+#pragma mark - Resize
+
+CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale) {
+	CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
+	CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+	size_t bytesPerPixel = bitsPerPixel / 8;
+	size_t resizedWidth = CGImageGetWidth(imageRef) * scale;
+	size_t resizedHieght = CGImageGetHeight(imageRef) * scale;
+	CGContextRef context = CGBitmapContextCreate(NULL, resizedWidth, resizedHieght, 8, resizedWidth * bytesPerPixel, space, bitmapInfo);
+	
+	CGContextDrawImage(context, CGRectMake(0, 0, resizedWidth, resizedHieght), imageRef);
+	CGImageRef resizedImage = CGBitmapContextCreateImage(context);
+	CGContextRelease(context);
+	return resizedImage;
+}
+
 #pragma mark - UIImage QuartzHelpLibrary category implementation
 
 @implementation UIImage(QuartzHelpLibrary)
@@ -1011,21 +1028,64 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef) {
 	return image;
 }
 
-#pragma mark - Resize
-
-CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale) {
-	CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
-	CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
-	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
-	size_t bytesPerPixel = bitsPerPixel / 8;
-	size_t resizedWidth = CGImageGetWidth(imageRef) * scale;
-	size_t resizedHieght = CGImageGetHeight(imageRef) * scale;
-	CGContextRef context = CGBitmapContextCreate(NULL, resizedWidth, resizedHieght, 8, resizedWidth * bytesPerPixel, space, bitmapInfo);
+- (CGImageRef)createCGImageRotatedWithResizing:(float)scale {
+	CGAffineTransform transform = CGAffineTransformIdentity;
 	
-	CGContextDrawImage(context, CGRectMake(0, 0, resizedWidth, resizedHieght), imageRef);
-	CGImageRef resizedImage = CGBitmapContextCreateImage(context);
+	CGSize uiimageSize = self.size;
+	CGSize cgimageSize = CGSizeMake(CGImageGetWidth(self.CGImage), CGImageGetHeight(self.CGImage));
+	CGSize outputSize = self.size;
+	outputSize.width *= scale;
+	outputSize.height *= scale;
+	
+	switch(self.imageOrientation) {
+		case UIImageOrientationUp:
+			transform = CGAffineTransformIdentity;
+			break;
+		case UIImageOrientationUpMirrored:
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width * scale, 0.0);
+			transform = CGAffineTransformScale(transform, -1.0, 1.0);
+			break;
+		case UIImageOrientationDown:
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width * scale, uiimageSize.height * scale);
+			transform = CGAffineTransformRotate(transform, M_PI);
+			break;
+		case UIImageOrientationDownMirrored:
+			transform = CGAffineTransformMakeTranslation(0.0, uiimageSize.height * scale);
+			transform = CGAffineTransformScale(transform, 1.0, -1.0);
+			break;
+		case UIImageOrientationLeftMirrored:
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height * scale);
+			transform = CGAffineTransformScale(transform, 1, -1);
+			transform = CGAffineTransformTranslate(transform, uiimageSize.width * scale, 0);
+			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+			break;
+		case UIImageOrientationLeft:
+			transform = CGAffineTransformMakeTranslation(uiimageSize.width * scale, 0);
+			transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+			break;
+		case UIImageOrientationRightMirrored:
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height * scale);
+			transform = CGAffineTransformScale(transform, 1, -1);
+			transform = CGAffineTransformTranslate(transform, 0, uiimageSize.height * scale);
+			transform = CGAffineTransformRotate(transform, -M_PI / 2.0);
+			break;
+		case UIImageOrientationRight:
+			transform = CGAffineTransformMakeTranslation(0, uiimageSize.height * scale);
+			transform = CGAffineTransformRotate(transform, -M_PI / 2.0);
+			break;
+		default:
+			return NULL;
+	}
+	
+	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+	CGContextRef context = CGBitmapContextCreate(NULL, (int)outputSize.width, (int)outputSize.height, 8, (int)outputSize.width * 4, space, kCGBitmapByteOrder32Big|kCGImageAlphaNoneSkipLast);
+	CGContextConcatCTM(context, transform);
+	CGContextDrawImage(context, CGRectMake(0, 0, cgimageSize.width * scale, cgimageSize.height * scale), self.CGImage);
+	CGImageRef image = CGBitmapContextCreateImage(context);	
 	CGContextRelease(context);
-	return resizedImage;
+	CGColorSpaceRelease(space);
+	
+	return image;
 }
 
 @end
