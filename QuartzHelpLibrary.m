@@ -922,6 +922,12 @@ CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale) {
 	return output;
 }
 
+- (UIImage*)getRotatedImageWithResizing:(float)scale {
+	CGImageRef rotated = [self createCGImageRotatedWithResizing:scale];
+	UIImage *output = [UIImage imageWithCGImage:rotated];
+	CGImageRelease(rotated);
+	return output;
+}
 
 - (CGImageRef)createCGImageRotated2 {
 	

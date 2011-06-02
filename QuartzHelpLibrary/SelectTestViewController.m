@@ -31,6 +31,7 @@
 		[testNames addObject:@"QuartzHelpLibraryViewController"];
 		[testNames addObject:@"ImageLoadTestViewController"];
 		[testNames addObject:@"OrientationTestViewController"];
+		[testNames addObject:@"OrientationResizeTestViewController"];
 	}
 }
 

@@ -185,8 +185,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//	[self showImage];
-	[self showRotatedPixel];
+	[self showImage];
 }
 
 @end
