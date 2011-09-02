@@ -35,7 +35,12 @@
 void _CGImageDumpImageAttribute(CGImageRef imageRef);
 void _CGImageDumpAlphaInformation(CGImageRef imageRef);
 void _CGImageDumpBitmapInformation(CGImageRef imageRef);
+
 int _getYFromRGB(int r, int g, int b);
+
+void _CGCreate8bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);
+void _CGCreate24bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);
+void _CGCreate32bitPixelBufferWithImage(CGImageRef imageRef, unsigned char **pixel, int *width, int *height, int *bytesPerPixel, QH_PIXEL_TYPE pType);
 
 #pragma mark - Load image file
 
