@@ -63,6 +63,10 @@ typedef enum {
 - (CGImageRef)createCGImageRotatedWithResizing:(float)scale;
 @end
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #pragma mark - Load image file
 
 CGImageRef CGImageCreateWithPNGorJPEGFilePath(CFStringRef filePath);
@@ -87,3 +91,7 @@ NSData* CGImageGetJPEGPresentation(CGImageRef imageRef);
 #pragma mark - Resize
 
 CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale);
+	
+#ifdef __cplusplus
+}
+#endif
