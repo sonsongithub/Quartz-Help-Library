@@ -787,6 +787,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 			CGContextRef context = CGBitmapContextCreate(pixel, width, height, 8, width, grayColorSpace, kCGImageAlphaNone);
 			CGImageRef image = CGBitmapContextCreateImage(context);
 			CGColorSpaceRelease(grayColorSpace);
+			CGContextRelease(context);
 			return image;
 		}
 		else if (target_pType == QH_PIXEL_COLOR || target_pType == QH_PIXEL_ANYCOLOR) {
@@ -812,6 +813,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 			CGImageRef image = CGBitmapContextCreateImage(context);
 			CGColorSpaceRelease(rgbColorSpace);
 			free(rgbPixel);
+			CGContextRelease(context);
 			return image;
 		}
 	}
@@ -838,6 +840,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 			
 			CGImageRef image = CGBitmapContextCreateImage(context);
 			CGColorSpaceRelease(rgbColorSpace);
+			CGContextRelease(context);
 			free(rgbPixel);
 			return image;
 		}
@@ -865,6 +868,7 @@ CGImageRef CGImageCreateWithPixelBuffer(unsigned char *pixel, int width, int hei
 			
 			CGImageRef image = CGBitmapContextCreateImage(context);
 			CGColorSpaceRelease(rgbColorSpace);
+			CGContextRelease(context);
 			free(rgbPixel);
 			return image;
 		}
@@ -978,6 +982,7 @@ CGImageRef CGImageCreateWithResizing(CGImageRef imageRef, float scale) {
 	CGColorSpaceRelease(rgbColorSpace);
 	free(target);
 	free(source);
+	CGContextRelease(context);
 	return image;
 }
 
